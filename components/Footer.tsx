@@ -8,7 +8,7 @@ export function Footer() {
           <EmailCapture source="footer" />
         </div>
         <div className="mt-56 flex flex-col gap-16 md:flex-row md:items-center md:justify-between">
-          <nav className="flex gap-24 font-sans text-[14px] text-ash">
+          <nav className="flex flex-wrap gap-24 font-sans text-[14px] text-ash">
             <a href="/research" className="hover:text-bone transition-colors duration-150">
               Research
             </a>
@@ -17,6 +17,12 @@ export function Footer() {
             </a>
             <a href="/vision" className="hover:text-bone transition-colors duration-150">
               Vision
+            </a>
+            <a href="/docs" className="hover:text-bone transition-colors duration-150">
+              Docs
+            </a>
+            <a href="/privacy" className="hover:text-bone transition-colors duration-150">
+              Privacy
             </a>
           </nav>
           <p className="font-mono text-[11px] uppercase tracking-[0.15em] text-ash">
