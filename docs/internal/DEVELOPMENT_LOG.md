@@ -5,6 +5,13 @@ newest entry on top. One entry per work session; keep entries factual and terse,
 
 ---
 
+## 2026-08-23 — Live Cloudflare Worker deployment verified
+
+- Ran `npm run deploy` via `@opennextjs/cloudflare` and `wrangler` under authenticated Cloudflare account (`54619660799a58f43b4c0b54b2e83ef8`).
+- Worker successfully uploaded and deployed to Cloudflare: `https://ark.harekrishnachaitanya8.workers.dev` (Version `0e14b700-2c1b-4634-b64a-31fb65922d60`).
+- Tested live endpoints via `curl`: `/`, `/research`, `/primer`, `/studio`, `/vision`, `/docs`, `/privacy` — all responding with HTTP/2 200.
+- Confirmed GitHub remote `origin/main` (`risabh1234/ARK`) is in full sync with latest commits.
+
 ## 2026-08-23 — Rebrand to ĀRK, animated logo mark
 
 - Renamed the brand across the entire codebase: **Aroha → ĀRK**. This was a direct, explicit
