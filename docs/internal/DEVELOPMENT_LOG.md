@@ -59,6 +59,13 @@ newest entry on top. One entry per work session; keep entries factual and terse,
   The old Pages project, if still connected, will keep failing its own build checks — that's
   expected now, not a signal to keep debugging it; disconnect its git integration or ignore it.
 
+## 2026-08-23 — Automated GitHub Actions CI/CD deployment configured & verified
+
+- Configured `CLOUDFLARE_API_TOKEN` in GitHub repository secrets on `risabh1234/ARK`.
+- Triggered and verified GitHub Actions workflow (`deploy.yml` run `#32602843786`).
+- All steps (`actions/checkout`, `setup-node`, `npm ci`, `npm run pages:build`, `npx wrangler deploy`) completed with **success in 1m22s**.
+- Live Cloudflare Worker re-verified via `curl`: `https://ark.harekrishnachaitanya8.workers.dev` (HTTP/2 200 OK).
+
 ## 2026-08-23 — Live Cloudflare Worker deployment verified
 
 - Ran `npm run deploy` via `@opennextjs/cloudflare` and `wrangler` under authenticated Cloudflare account (`54619660799a58f43b4c0b54b2e83ef8`).
