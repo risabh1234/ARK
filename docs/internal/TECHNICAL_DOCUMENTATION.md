@@ -185,21 +185,56 @@ Cloudflare Worker logs).
 
 ## Cloudflare deploy
 
-**This is not a plain `next build` deploy.** The site targets Cloudflare Workers via OpenNext.
+**This is not a plain `next build` deploy, and it does not go through Cloudflare Pages.** The
+site targets Cloudflare **Workers** via OpenNext — a different product from Pages, with a
+different deploy shape (a JS Worker script + assets binding, not a static
+`pages_build_output_dir`).
 
 - `npm run build` → plain `next build`. Kept this way on purpose — `@opennextjs/cloudflare`'s
   build step internally shells out to `npm run build`, so this script must stay a plain Next
   build or you get infinite recursion (hit and fixed on 2026-08-22 — see DEVELOPMENT_LOG.md).
-- `npm run pages:build` → `opennextjs-cloudflare build`. This is what the **Cloudflare
-  dashboard's Build command must be set to.** Produces `.open-next/worker.js` +
-  `.open-next/assets`, which `wrangler.jsonc` points at (`main` / `assets.directory`).
-- `npm run deploy` → build, then `wrangler deploy` (needs `wrangler login` locally; Cloudflare's
-  own CI handles auth itself).
-- `wrangler.jsonc`: worker name `ark`, `compatibility_flags: ["nodejs_compat",
-  "global_fetch_strictly_public"]`, `assets` binding named `ASSETS`. No R2 cache binding or
-  Cloudflare Images binding configured yet (the adapter supports both; skipped to avoid requiring
-  a pre-provisioned R2 bucket for a first successful deploy — revisit once R2 is wired for brief
-  PDF delivery anyway).
+- `npm run pages:build` → `opennextjs-cloudflare build`. Despite the name (kept for continuity
+  with the spec's own phrasing), this has nothing to do with Cloudflare Pages — it produces
+  `.open-next/worker.js` + `.open-next/assets`, which `wrangler.jsonc` points at (`main` /
+  `assets.directory`). A **Workers**-shaped output.
+- `npm run deploy` → build, then `wrangler deploy`. Needs either `wrangler login` (interactive,
+  local machine) or `CLOUDFLARE_API_TOKEN` in the environment (CI).
+- `wrangler.jsonc`: worker name `ark`, `account_id` (committed — account IDs aren't secret),
+  `compatibility_flags: ["nodejs_compat", "global_fetch_strictly_public"]`, `assets` binding
+  named `ASSETS`. No R2 cache binding or Cloudflare Images binding configured yet (the adapter
+  supports both; skipped to avoid requiring a pre-provisioned R2 bucket for a first successful
+  deploy — revisit once R2 is wired for brief PDF delivery anyway).
+
+### Auto-deploy: GitHub Actions (`.github/workflows/deploy.yml`), not Cloudflare's git integration
+
+**Discovered 2026-08-23** (see DEVELOPMENT_LOG.md): a Cloudflare **Pages** project was connected
+to this GitHub repo via git integration, auto-building on every push. Its build always fails —
+Pages reads `wrangler.jsonc`, finds it's shaped for Workers (`main`, `assets.directory`) rather
+than Pages (`pages_build_output_dir`), logs "did you mean to use wrangler.toml to configure
+Pages?", skips the file, falls back to guessing a static output directory, finds nothing, fails.
+This is a structural mismatch, not a config bug — **Pages and OpenNext-for-Workers cannot share
+one `wrangler` config**, and the earlier fix in this doc's history (pointing Cloudflare's "Build
+command" at `npm run pages:build`) was written under the wrong assumption that the connected
+project was Workers Builds (Cloudflare's newer git-integrated Workers CI) rather than Pages. It
+was not — the error message's specific mention of `pages_build_output_dir` is Pages-only
+phrasing and is what exposed the actual product.
+
+Rather than trying to migrate that Pages project (Pages ≠ Workers Builds; you can't convert one
+into the other in the dashboard — you'd create a new Workers Builds project and abandon the old
+Pages one), the fix implemented is a GitHub Actions workflow that does the exact same
+`opennextjs-cloudflare build` + `wrangler deploy` that already works from a local machine
+(proven — see the 2026-08-23 "Live Cloudflare Worker deployment verified" log entry, live at
+`ark.harekrishnachaitanya8.workers.dev`). Needs one GitHub Actions secret,
+`CLOUDFLARE_API_TOKEN` (Workers Scripts: Edit permission). The old Pages project, if still
+connected, will keep showing failed build checks in the GitHub PR/commit UI — those are cosmetic
+noise now, not a signal anything is broken; either disconnect its git integration in the
+Cloudflare dashboard or ignore it.
+
+**Runtime secrets are separate from the CI secret above.** `CLOUDFLARE_API_TOKEN` only
+authenticates the *deploy* — for the running Worker to reach Supabase/Resend at request time,
+`DATABASE_URL` / `RESEND_API_KEY` need to be set as actual Worker secrets
+(`npx wrangler secret put DATABASE_URL`, etc.), not GitHub Actions secrets. Not done yet — no
+production database is configured.
 
 ## Environment variables
 

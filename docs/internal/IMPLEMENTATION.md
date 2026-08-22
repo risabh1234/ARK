@@ -17,6 +17,19 @@ or a new one opens — don't let this drift into aspirational fiction.
 | 07 | Vision page and waitlist field | ✅ Done — `app/vision/page.tsx` |
 | 08 | Ten public Primer questions as a static page | ✅ Done — `app/primer/page.tsx`, `content/primer.ts` |
 
+## Deployment
+
+- ✅ **Manual Cloudflare Workers deploy** — `npm run deploy` works, verified live at
+  `ark.harekrishnachaitanya8.workers.dev` (all 7 routes 200).
+- ✅ **Automated deploy on push** — `.github/workflows/deploy.yml`, added 2026-08-23. Needs the
+  `CLOUDFLARE_API_TOKEN` GitHub Actions secret to actually run (not yet confirmed set).
+- ❌ **Runtime secrets not set on the Worker.** `DATABASE_URL` / `RESEND_API_KEY` aren't
+  configured via `wrangler secret put`, so the *deployed* site's forms currently no-op the same
+  way local dev without env vars does — they don't error, they just don't persist anything.
+- ❌ **A Cloudflare Pages project connected to this repo will always fail its own build** — it's
+  the wrong product for an OpenNext/Workers app. Not a bug to fix; disconnect it or ignore its
+  failing checks. See TECHNICAL_DOCUMENTATION.md § Cloudflare deploy for the full diagnosis.
+
 ## Phase 2 (spec explicitly says: do not build yet) — still not built, as intended
 
 - Hosted reader with real depth-control gating (current `DepthControl` is a visual tab switcher;

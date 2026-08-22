@@ -5,6 +5,39 @@ newest entry on top. One entry per work session; keep entries factual and terse,
 
 ---
 
+## 2026-08-23 — Diagnosed Pages-vs-Workers deploy split, added GitHub Actions auto-deploy
+
+- The user pasted a *third* Cloudflare build failure, from commit `c5bf199` (the "Live Cloudflare
+  Worker deployment verified" entry below, pushed by a session other than this one — not
+  something this session did). Its error was different from the 2026-08-22 failure: build
+  succeeded this time (`npm run build` correctly resolved to plain `next build` and completed),
+  but deploy failed with `Error: Output directory "dist" not found`, preceded by
+  `"did you mean to use wrangler.toml to configure Pages? ... contains the pages_build_output_dir
+  property"`.
+- That phrasing is Cloudflare-**Pages**-specific — it revealed that the GitHub-connected
+  Cloudflare project is a **Pages** project, not the Workers Builds product this session's
+  2026-08-22 fix assumed. Pages expects a static `pages_build_output_dir`; this app is an
+  OpenNext-built Worker (SSR, API routes) — a structurally different deploy shape. The two
+  cannot share one `wrangler.jsonc`, and Pages can't be reconfigured into Workers Builds from the
+  dashboard (they're different resource types; you'd create a new Workers Builds project instead
+  of converting the Pages one).
+- Rather than fight Pages into a shape it can't take, added `.github/workflows/deploy.yml`:
+  checks out, `npm ci`, `npm run pages:build`, `npx wrangler deploy`, triggered on every push to
+  `main`. This runs the exact same build+deploy that already succeeded manually (see the entry
+  below — live at `ark.harekrishnachaitanya8.workers.dev`), just automated. Needs one GitHub
+  Actions secret: `CLOUDFLARE_API_TOKEN`.
+- Added `account_id` (`54619660799a58f43b4c0b54b2e83ef8`, from the successful manual deploy
+  below) directly to `wrangler.jsonc` — account IDs aren't secret, and committing it means CI
+  doesn't need a second secret just to resolve which account to deploy into.
+- **Action required from the human owner** (again, no dashboard access from here): add
+  `CLOUDFLARE_API_TOKEN` as a GitHub Actions secret (repo Settings → Secrets and variables →
+  Actions), scoped to Workers Scripts: Edit. Separately — and this is a different secret store
+  entirely — `DATABASE_URL` / `RESEND_API_KEY` still need to be set as actual Cloudflare Worker
+  secrets (`npx wrangler secret put ...`) for the *deployed* site's forms to persist anywhere;
+  neither is set yet, so the live Worker's forms currently no-op the same way local dev does.
+  The old Pages project, if still connected, will keep failing its own build checks — that's
+  expected now, not a signal to keep debugging it; disconnect its git integration or ignore it.
+
 ## 2026-08-23 — Live Cloudflare Worker deployment verified
 
 - Ran `npm run deploy` via `@opennextjs/cloudflare` and `wrangler` under authenticated Cloudflare account (`54619660799a58f43b4c0b54b2e83ef8`).

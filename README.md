@@ -63,19 +63,41 @@ next slice of Phase 1, once the four pages are live and taking emails.
 
 ## Deploying to Cloudflare
 
-This app targets Cloudflare Workers via [OpenNext](https://opennext.js.org/cloudflare), not a
-plain `next build`. `npm run build` stays as vanilla `next build` (OpenNext shells out to it
-internally); the Cloudflare bundle is a separate script so the two don't recurse into each other.
+This app targets **Cloudflare Workers** via [OpenNext](https://opennext.js.org/cloudflare), not
+Cloudflare Pages, and not a plain `next build`. That distinction matters — see below.
 
-In the Cloudflare dashboard, set the project's **Build command** to:
+### Auto-deploy: GitHub Actions, not Cloudflare's git integration
 
+`.github/workflows/deploy.yml` builds and deploys on every push to `main`. It needs one repo
+secret: **`CLOUDFLARE_API_TOKEN`** (Cloudflare dashboard → My Profile → API Tokens → create one
+with Workers Scripts: Edit permission on this account → add it at GitHub repo Settings → Secrets
+and variables → Actions). The account ID is already committed in `wrangler.jsonc` (account IDs
+aren't secret) so that's the only secret needed for deploys to work.
+
+**If a Cloudflare *Pages* project is connected to this GitHub repo, its builds will always fail**
+— that's expected, not a bug to chase. Pages expects a static `pages_build_output_dir`; this app
+is a server-rendered Worker (API routes, SSR) built by OpenNext, which is a fundamentally
+different deploy shape. Pages and OpenNext-for-Workers can't share one config. Either disconnect
+that Pages project's git integration (GitHub Actions now owns deploys) or ignore its failing
+build checks — it isn't wired to anything real.
+
+### Runtime secrets — separate from the GitHub Actions secret above
+
+`CLOUDFLARE_API_TOKEN` only authenticates *deploys*. For the deployed Worker to actually reach
+Supabase/Resend at request time, set the same variables from `.env.example` as Worker secrets:
+
+```bash
+npx wrangler secret put DATABASE_URL
+npx wrangler secret put RESEND_API_KEY
 ```
-npm run pages:build
-```
 
-That produces `.open-next/worker.js` + `.open-next/assets`, which `wrangler.jsonc` already points
-at. No other dashboard settings should be needed — `wrangler.jsonc` in this repo defines the
-worker name, compatibility date/flags, and the assets binding.
+(Repeat for any other `.env.example` variable once that integration is wired up.)
 
-To deploy from your own machine instead: `npm run deploy` (runs the OpenNext build, then
-`wrangler deploy`; requires `wrangler login` first).
+### Deploying from your own machine
+
+`npm run deploy` — runs the OpenNext build, then `wrangler deploy`. Requires `wrangler login`
+first (or `CLOUDFLARE_API_TOKEN` set in your shell env, same as CI).
+
+`npm run build` deliberately stays a plain `next build` — OpenNext's build step shells out to it
+internally, so aliasing `build` to the Cloudflare bundle causes infinite recursion. The Cloudflare
+bundle is `npm run pages:build`, a separate script for exactly this reason.

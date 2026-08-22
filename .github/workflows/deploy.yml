@@ -1,0 +1,31 @@
+name: Deploy to Cloudflare Workers
+
+# This is the real auto-deploy path for this repo. The Cloudflare *Pages*
+# git-integration (if one is still connected in the dashboard) will not work
+# for this app — it expects a static `pages_build_output_dir`, and this app
+# is an OpenNext-built Worker (SSR + API routes), not a static export. See
+# docs/internal/TECHNICAL_DOCUMENTATION.md § Cloudflare deploy.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - run: npm run pages:build
+
+      - run: npx wrangler deploy
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
