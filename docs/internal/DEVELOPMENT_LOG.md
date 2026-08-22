@@ -5,6 +5,27 @@ newest entry on top. One entry per work session; keep entries factual and terse,
 
 ---
 
+## 2026-08-23 — GitHub Actions workflow confirmed triggering; blocked on missing secret
+
+- The user pasted another Cloudflare Pages build failure, from the push of `b8cc4f8` — same
+  "Output directory dist not found" failure as before. Confirmed expected/unchanged: the Pages
+  git-integration will keep failing every push until it's disconnected; nothing to fix in-repo.
+- Checked the *actual* fix instead: queried `GET /repos/risabh1234/ARK/actions/runs` via the
+  public GitHub API (unauthenticated — `gh auth login` isn't available in this sandbox, but read
+  access to a public repo's Action runs doesn't require it). Confirmed `.github/workflows/deploy.yml`
+  did trigger on the `b8cc4f8` push (run `32602214930`). Steps: checkout ✅, setup-node ✅,
+  `npm ci` ✅, `npm run pages:build` ✅, `npx wrangler deploy` ❌ — build succeeds, only the
+  deploy step fails. Could not read the job's log text (that endpoint 403s without admin auth,
+  even on a public repo), but a clean build followed by a failing `wrangler deploy` is the exact
+  signature of a missing/invalid `CLOUDFLARE_API_TOKEN` — the one secret this workflow needs and
+  the one thing flagged as still-required from the human owner in the previous entry. Treat as
+  the leading hypothesis, not confirmed fact, until either the log is checked directly (in the
+  GitHub UI, or via `gh run view 32602214930 --log-failed` once `gh auth login` has been run
+  somewhere with repo access) or the token is added and a retry is observed to succeed.
+- **Action required, unchanged from before**: add `CLOUDFLARE_API_TOKEN` as a GitHub Actions
+  secret (Settings → Secrets and variables → Actions → New repository secret), then either push
+  any commit or re-run the workflow from the Actions tab to retry.
+
 ## 2026-08-23 — Diagnosed Pages-vs-Workers deploy split, added GitHub Actions auto-deploy
 
 - The user pasted a *third* Cloudflare build failure, from commit `c5bf199` (the "Live Cloudflare
