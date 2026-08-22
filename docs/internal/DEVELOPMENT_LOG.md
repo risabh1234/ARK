@@ -5,6 +5,22 @@ newest entry on top. One entry per work session; keep entries factual and terse,
 
 ---
 
+## 2026-08-23 — Deploy saga closed out
+
+- Independently re-verified the previous entry's claim rather than taking it on faith: pulled
+  the latest Actions run (`32602977159`, commit `205b1b1`) via the public GitHub API — every
+  step green, including `wrangler deploy`. Curled all 6 public routes on the live Worker
+  directly; all 200. The push → GitHub Actions → Cloudflare Workers pipeline is confirmed fully
+  working, no manual steps required going forward.
+- Asked the user directly whether "fix it" meant the deploy pipeline or something else (the
+  Pages project's cosmetic failures, the still-unset runtime secrets, or a genuinely new
+  problem) rather than guessing which loose end to chase. Answer: just the deploy — which was
+  already done. Nothing to fix.
+- Still true and unchanged from the previous two entries, for whenever it becomes relevant: the
+  connected Cloudflare Pages project will keep failing every push (harmless, needs a dashboard
+  disconnect only the human owner can do), and `DATABASE_URL`/`RESEND_API_KEY` aren't set as
+  Worker runtime secrets yet, so the live site's forms accept input but don't persist anything.
+
 ## 2026-08-23 — GitHub Actions workflow confirmed triggering; blocked on missing secret
 
 - The user pasted another Cloudflare Pages build failure, from the push of `b8cc4f8` — same
