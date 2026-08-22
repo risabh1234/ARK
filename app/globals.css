@@ -1,0 +1,81 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --rule: rgba(245, 243, 239, 0.1);
+  --rule-strong: rgba(245, 243, 239, 0.24);
+}
+
+* {
+  border-radius: 0 !important;
+}
+
+html {
+  background: #0a0a0b;
+  color-scheme: dark;
+}
+
+body {
+  background: #0a0a0b;
+  color: #f5f3ef;
+  font-family: var(--font-geist), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: #c4694a;
+  color: #0a0a0b;
+}
+
+body[data-ground="paper"] {
+  background: #f2eee6;
+  color: #211f1c;
+}
+
+/* fixed, non-scrolling monochrome grain — 2-3% opacity, kills flat hex fill */
+.grain {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.03;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* reading-progress line — the one continuously animated element on the site */
+.reading-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 2px;
+  background: #c4694a;
+  z-index: 60;
+  transform-origin: left;
+  width: 100%;
+  transform: scaleX(var(--progress, 0));
+  transition: transform 80ms linear;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+.rule-h {
+  border-top: 1px solid var(--rule);
+}
+
+.rule-b {
+  border-bottom: 1px solid var(--rule);
+}
+
+.diacritic {
+  font-family: var(--font-spectral), serif;
+}
