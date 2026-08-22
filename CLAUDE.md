@@ -1,6 +1,6 @@
 # Working in this repo
 
-Aroha — see `docs/internal/DOCUMENTATION.md` for what the product is and the brand/methodology
+ĀRK — see `docs/internal/DOCUMENTATION.md` for what the product is and the brand/methodology
 rules it follows, and `docs/internal/TECHNICAL_DOCUMENTATION.md` for the architecture. Read both
 before making non-trivial changes; they exist so you don't have to re-derive project context
 from scratch each session.

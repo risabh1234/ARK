@@ -26,7 +26,7 @@ export function Footer() {
             </a>
           </nav>
           <p className="font-mono text-[11px] uppercase tracking-[0.15em] text-ash">
-            Aroha &middot; Research and intelligence tools &middot; India
+            ĀRK &middot; Research and intelligence tools &middot; India
           </p>
         </div>
       </div>

@@ -7,7 +7,7 @@ import { Container, Eyebrow } from "@/components/Primitives";
 export const metadata: Metadata = {
   title: "Docs",
   description:
-    "How Aroha works: the method behind the briefs, how a brief is structured, and what we deliberately don't do.",
+    "How ĀRK works: the method behind the briefs, how a brief is structured, and what we deliberately don't do.",
 };
 
 const METHOD = [
@@ -46,7 +46,7 @@ const WHAT_WE_DONT_DO = [
 const SITE_MAP = [
   { href: "/research", label: "Research", body: "The brief catalogue. One free item, the rest priced and sourced." },
   { href: "/studio", label: "Studio", body: "Commission research for documentaries, books, series and briefs." },
-  { href: "/vision", label: "Vision", body: "What Aroha Codex is, and the waitlist for early access." },
+  { href: "/vision", label: "Vision", body: "What ĀRK Codex is, and the waitlist for early access." },
   { href: "/primer", label: "The Primer", body: "Ten free questions now, forty more by email." },
 ] as const;
 
@@ -59,7 +59,7 @@ export default function DocsPage() {
           <Container>
             <Eyebrow>Documentation</Eyebrow>
             <h1 className="mt-16 max-w-[16ch] font-serif text-section font-light text-bone">
-              How Aroha works.
+              How ĀRK works.
             </h1>
             <p className="mt-24 max-w-lead font-serif text-lead font-light text-ash">
               This page exists so nobody has to take the framework on faith. It describes the

@@ -1,22 +1,22 @@
 # Documentation — Product, Brand & Methodology Reference
 
 Internal. This is the non-technical counterpart to TECHNICAL_DOCUMENTATION.md — it exists
-because the original spec (`~/Desktop/Design.pdf`, "Aroha — Design & Go-to-Market
+because the original spec (`~/Desktop/Design.pdf`, "ĀRK — Design & Go-to-Market
 Specification") isn't itself in this repo. Anyone who needs to write new copy, add a page, or
 make a judgment call about tone should read this first rather than re-deriving it from the live
 site. If the two ever disagree, treat this file as the record of *intent* and the site as the
 record of *current state* — reconcile rather than assuming one is wrong.
 
-## What Aroha is
+## What ĀRK is
 
 A knowledge-instrument company, explicitly **not** a spiritual brand — that distinction is
-load-bearing and shows up everywhere in the voice rules below. Positioning line: *"Aroha builds
+load-bearing and shows up everywhere in the voice rules below. Positioning line: *"ĀRK builds
 research and intelligence tools for people who would rather understand something completely than
 believe it quickly."*
 
 One-sentence thesis: **people are not uninformed, they are unintegrated** — a modern person
 carries four incompatible accounts of the world (scientific/material, market/ambition,
-therapeutic/desire, inherited/meaning) with no shared vocabulary between them. Aroha's stated job
+therapeutic/desire, inherited/meaning) with no shared vocabulary between them. ĀRK's stated job
 is to give that dissonance a name and then a structure — "one architecture in which knowledge,
 ambition, desire and meaning all have a correct place."
 
@@ -48,7 +48,7 @@ What's load-bearing underneath instead (present in the actual research/interpret
 just never announced as such):
 
 - A stated, examinable source hierarchy — what outranks what, and why.
-- Strict separation between what a source says and how Aroha reads/interprets it.
+- Strict separation between what a source says and how ĀRK reads/interprets it.
 - Declared uncertainty — every brief has an Unresolved section.
 - A four-fold treatment of human aims, presented as psychology, not doctrine.
 - Classical logic as the analytic spine, taught as reasoning, not religion.
@@ -73,7 +73,7 @@ future brief or page:
 ## The habit loop (why the site is built the way it is)
 
 Stated model: a habit forms when an internal itch reliably finds a fast action, an uncertain
-reward, and something the user leaves behind. Aroha's internal trigger is framed as **unresolved
+reward, and something the user leaves behind. ĀRK's internal trigger is framed as **unresolved
 curiosity** — the feeling of having half an answer. Every surface is meant to either create that
 feeling or resolve it; nothing is meant to be neutral filler.
 
@@ -126,7 +126,7 @@ a content farm."
 
 ## Vision / Codex
 
-Public framing for Aroha Codex ("we are building an instrument, and this is the beginning of
+Public framing for ĀRK Codex ("we are building an instrument, and this is the beginning of
 it") should read like a hardware company introducing a machine still in the lab, not a mission
 statement. Approved language: *"a library that can think with you," "every answer carries its
 sources, or it is not an answer," "it works with the network off."* Banned language:

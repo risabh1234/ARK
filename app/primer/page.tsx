@@ -6,7 +6,7 @@ import { EmailCapture } from "@/components/EmailCapture";
 import { primerQuestions } from "@/content/primer";
 
 export const metadata: Metadata = {
-  title: "The Aroha Primer",
+  title: "The ĀRK Primer",
   description:
     "Fifty questions worth asking, across consciousness, evidence, desire, death, identity, time, language and power. Ten are here. The rest arrive by email.",
 };
@@ -20,7 +20,7 @@ export default function PrimerPage() {
           <Container>
             <Eyebrow>Free &middot; The email engine</Eyebrow>
             <h1 className="mt-16 max-w-[16ch] font-serif text-section font-light text-bone">
-              The Aroha Primer
+              The ĀRK Primer
             </h1>
             <p className="mt-16 font-serif text-lead font-light italic text-copper">
               Fifty questions worth asking.

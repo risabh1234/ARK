@@ -34,7 +34,7 @@ export default function ResearchPage() {
               brief={{
                 id: "000",
                 slug: "primer",
-                title: "The Aroha Primer",
+                title: "The ĀRK Primer",
                 dek: "Fifty questions worth asking. No account needed.",
                 status: "available",
                 pages: 0,

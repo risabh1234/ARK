@@ -38,6 +38,7 @@ app/
 
 components/
   Header.tsx, Footer.tsx   chrome — see "Nav" below for the 3→4 item deviation
+  Logo.tsx                 the animated mark — server component, pure CSS, icon-only (no wordmark)
   Primitives.tsx           Container, Section, Panel, Eyebrow — layout/typography helpers
   Button.tsx               ButtonLink / Button — the three-and-only-three variants (primary/secondary/tertiary)
   EmailCapture.tsx          client component, single-field capture used on home/footer/vision/primer
@@ -117,6 +118,37 @@ the user's direct, explicit request for a public docs tab — a live instruction
 static rule from the original PDF. See `docs/internal/IMPLEMENTATION.md` for the full list of
 acknowledged deviations.
 
+## Logo / identity motion
+
+`components/Logo.tsx` implements the mark described in a second spec PDF ("ĀRK — Identity in
+Motion, Doc 02 · 5-second cycle"): earth-line horizon → copper circumference ring → two rising
+legs → a horizontal plate → a star that ignites (overshoot to 115%, settle at 100%) and decays
+to a resting 62% opacity, never fully leaving. All seven beats, all on the spec's own easing
+curve `cubic-bezier(0.16, 1, 0.3, 1)`.
+
+It's a **server component with no client JS** — every beat is a CSS `@keyframes` animation
+(defined in `app/globals.css` under `.ark-mark`), using `pathLength={1}` on each drawn SVG path/
+circle so every dash animation is just `stroke-dashoffset: 1 → 0` regardless of real path length.
+`prefers-reduced-motion: reduce` is handled by a plain CSS media query (jumps straight to the
+final state — no draw-on, star pre-lit at 62%), not JS feature-detection, so there's no
+hydration flash either way.
+
+**Deliberate deviations from the literal spec**, both because a header is not a one-off hero
+lockup:
+
+- Runs once on mount, then **holds at the fully-drawn/ignited state** — it does not loop, and
+  it does not implement the spec's "dissolve to ink" beat (4.3–5.0s) in the header. A logo that
+  periodically fades to invisible would break navigation. The spec's own header note ("runs
+  once on load, then holds... two loops on one screen is noise") reads as license for this.
+- **Icon only, no wordmark** — per explicit user instruction (2026-08-23), `<Logo />` replaces
+  the header's old plain-text "Aroha"/"ĀRK" link entirely, with nothing beside or under it. There
+  is currently no visible wordmark anywhere in site chrome — only in body copy, page `<title>`s,
+  and the footer's small-print line. If a first-time visitor needs the brand name more visibly
+  labelled in the header itself, add a wordmark next to `<Logo />` — not done here on purpose.
+
+Usage: `<Logo height={36} />` (any component, server or client — it's imported plain, no
+`"use client"` needed). `height` scales proportionally (viewBox is 200×170).
+
 ## Database
 
 Three tables, defined in `db/schema.ts` and mirrored exactly in `supabase/migrations/0001_init.sql`:
@@ -163,7 +195,7 @@ Cloudflare Worker logs).
   `.open-next/assets`, which `wrangler.jsonc` points at (`main` / `assets.directory`).
 - `npm run deploy` → build, then `wrangler deploy` (needs `wrangler login` locally; Cloudflare's
   own CI handles auth itself).
-- `wrangler.jsonc`: worker name `aroha`, `compatibility_flags: ["nodejs_compat",
+- `wrangler.jsonc`: worker name `ark`, `compatibility_flags: ["nodejs_compat",
   "global_fetch_strictly_public"]`, `assets` binding named `ASSETS`. No R2 cache binding or
   Cloudflare Images binding configured yet (the adapter supports both; skipped to avoid requiring
   a pre-provisioned R2 bucket for a first successful deploy — revisit once R2 is wired for brief

@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { Logo } from "./Logo";
 
 const NAV = [
   { href: "/research", label: "Research" },
@@ -27,8 +28,8 @@ export function Header() {
       }`}
     >
       <div className="mx-auto flex max-w-container items-center justify-between px-24 py-16 md:px-56">
-        <Link href="/" className="font-serif text-[22px] text-bone">
-          Aroha
+        <Link href="/" aria-label="ĀRK — home" className="shrink-0">
+          <Logo height={36} />
         </Link>
         <nav className="hidden items-center gap-32 md:flex">
           {NAV.map((item) => (

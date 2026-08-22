@@ -44,7 +44,7 @@ export default function VisionPage() {
             We are building an instrument, and this is the beginning of it.
           </h1>
           <p className="mt-24 max-w-lead font-serif text-lead font-light text-ash">
-            Aroha Codex is a technology product, not a philosophy. This page is the introduction
+            ĀRK Codex is a technology product, not a philosophy. This page is the introduction
             for something that does not exist yet — the way a hardware company writes about a
             machine still in the lab.
           </p>

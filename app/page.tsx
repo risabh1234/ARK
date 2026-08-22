@@ -62,7 +62,7 @@ export default function HomePage() {
               You are not short of information. You are short of a way to hold it together.
             </h1>
             <p className="mt-32 max-w-lead font-serif text-lead font-light text-ash">
-              Aroha builds research and intelligence tools for people who would rather understand
+              ĀRK builds research and intelligence tools for people who would rather understand
               something completely than believe it quickly.
             </p>
             <div className="mt-32 flex flex-wrap items-center gap-24">

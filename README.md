@@ -1,10 +1,10 @@
-# Aroha
+# ĀRK
 
 The architecture of understanding.
 
-> "People are not uninformed. They are unintegrated. Aroha builds the integration layer."
+> "People are not uninformed. They are unintegrated. ĀRK builds the integration layer."
 
-Aroha builds research and intelligence tools for people who would rather understand something
+ĀRK builds research and intelligence tools for people who would rather understand something
 completely than believe it quickly. This repo is the Phase 1 site: four pages, one free asset,
 one paid asset, one service.
 

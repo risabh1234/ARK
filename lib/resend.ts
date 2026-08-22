@@ -1,6 +1,6 @@
 import { Resend } from "resend";
 
-const FROM = "Aroha <letters@aroha.study>";
+const FROM = "ĀRK <letters@ark.study>";
 
 export async function sendPrimerLetter(email: string) {
   const key = process.env.RESEND_API_KEY;
@@ -10,6 +10,6 @@ export async function sendPrimerLetter(email: string) {
     from: FROM,
     to: email,
     subject: "Here is the Primer",
-    text: "Fifty questions worth asking. Read them here: https://aroha.study/primer\n\nNothing else. — Aroha",
+    text: "Fifty questions worth asking. Read them here: https://ark.study/primer\n\nNothing else. — ĀRK",
   });
 }

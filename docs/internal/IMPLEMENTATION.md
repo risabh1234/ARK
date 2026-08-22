@@ -40,6 +40,11 @@ or a new one opens — don't let this drift into aspirational fiction.
 - `/docs` — public methodology page (user-requested, not in the original spec's four pages).
 - `/privacy` — privacy policy (user-requested).
 - Private internal doc set (this folder) + `CLAUDE.md` maintenance rule.
+- Brand renamed **Aroha → ĀRK** across the whole codebase (user-requested, 2026-08-23).
+- `components/Logo.tsx` — the animated mark from the "Identity in Motion" spec, built as vector
+  SVG + pure CSS. See TECHNICAL_DOCUMENTATION.md § Logo / identity motion for the full picture,
+  including two deliberate deviations (runs-once-then-holds instead of looping/dissolving in the
+  header; icon-only with no wordmark, per explicit instruction).
 
 ## Deviations from the spec, acknowledged
 
@@ -47,13 +52,17 @@ or a new one opens — don't let this drift into aspirational fiction.
    Vision`. Done at the user's explicit, direct request on 2026-08-23 — a live instruction
    takes precedence over a static rule in a design brief. If this ever needs to shrink back to
    three, the obvious move is folding Docs into the footer only and dropping it from the header.
-2. **Primer's 50 questions were never specified verbatim in the source PDF** (it only described
+2. **Header has no visible wordmark at all**, icon-only — per explicit user instruction. Every
+   other brand mention on the site is the plain word "ĀRK" in running copy; the header is the one
+   place the name isn't spelled out. If this ever tests badly with new visitors, that's the first
+   place to revisit.
+3. **Primer's 50 questions were never specified verbatim in the source PDF** (it only described
    their structure — 8 categories, a closing copper line pointing at the brief that "takes this
    one apart"). The 10 public ones in `content/primer.ts` were written to match the spec's stated
    voice test ("could a curious atheist read this and nod") — they're original copy, not
    transcribed from the PDF, unlike every other page's copy which is verbatim per the spec's own
    instruction ("copy is written to ship... change names and numbers, not structure or rhythm").
-3. **Brief 001's contents (provocation, 7-bullet "what's inside," sample excerpt) were written
+4. **Brief 001's contents (provocation, 7-bullet "what's inside," sample excerpt) were written
    editorially**, following the spec's description of what Brief 001 is about, not transcribed —
    the PDF gave the brief's title, dek, and Unresolved-question themes, not its full body copy.
 
@@ -61,12 +70,12 @@ or a new one opens — don't let this drift into aspirational fiction.
 
 - **Studio commission form collects no contact method.** Per the spec's literal instruction
   ("Four fields: project, deadline, budget range, the question" — no email listed), the form as
-  built has no way for Aroha to reply to a submission unless the requester volunteers contact
+  built has no way for ĀRK to reply to a submission unless the requester volunteers contact
   info inside the free-text "question" field. This is very likely an oversight in the original
   spec rather than an intentional constraint. Flagged, not fixed — fixing it (adding a 5th
   field) is a one-line change if/when the human owner wants it.
 - **No unsubscribe mechanism.** `subscriber` rows can only be removed by someone manually
-  deleting them (or, once built, by a human actioning a `privacy@aroha.study` request per the
+  deleting them (or, once built, by a human actioning a `privacy@ark.study` request per the
   privacy policy). No self-serve unsubscribe link or endpoint exists.
 - **No admin/founder notification** when a commission request or new order comes in — you have
   to check the Supabase table directly.

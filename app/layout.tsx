@@ -22,18 +22,18 @@ const spectral = Spectral({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://aroha.study"),
+  metadataBase: new URL("https://ark.study"),
   title: {
-    default: "Aroha — The architecture of understanding.",
-    template: "%s — Aroha",
+    default: "ĀRK — The architecture of understanding.",
+    template: "%s — ĀRK",
   },
   description:
-    "Aroha builds research and intelligence tools for people who would rather understand something completely than believe it quickly.",
+    "ĀRK builds research and intelligence tools for people who would rather understand something completely than believe it quickly.",
   openGraph: {
-    title: "Aroha — The architecture of understanding.",
+    title: "ĀRK — The architecture of understanding.",
     description:
-      "Aroha builds research and intelligence tools for people who would rather understand something completely than believe it quickly.",
-    siteName: "Aroha",
+      "ĀRK builds research and intelligence tools for people who would rather understand something completely than believe it quickly.",
+    siteName: "ĀRK",
     type: "website",
   },
 };

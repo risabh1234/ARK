@@ -5,6 +5,45 @@ newest entry on top. One entry per work session; keep entries factual and terse,
 
 ---
 
+## 2026-08-23 — Rebrand to ĀRK, animated logo mark
+
+- Renamed the brand across the entire codebase: **Aroha → ĀRK**. This was a direct, explicit
+  user instruction, not a spec-driven decision — the repo/domain were always ĀRK
+  (`~/Desktop/ĀRK`, GitHub `risabh1234/ARK`); "Aroha" was the name used in the Gemini-authored
+  Design.pdf spec that Claude built the site from on 2026-08-22, and the user has now reverted
+  the brand text to ĀRK while keeping the rest of that spec's design system and copy intact.
+  `aroha.study` → `ark.study` throughout (metadata, Resend from-address, privacy-page contact),
+  `package.json`/`wrangler.jsonc` worker name `aroha` → `ark`. Applied via `sed` across
+  `app/`, `components/`, `lib/`, plus hand-review of README.md, CLAUDE.md, and the three
+  current-state internal docs (DOCUMENTATION.md, IMPLEMENTATION.md, TECHNICAL_DOCUMENTATION.md).
+  This file's own past entries were deliberately **left saying "Aroha"** — they're an accurate
+  record of what the brand was called at the time, not something to retcon.
+- Built `components/Logo.tsx` — a vector rebuild of the mark described in a second spec PDF
+  ("ĀRK — Identity in Motion, Doc 02 · 5-second cycle"): earth-line horizon, copper
+  circumference ring, two rising legs, a horizontal plate, and a star that ignites and decays to
+  a resting 62% opacity. Implemented as pure CSS (`@keyframes` in `app/globals.css`, scoped
+  under `.ark-mark`) rather than JS/Framer Motion — no client component needed, and
+  `prefers-reduced-motion` is handled natively by a media query rather than JS feature-detection.
+  Uses `pathLength={1}` on every drawn path so every stroke-dashoffset keyframe is just `1 → 0`
+  regardless of actual path geometry.
+- Per spec: draws once (the seven beats, 0.0–4.3s, easing `cubic-bezier(0.16,1,0.3,1)` — "the
+  house curve," same easing already used for scroll-reveal elsewhere on the site) then holds —
+  deliberately **not** looping and **not** implementing the literal "dissolve to ink" beat
+  (4.3–5.0s) in the header, since a header logo that periodically fades to invisible would break
+  navigation. The spec's own header note ("runs once on load, then holds... two loops on one
+  screen is noise") reads as license for this — the full loop-forever behavior described for a
+  standalone "hero lockup" context wasn't asked for and wasn't built.
+- Replaced the Header's plain-text "Aroha" wordmark link with `<Logo />` alone — **no text
+  beside or under the mark**, per explicit instruction. The header is therefore icon-only now;
+  there is no visible "ĀRK" wordmark anywhere in the site chrome itself (only in body copy,
+  page titles, and the footer's small-print line). If that ever reads as under-labelled for new
+  visitors, the fix is a wordmark next to `<Logo />` in `Header.tsx` — deliberately not done here.
+- The reference render supplied alongside the spec PDF (a warm, photographic 3D sunrise/glow
+  image) was treated as mood reference only, per the spec's own page 2 instruction ("vector
+  rebuild · no raster assets") — nothing raster was used; the shipped mark is flat SVG/line-work
+  consistent with the rest of the site's "no gradients as decoration, diagrams over
+  illustrations" rules.
+
 ## 2026-08-23 — Public docs, privacy policy, private doc set
 
 - Added `/docs` — public methodology page explaining the four method principles, how a brief

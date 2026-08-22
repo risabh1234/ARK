@@ -5,7 +5,7 @@ import { Container, Eyebrow } from "@/components/Primitives";
 
 export const metadata: Metadata = {
   title: "Privacy",
-  description: "What Aroha collects, why, who processes it, and how to have it deleted.",
+  description: "What ĀRK collects, why, who processes it, and how to have it deleted.",
 };
 
 const LAST_UPDATED = "23 August 2026";
@@ -32,9 +32,9 @@ export default function PrivacyPage() {
             <div className="mx-auto max-w-measure space-y-56">
               <div>
                 <p className="font-serif text-reader text-paper-text/80">
-                  Aroha (&ldquo;we&rdquo;, &ldquo;us&rdquo;) builds research and intelligence
+                  ĀRK (&ldquo;we&rdquo;, &ldquo;us&rdquo;) builds research and intelligence
                   tools. This page describes, plainly, what we collect on this site, why, who
-                  else touches it, and how to have yours removed. It applies to aroha.study and
+                  else touches it, and how to have yours removed. It applies to ark.study and
                   its subpages.
                 </p>
               </div>
@@ -74,7 +74,7 @@ export default function PrivacyPage() {
                 <h2 className="font-serif text-[22px] text-paper-text">Why we collect it</h2>
                 <ul className="mt-16 space-y-12">
                   {[
-                    "To send you the Primer, the weekly letter, and Aroha Codex waitlist updates — nothing else, to that address, until you tell us to stop.",
+                    "To send you the Primer, the weekly letter, and ĀRK Codex waitlist updates — nothing else, to that address, until you tell us to stop.",
                     "To respond to a commission request or process an order.",
                     "To keep the site secure and working as intended.",
                     "To meet basic accounting and tax record-keeping obligations for anything you purchase.",
@@ -131,8 +131,8 @@ export default function PrivacyPage() {
                 <p className="mt-16 font-serif text-reader text-paper-text/80">
                   You can ask us, at any time, what we hold on you, to correct it, or to delete
                   it entirely. Write to{" "}
-                  <a href="mailto:privacy@aroha.study" className="text-copper underline underline-offset-4">
-                    privacy@aroha.study
+                  <a href="mailto:privacy@ark.study" className="text-copper underline underline-offset-4">
+                    privacy@ark.study
                   </a>{" "}
                   and we will act on it within a reasonable time — normally a few working days,
                   including removing you from any list.
@@ -152,7 +152,7 @@ export default function PrivacyPage() {
               <div>
                 <h2 className="font-serif text-[22px] text-paper-text">Children</h2>
                 <p className="mt-16 font-serif text-reader text-paper-text/80">
-                  Aroha is not directed at children, and we don&rsquo;t knowingly collect data
+                  ĀRK is not directed at children, and we don&rsquo;t knowingly collect data
                   from anyone under 16.
                 </p>
               </div>
@@ -169,8 +169,8 @@ export default function PrivacyPage() {
               <div className="border-t border-paper-text/10 pt-32">
                 <p className="font-serif text-[15px] text-paper-text/70">
                   Questions that aren&rsquo;t answered here:{" "}
-                  <a href="mailto:privacy@aroha.study" className="text-copper underline underline-offset-4">
-                    privacy@aroha.study
+                  <a href="mailto:privacy@ark.study" className="text-copper underline underline-offset-4">
+                    privacy@ark.study
                   </a>
                 </p>
               </div>
