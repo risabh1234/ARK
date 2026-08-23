@@ -10,7 +10,7 @@
 export function GiantWordmark() {
   return (
     <p
-      className="mt-56 select-none text-center font-serif text-[18vw] font-semibold leading-none tracking-[-0.04em] text-bg/[0.12] transition-colors duration-slow ease-standard hover:text-accent md:text-[14vw]"
+      className="mt-56 select-none pt-[0.12em] text-center font-serif text-[18vw] font-semibold leading-[1.2] tracking-[-0.015em] text-bg/[0.12] transition-colors duration-slow ease-standard hover:text-accent md:text-[14vw]"
       aria-hidden="true"
     >
       ĀRK

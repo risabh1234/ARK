@@ -472,6 +472,37 @@ user has been iterating in quick succession and re-confirming intent each time i
 
 ---
 
+## 2026-08-23 — Fourth pass: three small, specific fixes
+
+- **"Don't write India anywhere... remove it from the footer."** Removed "· India" from
+  `Footer.tsx`'s bottom tagline row. **Left untouched, flagged instead of silently changed**: the
+  Privacy policy also states "We are based in India" as a factual data-processing-location
+  disclosure (`app/privacy/page.tsx`) — different in kind from a footer tagline (it's a legal/
+  transparency statement, and removing it either makes the policy inaccurate if ĀRK genuinely is
+  India-based, or needs a real decision about what replaces it if not). Told the user directly
+  rather than deciding unilaterally.
+- **Giant footer wordmark's "Ā" macron looked wrong.** Root cause: `leading-none` (line-height: 1)
+  at an 18vw font size — a well-known CSS pattern where very tight line-height doesn't reserve
+  enough vertical room above cap-height for a diacritic on a huge glyph, so the macron reads as
+  clipped/off even though the smaller header/footer wordmarks (which don't set `leading-none`)
+  never showed it. Fixed with `leading-[1.2]` plus a touch of `pt-[0.12em]` headroom. Also eased
+  the wordmark's own letter-spacing from `-0.04em` to `-0.015em` — at that scale, -0.04em is a
+  large absolute pixel gap between letters and was likely part of what read as "wrong" too.
+- **"Text throughout the site is not properly spaced, letters and words both."** Traced this to
+  the type-scale letter-spacing values from earlier the same session (`display: -0.035em`,
+  `h1: -0.025em`) — negative tracking that tight, stacked with the heavier font-weights added in
+  the first "premium" pass, was crowding the letterforms rather than reading as considered.
+  Eased the whole scale back in `tailwind.config.ts`: `display` to `-0.015em`, `h1` to `-0.008em`,
+  `h2` to near-neutral `-0.002em`, and added a small *positive* tracking (`+0.005em`) to
+  `body`/`small`/`reader`/`ui` for a slightly more open, legible body-text feel — also loosened
+  line-heights slightly on the headline sizes (e.g. `display` 0.92→0.98) so the tighter tracking
+  isn't compounded by cramped vertical rhythm too. Also removed a stray `-0.01em` tracking on
+  `Button.tsx`'s label text — unnecessary at that size and part of the same over-tightening.
+
+Verified via `typecheck`, `next build`, and a route sweep before pushing.
+
+---
+
 ## 2026-08-23 — Home page redesign from a second Gemini spec ("Design 2.pdf")
 
 - User asked to move the deploy target from Cloudflare Workers to Pages. Before doing the work,

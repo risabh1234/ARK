@@ -78,7 +78,7 @@ export function Footer() {
 
         <div className="mt-56 flex flex-wrap items-center justify-between gap-16 border-t border-bg/10 pt-24">
           <p className="font-mono text-eyebrow uppercase text-bg/40">
-            ĀRK · Research and intelligence tools · India
+            ĀRK · Research and intelligence tools
           </p>
           <AudioToggle />
         </div>

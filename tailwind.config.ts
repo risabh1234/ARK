@@ -34,21 +34,23 @@ const config: Config = {
         mono: ["var(--font-inter)", "ui-monospace", "monospace"],
       },
       fontSize: {
-        // Spec §7.2 type scale, pushed larger + tighter for more graphic
-        // impact — the Mona Sans page's headline is the primary design
-        // element on the page, not a caption above other content.
-        display: ["clamp(3.25rem, 10vw, 8.5rem)", { lineHeight: "0.92", letterSpacing: "-0.035em" }],
-        h1: ["clamp(2.25rem, 4.6vw, 3.75rem)", { lineHeight: "1.02", letterSpacing: "-0.025em" }],
-        h2: ["clamp(1.625rem, 2.8vw, 2.25rem)", { lineHeight: "1.1", letterSpacing: "-0.01em" }],
-        lead: ["1.25rem", { lineHeight: "1.6" }],
-        body: ["1.0625rem", { lineHeight: "1.7" }],
-        small: ["0.875rem", { lineHeight: "1.4" }],
+        // Spec §7.2 type scale. Tracking eased back from an earlier,
+        // too-aggressive pass — negative letter-spacing this tight
+        // (was -0.035em/-0.025em) combined with the heavier weights
+        // added the same day was crowding the letterforms rather than
+        // reading as "designed." See DEVELOPMENT_LOG.md.
+        display: ["clamp(3.25rem, 10vw, 8.5rem)", { lineHeight: "0.98", letterSpacing: "-0.015em" }],
+        h1: ["clamp(2.25rem, 4.6vw, 3.75rem)", { lineHeight: "1.08", letterSpacing: "-0.008em" }],
+        h2: ["clamp(1.625rem, 2.8vw, 2.25rem)", { lineHeight: "1.15", letterSpacing: "-0.002em" }],
+        lead: ["1.25rem", { lineHeight: "1.6", letterSpacing: "0" }],
+        body: ["1.0625rem", { lineHeight: "1.7", letterSpacing: "0.005em" }],
+        small: ["0.875rem", { lineHeight: "1.4", letterSpacing: "0.005em" }],
         // Legacy aliases kept during the phased re-skin so unconverted
         // pages don't break — remove once every page uses the spec names.
-        hero: ["clamp(3.25rem, 10vw, 8.5rem)", { lineHeight: "0.92", letterSpacing: "-0.035em" }],
-        section: ["clamp(1.625rem, 2.8vw, 2.25rem)", { lineHeight: "1.1" }],
-        reader: ["1.0625rem", { lineHeight: "1.7" }],
-        ui: ["0.9375rem", { lineHeight: "1.3" }],
+        hero: ["clamp(3.25rem, 10vw, 8.5rem)", { lineHeight: "0.98", letterSpacing: "-0.015em" }],
+        section: ["clamp(1.625rem, 2.8vw, 2.25rem)", { lineHeight: "1.15", letterSpacing: "-0.002em" }],
+        reader: ["1.0625rem", { lineHeight: "1.7", letterSpacing: "0.005em" }],
+        ui: ["0.9375rem", { lineHeight: "1.3", letterSpacing: "0.005em" }],
         eyebrow: ["11px", { lineHeight: "1", letterSpacing: "0.2em" }],
       },
       spacing: {

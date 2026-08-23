@@ -11,7 +11,7 @@ type BaseProps = {
 
 const styles: Record<Variant, string> = {
   primary:
-    "inline-flex items-center justify-center bg-accent text-bg px-24 py-16 font-sans text-ui font-semibold tracking-[-0.01em] shadow-2 hover:bg-ink hover:shadow-3 hover:-translate-y-[2px] active:translate-y-0 active:shadow-1 transition-[background-color,box-shadow,transform] duration-fast ease-standard",
+    "inline-flex items-center justify-center bg-accent text-bg px-24 py-16 font-sans text-ui font-semibold shadow-2 hover:bg-ink hover:shadow-3 hover:-translate-y-[2px] active:translate-y-0 active:shadow-1 transition-[background-color,box-shadow,transform] duration-fast ease-standard",
   secondary:
     "inline-flex items-center justify-center border border-ink/20 bg-transparent text-ink px-24 py-16 font-sans text-ui font-medium hover:border-ink hover:bg-ink hover:text-bg transition-[background-color,border-color,color] duration-fast ease-standard",
   tertiary:
