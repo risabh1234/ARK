@@ -10,7 +10,7 @@ or a new one opens — don't let this drift into aspirational fiction.
 |---|---|---|
 | 01 | Tokens and type — palette as CSS variables, three fonts, spacing scale, radius 0 | ✅ Done — `tailwind.config.ts`, `app/globals.css` |
 | 02 | Header, footer, section wrapper, three buttons, email field | ✅ Done — `components/*`. Nav is 4 items, not 3 (deviation, see below) |
-| 03 | Home, whole page, copy verbatim | ✅ Done — `app/page.tsx` |
+| 03 | Home, whole page, copy verbatim | ⚠️ Superseded 2026-08-23 — a second spec PDF ("Design 2.pdf") redesigned the home page (new hero eyebrow, circular diagram replacing the quote panels, restructured method list, new "Anatomy of a brief" section, "three doors" → "three lines of work"). Current `app/page.tsx` matches Design 2.pdf, not the original Design.pdf home copy verbatim. |
 | 04 | Email capture end to end — field → Drizzle → Resend D0 | ⚠️ Partial. Field → API → Drizzle insert works. Resend send works *if* `RESEND_API_KEY` is set (not set anywhere yet — untested against a real inbox). The full 5-letter sequence (D0/D1/D3/D5/D7 from spec § "The five letters") is **not built** — only D0 (the Primer link) exists. `subscriber.sequence_step` exists in the schema but nothing advances it. |
 | 05 | Studio page and commission form | ✅ Page and form done. ⚠️ Form has no reply-to field — see "Known gaps" below. |
 | 06 | Research index and Brief 001 page, Unresolved list visible, buy button live | ✅ Page/list/Unresolved section done. ❌ Buy button renders but **does not charge anyone** — no Razorpay/Stripe integration, clicking it does nothing. |
@@ -29,6 +29,13 @@ or a new one opens — don't let this drift into aspirational fiction.
 - ❌ **A Cloudflare Pages project connected to this repo will always fail its own build** — it's
   the wrong product for an OpenNext/Workers app. Not a bug to fix; disconnect it or ignore its
   failing checks. See TECHNICAL_DOCUMENTATION.md § Cloudflare deploy for the full diagnosis.
+- ❓ **Open, unresolved: user asked to move the deploy target to Pages instead of Workers**
+  (2026-08-23). Asked a clarifying question about the real cost (dropping OpenNext, Edge Runtime
+  required on every dynamic route, abandoning the working Workers deploy); the user didn't
+  answer it and moved to an unrelated task instead. **Do not treat this as decided in either
+  direction** — the Workers deploy above is still the one that works and is live, but the user's
+  stated preference for Pages hasn't been walked back either. Ask again before assuming, next
+  time it's relevant.
 
 ## Phase 2 (spec explicitly says: do not build yet) — still not built, as intended
 
@@ -55,9 +62,13 @@ or a new one opens — don't let this drift into aspirational fiction.
 - Private internal doc set (this folder) + `CLAUDE.md` maintenance rule.
 - Brand renamed **Aroha → ĀRK** across the whole codebase (user-requested, 2026-08-23).
 - `components/Logo.tsx` — the animated mark from the "Identity in Motion" spec, built as vector
-  SVG + pure CSS. See TECHNICAL_DOCUMENTATION.md § Logo / identity motion for the full picture,
-  including two deliberate deviations (runs-once-then-holds instead of looping/dissolving in the
-  header; icon-only with no wordmark, per explicit instruction).
+  SVG + pure CSS. See TECHNICAL_DOCUMENTATION.md § Logo / identity motion — runs once then holds
+  rather than looping/dissolving in the header, still true; the icon-only (no wordmark) deviation
+  noted there was reversed the next day, see below.
+- **Home page redesign** (2026-08-23, from "Design 2.pdf"): `components/BrokenMapDiagram.tsx`
+  (the circular "three broken maps" diagram), a new "Anatomy of a brief" section, restructured
+  method list and "three lines of work" rows, header wordmark restored, footer restructured to
+  two nav columns. See DEVELOPMENT_LOG.md for the full breakdown.
 
 ## Deviations from the spec, acknowledged
 
@@ -65,10 +76,11 @@ or a new one opens — don't let this drift into aspirational fiction.
    Vision`. Done at the user's explicit, direct request on 2026-08-23 — a live instruction
    takes precedence over a static rule in a design brief. If this ever needs to shrink back to
    three, the obvious move is folding Docs into the footer only and dropping it from the header.
-2. **Header has no visible wordmark at all**, icon-only — per explicit user instruction. Every
-   other brand mention on the site is the plain word "ĀRK" in running copy; the header is the one
-   place the name isn't spelled out. If this ever tests badly with new visitors, that's the first
-   place to revisit.
+2. ~~Header has no visible wordmark at all, icon-only~~ — **reversed 2026-08-23.** The
+   Design 2.pdf mockup shows `<Logo />` paired with the "ĀRK" wordmark in the header, so it's
+   back. This item is kept (struck through) rather than deleted so the history of the decision
+   isn't lost — icon-only was correct for the one day it was in effect, per instruction at the
+   time.
 3. **Primer's 50 questions were never specified verbatim in the source PDF** (it only described
    their structure — 8 categories, a closing copper line pointing at the brief that "takes this
    one apart"). The 10 public ones in `content/primer.ts` were written to match the spec's stated

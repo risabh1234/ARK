@@ -98,6 +98,20 @@ section — keep that section's claims true against this list if either changes)
 - One CTA per screen — two choices is hesitation, not choice.
 - Loading is a moment, not a spinner — reveal once, then leave the reader alone.
 
+## Home page structure (current, as of 2026-08-23)
+
+The home page has been through two spec iterations — the original `Design.pdf` build, then a
+full redesign from a second PDF ("Design 2.pdf") the same day. Current order, top to bottom:
+hero (with an eyebrow, added in the redesign) → a circular diagram of "the join" (ĀRK's
+position) against the three broken maps (Science, Religion, The Market) — replacing the original
+three-quote-panel layout → the method, as four numbered rows → **new**: "Anatomy of a brief," a
+four-row "strata" table (What the source says / What the evidence shows / What follows /
+Unresolved) previewing brief structure directly on the home page → "three lines of work"
+(Research/Studio/Codex, renamed from "three doors," now stacked rows instead of a 3-column grid)
+→ closing email capture. Exact copy lives in `app/page.tsx`; the diff between the two spec
+versions is recorded in `DEVELOPMENT_LOG.md`'s 2026-08-23 "Home page redesign" entry, not
+reproduced here.
+
 ## The catalogue
 
 | # | Title | Status | One-line dek |

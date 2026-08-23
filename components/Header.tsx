@@ -28,8 +28,9 @@ export function Header() {
       }`}
     >
       <div className="mx-auto flex max-w-container items-center justify-between px-24 py-16 md:px-56">
-        <Link href="/" aria-label="ĀRK — home" className="shrink-0">
-          <Logo height={36} />
+        <Link href="/" className="flex shrink-0 items-center gap-16">
+          <Logo height={32} />
+          <span className="font-serif text-[22px] tracking-wide text-bone">ĀRK</span>
         </Link>
         <nav className="hidden items-center gap-32 md:flex">
           {NAV.map((item) => (
@@ -44,7 +45,7 @@ export function Header() {
         </nav>
         <Link
           href="/primer"
-          className="font-sans text-[15px] text-copper underline underline-offset-4 decoration-copper/40 hover:decoration-copper transition-colors duration-150"
+          className="border border-copper-dim px-16 py-8 font-sans text-[15px] text-copper hover:bg-copper/[0.08] transition-colors duration-150"
         >
           The Primer
         </Link>

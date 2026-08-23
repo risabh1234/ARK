@@ -5,6 +5,54 @@ newest entry on top. One entry per work session; keep entries factual and terse,
 
 ---
 
+## 2026-08-23 — Home page redesign from a second Gemini spec ("Design 2.pdf")
+
+- User asked to move the deploy target from Cloudflare Workers to Pages. Before doing the work,
+  asked a clarifying question (AskUserQuestion) laying out the real cost: dropping OpenNext for
+  `@cloudflare/next-on-pages`, Edge Runtime required on every dynamic route, abandoning the
+  already-verified-working Workers deployment. The user declined to answer that question and
+  instead pasted a new spec PDF with different instructions — **treat the Pages-vs-Workers
+  question as open and unresolved, not decided either way. Do not silently revisit it; wait for
+  the user to raise it again.**
+- New PDF ("Design 2.pdf", 1 page) is a full redesign of the home page only — not a change to
+  Research/Studio/Vision/Primer/Docs/Privacy. Extracted the same way as the first two spec PDFs
+  (PyMuPDF, high-zoom banded rendering — this PDF's actual content again lives in a ~140pt-wide
+  strip inside an A4 canvas, unreadable without cropping).
+- Rebuilt `app/page.tsx` to match:
+  - Hero gained an eyebrow ("Research & intelligence tools") above the H1. Copy otherwise
+    unchanged.
+  - The old three-panel quote grid ("Science explains..." / "The market explains..." /
+    "Religion explains...") is **replaced** by a circular diagram (`components/
+    BrokenMapDiagram.tsx`) — a circle split into a copper dashed quarter ("The join," ĀRK's own
+    position) and an ash solid three-quarter arc, with "Science," "Religion," and "The market"
+    labelled at the other three corners, and the "Nobody hands you the whole map" line centered
+    inside it. Built as two SVG arc paths + absolutely-positioned label spans, not a traced
+    image — exact label/arc positioning is an interpretation of the mockup, not a pixel copy.
+  - "The method" restructured from a 2-column card grid to numbered list rows (01–04),
+    matching the row-list pattern already used on `/research` and `/docs`.
+  - **New section**: "Anatomy of a brief" — a four-row "strata" table (I. What the source says,
+    II. What the evidence shows, III. What follows, IV. Unresolved — the last row copper-
+    accented) previewing brief structure on the home page itself. This is new copy from Design
+    2.pdf, not present in the original Design.pdf spec.
+  - "Three doors" renamed "Three lines of work" and restructured from a 3-column grid to
+    stacked full-width rows (Research / Studio / Codex), each with a trailing arrow that
+    translates on hover. Studio and Codex rows gained meta lines ("Three commissions a month",
+    "In development") not present in the original three-doors copy.
+  - Closing email capture and footer email capture: unchanged (copy already matched — "No name.
+    No spam. One letter a week." was already the `EmailCapture` default).
+- **Reversed a deviation from the 2026-08-23 rebrand session**: the header now shows
+  `<Logo />` *with* the "ĀRK" wordmark beside it again, not icon-only. The new mockup's header
+  shows the mark and wordmark together. "The Primer" header link also changed from an underlined
+  text link to a bordered outline button, matching the mockup.
+- Footer restructured: two nav columns ("Work": Research/Studio/Vision/The Primer; "Method":
+  Docs & framework/Privacy) plus a wordmark + one-line tagline, replacing the old single-row
+  flex nav and the "ĀRK · ... · India" small-print line, which is dropped entirely — not in the
+  new footer mockup.
+- Verified: `tsc --noEmit` and `next build` both clean, all 13 routes present. Content-level
+  spot checks via curl (eyebrow, diagram labels, strata rows, line-of-work rows, footer columns
+  all present in rendered HTML) — no real browser screenshot available in this sandbox, so exact
+  visual spacing/alignment of the new diagram is unverified beyond markup inspection.
+
 ## 2026-08-23 — Deploy saga closed out
 
 - Independently re-verified the previous entry's claim rather than taking it on faith: pulled

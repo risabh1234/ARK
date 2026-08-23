@@ -38,7 +38,11 @@ app/
 
 components/
   Header.tsx, Footer.tsx   chrome — see "Nav" below for the 3→4 item deviation
-  Logo.tsx                 the animated mark — server component, pure CSS, icon-only (no wordmark)
+  Logo.tsx                 the animated mark — server component, pure CSS. Paired with the "ĀRK"
+                            wordmark in Header.tsx/Footer.tsx as of 2026-08-23 (was icon-only for
+                            one day; see DEVELOPMENT_LOG.md)
+  BrokenMapDiagram.tsx     home-page-only: the circular "three broken maps" diagram (SVG arcs +
+                            absolutely-positioned labels), added 2026-08-23
   Primitives.tsx           Container, Section, Panel, Eyebrow — layout/typography helpers
   Button.tsx               ButtonLink / Button — the three-and-only-three variants (primary/secondary/tertiary)
   EmailCapture.tsx          client component, single-field capture used on home/footer/vision/primer
@@ -140,13 +144,14 @@ lockup:
   it does not implement the spec's "dissolve to ink" beat (4.3–5.0s) in the header. A logo that
   periodically fades to invisible would break navigation. The spec's own header note ("runs
   once on load, then holds... two loops on one screen is noise") reads as license for this.
-- **Icon only, no wordmark** — per explicit user instruction (2026-08-23), `<Logo />` replaces
-  the header's old plain-text "Aroha"/"ĀRK" link entirely, with nothing beside or under it. There
-  is currently no visible wordmark anywhere in site chrome — only in body copy, page `<title>`s,
-  and the footer's small-print line. If a first-time visitor needs the brand name more visibly
-  labelled in the header itself, add a wordmark next to `<Logo />` — not done here on purpose.
+- ~~Icon only, no wordmark~~ — **reversed the next day (2026-08-23, later session).** The
+  "Design 2.pdf" home-page redesign mockup shows `<Logo />` paired with the "ĀRK" wordmark in
+  the header, so `Header.tsx` and `Footer.tsx` both render `<Logo /><span>ĀRK</span>` again.
+  Kept here, struck through, as a record that this was tried and reversed within 24 hours —
+  don't be surprised if it swings again.
 
-Usage: `<Logo height={36} />` (any component, server or client — it's imported plain, no
+Usage: `<Logo height={32} />` next to a wordmark span (current header/footer usage), or alone
+where a bare icon fits better (any component, server or client — it's imported plain, no
 `"use client"` needed). `height` scales proportionally (viewBox is 200×170).
 
 ## Database
