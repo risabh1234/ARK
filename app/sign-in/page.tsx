@@ -25,7 +25,7 @@ export default async function SignInPage({
         <Container>
           <div className="mx-auto max-w-[420px]">
             <Eyebrow>Account</Eyebrow>
-            <h1 className="mt-16 font-serif text-h1 font-light text-ink">Sign in</h1>
+            <h1 className="mt-16 font-serif text-h1 font-medium text-ink">Sign in</h1>
 
             {params["check-email"] && (
               <p className="mt-24 border border-accent-deep bg-accent/[0.06] p-16 font-serif text-[14px] text-ink">

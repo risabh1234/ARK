@@ -21,7 +21,7 @@ export function BrokenMapDiagram() {
         <path
           d="M10,150 A140,140 0 0 1 150,10"
           fill="none"
-          stroke="#B5502F"
+          stroke="#C43E12"
           strokeWidth="1.5"
           strokeDasharray="4 5"
         />

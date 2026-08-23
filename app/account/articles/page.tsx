@@ -23,7 +23,7 @@ export default async function MyArticlesPage() {
   return (
     <div>
       <Eyebrow>My Articles</Eyebrow>
-      <h1 className="mt-16 font-serif text-h1 font-light text-ink">My Articles</h1>
+      <h1 className="mt-16 font-serif text-h1 font-medium text-ink">My Articles</h1>
 
       {articles.length === 0 ? (
         <p className="mt-32 font-serif text-body text-muted">

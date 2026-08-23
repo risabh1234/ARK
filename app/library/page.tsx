@@ -17,7 +17,7 @@ export default function LibraryPage() {
       <main className="pt-140">
         <Container>
           <Eyebrow>Library</Eyebrow>
-          <h1 className="mt-16 max-w-[14ch] font-serif text-display font-light text-ink">
+          <h1 className="mt-16 max-w-[14ch] font-serif text-display font-semibold text-ink">
             The Library
           </h1>
           <p className="mt-24 max-w-lead font-serif text-lead font-light text-muted">
@@ -36,7 +36,7 @@ export default function LibraryPage() {
 
         <section className="mt-140 border-y border-rule bg-bg-raised py-88">
           <Container>
-            <p className="font-serif text-h2 font-light text-ink">
+            <p className="font-serif text-h2 font-medium text-ink">
               One question, one source, one idea. Every week.
             </p>
             <div className="mt-32 max-w-lead">

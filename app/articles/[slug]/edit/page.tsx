@@ -32,7 +32,7 @@ export default async function EditArticlePage({ params }: { params: Params }) {
         <Container>
           <div className="mx-auto max-w-measure">
             <Eyebrow>Articles</Eyebrow>
-            <h1 className="mt-16 font-serif text-h1 font-light text-ink">Edit article</h1>
+            <h1 className="mt-16 font-serif text-h1 font-medium text-ink">Edit article</h1>
             <div className="mt-40">
               <ArticleComposer existing={article as ArticleFull} />
             </div>

@@ -9,7 +9,7 @@ export function Marquee({ text }: { text: string }) {
     <div className="marquee overflow-hidden">
       <div className="marquee-track flex w-max whitespace-nowrap">
         {[0, 1].map((i) => (
-          <p key={i} className="pr-64 font-serif text-h2 font-light text-ink" aria-hidden={i === 1}>
+          <p key={i} className="pr-64 font-serif text-h2 font-medium text-ink" aria-hidden={i === 1}>
             {text}
           </p>
         ))}

@@ -41,7 +41,7 @@ export default async function ArticlesIndexPage() {
           <div className="flex flex-wrap items-start justify-between gap-24">
             <div>
               <Eyebrow>Articles</Eyebrow>
-              <h1 className="mt-16 max-w-[16ch] font-serif text-h1 font-light text-ink">
+              <h1 className="mt-16 max-w-[16ch] font-serif text-h1 font-medium text-ink">
                 Written by readers, held to the same method.
               </h1>
               <p className="mt-24 max-w-lead font-serif text-lead font-light text-muted">

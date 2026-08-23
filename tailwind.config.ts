@@ -5,19 +5,21 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // ĀRK design tokens — single cream/terracotta system, per
-        // ARK_Redesign_Specification.md §6. Retires the former dark
-        // "ink" / light "paper" dual-mode identity (see DEVELOPMENT_LOG.md).
+        // ĀRK design tokens v2 — pushed for contrast/weight after the
+        // user flagged v1 as reading "cheap"/too soft. Same cream base
+        // (matches the actual Mona Sans page, which is white/black, not
+        // dark) but much higher contrast: near-black ink, a hotter,
+        // more saturated accent. See DEVELOPMENT_LOG.md.
         bg: "#FBF6EE",
         "bg-raised": "#F6EEE3",
-        ink: "#23201B",
-        muted: "#6B6459",
+        ink: "#12100B",
+        muted: "#5C564B",
         accent: {
-          DEFAULT: "#B5502F",
-          deep: "#8A3B22",
+          DEFAULT: "#C43E12",
+          deep: "#8F2A0C",
         },
         rule: "#D8CFC0",
-        "ink-dark": "#141210",
+        "ink-dark": "#0B0906",
       },
       fontFamily: {
         serif: ["var(--font-fraunces)", "Georgia", "serif"],
@@ -25,17 +27,19 @@ const config: Config = {
         mono: ["var(--font-inter)", "ui-monospace", "monospace"],
       },
       fontSize: {
-        // Spec §7.2 type scale
-        display: ["clamp(2.75rem, 8vw, 6.5rem)", { lineHeight: "0.96", letterSpacing: "-0.03em" }],
-        h1: ["clamp(2rem, 4vw, 3.25rem)", { lineHeight: "1.05", letterSpacing: "-0.02em" }],
-        h2: ["clamp(1.5rem, 2.5vw, 2rem)", { lineHeight: "1.15" }],
+        // Spec §7.2 type scale, pushed larger + tighter for more graphic
+        // impact — the Mona Sans page's headline is the primary design
+        // element on the page, not a caption above other content.
+        display: ["clamp(3.25rem, 10vw, 8.5rem)", { lineHeight: "0.92", letterSpacing: "-0.035em" }],
+        h1: ["clamp(2.25rem, 4.6vw, 3.75rem)", { lineHeight: "1.02", letterSpacing: "-0.025em" }],
+        h2: ["clamp(1.625rem, 2.8vw, 2.25rem)", { lineHeight: "1.1", letterSpacing: "-0.01em" }],
         lead: ["1.25rem", { lineHeight: "1.6" }],
         body: ["1.0625rem", { lineHeight: "1.7" }],
         small: ["0.875rem", { lineHeight: "1.4" }],
         // Legacy aliases kept during the phased re-skin so unconverted
         // pages don't break — remove once every page uses the spec names.
-        hero: ["clamp(2.75rem, 8vw, 6.5rem)", { lineHeight: "0.96", letterSpacing: "-0.03em" }],
-        section: ["clamp(1.5rem, 2.5vw, 2rem)", { lineHeight: "1.15" }],
+        hero: ["clamp(3.25rem, 10vw, 8.5rem)", { lineHeight: "0.92", letterSpacing: "-0.035em" }],
+        section: ["clamp(1.625rem, 2.8vw, 2.25rem)", { lineHeight: "1.1" }],
         reader: ["1.0625rem", { lineHeight: "1.7" }],
         ui: ["0.9375rem", { lineHeight: "1.3" }],
         eyebrow: ["11px", { lineHeight: "1", letterSpacing: "0.2em" }],

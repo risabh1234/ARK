@@ -122,7 +122,7 @@ export default function HomePage() {
         <section className="pt-140 rule-h">
           <Container>
             <Eyebrow>The method</Eyebrow>
-            <h2 className="mt-16 max-w-[20ch] font-serif text-h1 font-light text-ink">
+            <h2 className="mt-16 max-w-[20ch] font-serif text-h1 font-medium text-ink">
               Four rules, applied to every brief, in the same order, every time.
             </h2>
             <div className="mt-56">
@@ -135,13 +135,12 @@ export default function HomePage() {
         <section className="pt-140 rule-h">
           <Container>
             <Eyebrow>Anatomy of a brief</Eyebrow>
-            <h2 className="mt-16 max-w-[22ch] font-serif text-h1 font-light text-ink">
+            <h2 className="mt-16 max-w-[22ch] font-serif text-h1 font-medium text-ink">
               Every brief is built the same way, so you can argue with it.
             </h2>
             <p className="mt-24 max-w-lead font-serif text-body text-muted">
-              A claim you cannot trace is an opinion. Each section below is separately sourced
-              and separately labelled, which means you can accept one part and reject another
-              without discarding the whole.
+              Each section below is separately sourced and separately labelled, which means you
+              can accept one part and reject another without discarding the whole.
             </p>
             <p className="mt-16 max-w-lead font-serif text-body text-muted">
               The last section is the one we are judged on.
@@ -170,8 +169,26 @@ export default function HomePage() {
           </Container>
         </section>
 
+        {/* Full-bleed poster statement — the one big graphic beat on the
+            page, echoing the Mona Sans reference's full-width poster
+            sections. Pulls the strongest line out of body copy and gives
+            it the weight it's making a claim about. */}
+        <section className="mt-140 bg-ink-dark py-160">
+          <Container>
+            <Reveal>
+              <p className="font-serif text-display font-semibold leading-[0.94] text-bg">
+                A claim you
+                <br />
+                cannot trace
+                <br />
+                is an <span className="text-accent">opinion.</span>
+              </p>
+            </Reveal>
+          </Container>
+        </section>
+
         {/* Three lines of work — standard cards, spec §12.4/§31.1 */}
-        <section className="pt-140 rule-h">
+        <section className="pt-140">
           <Container>
             <Eyebrow>Three lines of work</Eyebrow>
             <div className="mt-32 grid gap-24 md:grid-cols-3">

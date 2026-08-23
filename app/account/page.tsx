@@ -12,7 +12,7 @@ export default async function AccountOverviewPage() {
   return (
     <div>
       <Eyebrow>Overview</Eyebrow>
-      <h1 className="mt-16 font-serif text-h1 font-light text-ink">{session.profile.username}</h1>
+      <h1 className="mt-16 font-serif text-h1 font-medium text-ink">{session.profile.username}</h1>
       <p className="mt-8 font-serif text-body text-muted">{session.email}</p>
       <div className="mt-40 max-w-[480px]">
         <ProfileForm profile={session.profile} />

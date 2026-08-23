@@ -26,20 +26,20 @@ export function Logo({ height = 40, className = "" }: { height?: number; classNa
         cy="76"
         r="58"
         fill="none"
-        stroke="#B5502F"
+        stroke="#C43E12"
         strokeWidth="1.5"
         transform="rotate(-90 100 76)"
       />
-      <g fill="none" stroke="#23201B" strokeWidth="5" strokeLinecap="square">
+      <g fill="none" stroke="#12100B" strokeWidth="5" strokeLinecap="square">
         <path className="ark-draw ark-leg" pathLength={1} d="M52,148 L88,76" />
         <path className="ark-draw ark-leg" pathLength={1} d="M148,148 L112,76" />
       </g>
-      <polygon className="ark-plate" points="80,76 120,76 113,65 87,65" fill="#23201B" />
-      <circle className="ark-star-glow" cx="100" cy="46" r="20" fill="#B5502F" />
+      <polygon className="ark-plate" points="80,76 120,76 113,65 87,65" fill="#12100B" />
+      <circle className="ark-star-glow" cx="100" cy="46" r="20" fill="#C43E12" />
       <polygon
         className="ark-star-core"
         points="100,22 105,37 120,42 105,47 100,62 95,47 80,42 95,37"
-        fill="#CD7350"
+        fill="#D9612F"
       />
     </svg>
   );

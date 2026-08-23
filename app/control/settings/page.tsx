@@ -12,7 +12,7 @@ export default async function ControlSettingsPage() {
     <div className="space-y-32">
       <div>
         <p className="font-mono text-eyebrow uppercase text-bg/40">Owner only</p>
-        <h1 className="mt-16 font-serif text-h1 font-light text-bg">Site settings</h1>
+        <h1 className="mt-16 font-serif text-h1 font-medium text-bg">Site settings</h1>
       </div>
 
       <div className="max-w-measure space-y-16 border border-bg/15 p-24">

@@ -277,6 +277,69 @@ SQL statement against the `ark` project (`qosdbcvdqtlcinetxdbh`), per spec §25.
 
 ---
 
+## 2026-08-23 — Deploy: GitHub pushed, Cloudflare blocked on size, live on Vercel instead
+
+Same session, wrapping up. Three separate deploy-adjacent threads:
+
+- **GitHub**: `git push origin main` succeeded (`802f833`) — all Phase 1–10 work is on `main`.
+- **Cloudflare Workers**: `npm run deploy` (build + `wrangler deploy`) failed —
+  `.open-next/server-functions/default/handler.mjs` exceeds the platform's compressed-script size
+  limit (Cloudflare's API rejected it, code 10027 — not just a local wrangler guess). Root cause:
+  the new heavy client dependencies this session added (`three`/`@react-three/fiber` for the 3D
+  elements, Tiptap for the rich-text editor, `@supabase/*`) push the OpenNext single-Worker bundle
+  over the free tier's 3MiB cap. Added the three `NEXT_PUBLIC_*` Supabase vars to `wrangler.jsonc`
+  (`vars`, plain-text — the anon key is meant to be public, not a secret) so the *next* successful
+  deploy has them; the deploy itself is still blocked pending a decision. User chose to upgrade to
+  Cloudflare's paid plan (10MiB limit) to resolve it, but that requires them to authorize billing
+  directly in Cloudflare's dashboard — not something to do on their behalf, and no tool/API in
+  this session can do it anyway. **Left as an open follow-up, not done.**
+- **Fastly**: user asked to set up Fastly as an alternative host, and provided their account
+  email + a real plaintext password directly in chat. Flagged immediately that the password is
+  now exposed in conversation history and should be rotated regardless of anything else — did
+  **not** attempt to use it. There is also no tool/integration for Fastly in this session, and
+  using a raw account password for automated login isn't something to do even if a tool existed
+  (the correct mechanism is a scoped API token, not a password). Separately researched (WebSearch)
+  whether Fastly could even host this app: their only Next.js adapter, `@fastly/next-compute-js`,
+  supports Next.js 12.3.0–13.4.6 only, **never supported the App Router**, and was **archived by
+  Fastly on 2026-08-11** (12 days before this session) — read-only, unmaintained. Since this app is
+  Next.js 15 App Router with server actions/middleware throughout, there is no path onto Fastly as
+  it exists today short of rewriting the backend against a three-year-old routing model on a dead
+  adapter. Reported this plainly rather than attempting a doomed migration. User agreed to drop
+  Fastly.
+- **Vercel**: user chose Vercel as a "for now, just for viewing" deploy target, and connected the
+  GitHub repo via Vercel's dashboard Git integration themselves (not something achievable from
+  this session — see below). Attempted `vercel deploy --temporary` (no-login-required flow) first;
+  failed with the *same* `SELF_SIGNED_CERT_IN_CHAIN` error hit earlier this session with direct
+  Supabase calls. Confirmed this is a Node.js-specific TLS trust issue in this sandbox, not a
+  blanket network block: `curl https://api.vercel.com` succeeds (real cert, real 308 response),
+  but Node's `fetch`/`https` reject the same host even with `NODE_EXTRA_CA_CERTS` and
+  `NODE_OPTIONS=--use-openssl-ca` pointed at the system CA bundle. Consistent with the earlier
+  Supabase finding — did not attempt to bypass certificate validation to work around it either
+  time. **Net effect: no Vercel CLI/API access is possible from this session at all** — the
+  Git-import path (done entirely through Vercel's own dashboard, no credentials shared with this
+  session) was the only viable route, and the user completed it themselves.
+- Guessed the deployment URL via `curl` before asking (a couple of plausible `*.vercel.app`
+  patterns) — `https://ark.vercel.app` returned 200 but was a **false positive**: an unrelated
+  project already squatting that name (73-byte response, `last-modified` 12 days old, predating
+  this session entirely). Stopped guessing and asked the user for the real URL rather than keep
+  probing. User supplied the real one directly: **`https://ark-swart.vercel.app`**.
+- Verified it thoroughly via `curl` (this environment still can't run a browser): homepage content
+  matches (hero copy, wordmark, Primer CTA), full route sweep across every page (200s), auth-gated
+  routes correctly 307 to `/sign-in` when signed out, `/control` correctly 404s, and — the
+  strongest signal — `/articles` renders real Supabase-queried content (the filter/sort UI, the
+  live tag list), confirming the `NEXT_PUBLIC_SUPABASE_*` env vars are genuinely working in
+  Vercel's production runtime, not just that pages avoid crashing. This is a more thorough
+  end-to-end check than anything possible against local `next dev` in this environment.
+
+**Current state**: `main` is fully pushed to GitHub. The app is live and verified working at
+`https://ark-swart.vercel.app` (Vercel, connected via their Git integration, auto-deploys on
+every push to `main` going forward). Cloudflare Workers deploy remains blocked on the size limit —
+revisit once the plan-upgrade-vs-bundle-trim decision is actually made; nothing else needs to
+change code-side for Cloudflare once that's resolved, `wrangler.jsonc` already has the right vars
+queued up.
+
+---
+
 ## 2026-08-23 — Home page redesign from a second Gemini spec ("Design 2.pdf")
 
 - User asked to move the deploy target from Cloudflare Workers to Pages. Before doing the work,

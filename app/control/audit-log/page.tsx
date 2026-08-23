@@ -20,7 +20,7 @@ export default async function ControlAuditLogPage() {
   return (
     <div>
       <p className="font-mono text-eyebrow uppercase text-bg/40">Owner only · read-only</p>
-      <h1 className="mt-16 font-serif text-h1 font-light text-bg">Audit log</h1>
+      <h1 className="mt-16 font-serif text-h1 font-medium text-bg">Audit log</h1>
       <p className="mt-8 max-w-measure font-serif text-[14px] text-bg/60">
         Append-only — no UPDATE/DELETE policy exists on this table for anyone, including Owners,
         through the app layer (spec §27).

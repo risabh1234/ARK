@@ -8,7 +8,7 @@ export default function ResetPasswordPage() {
   return (
     <div className="max-w-[480px]">
       <Eyebrow>Account</Eyebrow>
-      <h1 className="mt-16 font-serif text-h1 font-light text-ink">Set a new password</h1>
+      <h1 className="mt-16 font-serif text-h1 font-medium text-ink">Set a new password</h1>
       <div className="mt-32">
         <ChangePasswordForm />
       </div>

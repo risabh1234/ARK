@@ -18,7 +18,7 @@ export default function ResearchPage() {
       <main className="pt-140">
         <Container>
           <Eyebrow>Research</Eyebrow>
-          <h1 className="mt-16 max-w-[16ch] font-serif text-h1 font-light text-ink">
+          <h1 className="mt-16 max-w-[16ch] font-serif text-h1 font-medium text-ink">
             Questions we refused to leave alone.
           </h1>
           <p className="mt-24 max-w-lead font-serif text-reader text-muted">

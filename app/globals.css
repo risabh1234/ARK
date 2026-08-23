@@ -3,10 +3,11 @@
 @tailwind utilities;
 
 :root {
-  /* Rule/hairline opacity, re-based on --color-ink (#23201B) instead of
-     the old dual-mode's --color-bone, since every surface is cream now. */
-  --rule: rgba(35, 32, 27, 0.12);
-  --rule-strong: rgba(35, 32, 27, 0.24);
+  /* Rule/hairline opacity, re-based on --color-ink (#12100B v2 — deepened
+     for contrast, see DEVELOPMENT_LOG.md) instead of the old dual-mode's
+     --color-bone, since every surface is cream now. */
+  --rule: rgba(18, 16, 11, 0.14);
+  --rule-strong: rgba(18, 16, 11, 0.28);
   /* Motion tokens, spec §10 — referenced directly in a few places where
      a Tailwind utility can't express spring/stagger values. */
   --ease-standard: cubic-bezier(0.22, 0.61, 0.36, 1);
@@ -21,8 +22,10 @@
 }
 
 /* The one deliberate exception to the blanket radius-0 reset — the
-   custom cursor (spec §31.2) is meant to read as a circle. */
-.ark-cursor {
+   custom cursor (spec §31.2) is meant to read as a circle/ring, both
+   the dot and its hover-state child. */
+.ark-cursor,
+.ark-cursor * {
   border-radius: 50% !important;
 }
 
@@ -46,14 +49,14 @@ html {
 
 body {
   background: #fbf6ee;
-  color: #23201b;
+  color: #12100b;
   font-family: var(--font-inter), system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
 
 ::selection {
-  background: #b5502f;
+  background: #c43e12;
   color: #fbf6ee;
 }
 
@@ -74,7 +77,7 @@ body {
   top: 0;
   left: 0;
   height: 2px;
-  background: #b5502f;
+  background: #c43e12;
   z-index: 60;
   transform-origin: left;
   width: 100%;
@@ -124,7 +127,7 @@ body {
   inset: -20% -10% auto -10%;
   height: 60vh;
   pointer-events: none;
-  background: radial-gradient(ellipse at 50% 30%, rgba(181, 80, 47, 0.08), transparent 60%);
+  background: radial-gradient(ellipse at 50% 30%, rgba(196, 62, 18, 0.12), transparent 60%);
   animation: hero-glow-drift 26s ease-in-out infinite;
 }
 @keyframes hero-glow-drift {

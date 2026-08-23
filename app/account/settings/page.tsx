@@ -20,7 +20,7 @@ export default async function AccountSettingsPage() {
     <div className="space-y-56">
       <div>
         <Eyebrow>Settings</Eyebrow>
-        <h1 className="mt-16 font-serif text-h1 font-light text-ink">Account settings</h1>
+        <h1 className="mt-16 font-serif text-h1 font-medium text-ink">Account settings</h1>
       </div>
 
       <div className="max-w-[480px] space-y-16">

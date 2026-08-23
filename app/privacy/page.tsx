@@ -18,7 +18,7 @@ export default function PrivacyPage() {
         <section className="pt-140 pb-56">
           <Container>
             <Eyebrow>Privacy</Eyebrow>
-            <h1 className="mt-16 max-w-[16ch] font-serif text-h1 font-light text-ink">
+            <h1 className="mt-16 max-w-[16ch] font-serif text-h1 font-medium text-ink">
               Privacy policy
             </h1>
             <p className="mt-16 font-mono text-[11px] uppercase tracking-[0.2em] text-muted">

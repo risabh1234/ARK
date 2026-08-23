@@ -21,7 +21,7 @@ export default async function NewArticlePage() {
         <Container>
           <div className="mx-auto max-w-measure">
             <Eyebrow>Articles</Eyebrow>
-            <h1 className="mt-16 font-serif text-h1 font-light text-ink">Write an article</h1>
+            <h1 className="mt-16 font-serif text-h1 font-medium text-ink">Write an article</h1>
             <p className="mt-16 font-serif text-body text-muted">
               Drafts are private to you until you publish. Sourcing discipline still applies —
               this isn&rsquo;t a separate, looser register.

@@ -8,5 +8,13 @@
   "assets": {
     "directory": ".open-next/assets",
     "binding": "ASSETS"
+  },
+  "vars": {
+    // Public by design — the Supabase anon key is meant to ship to the
+    // browser (RLS is the real boundary, see TECHNICAL_DOCUMENTATION.md).
+    // Not a secret, safe to commit, same as the account_id above.
+    "NEXT_PUBLIC_SUPABASE_URL": "https://qosdbcvdqtlcinetxdbh.supabase.co",
+    "NEXT_PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFvc2RiY3ZkcXRsY2luZXR4ZGJoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODc0Nzg4MjksImV4cCI6MjEwMzA1NDgyOX0.k6N9R9b8snqeSl7t93VuKiL2sqg0ReWZdXIMTim6vD8",
+    "NEXT_PUBLIC_SITE_URL": "https://ark.harekrishnachaitanya8.workers.dev"
   }
 }

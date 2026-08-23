@@ -25,7 +25,7 @@ export function Footer() {
           <div>
             <Link href="/" className="flex items-center gap-16">
               <Logo height={28} />
-              <span className="font-serif text-[20px] tracking-wide text-bg">ĀRK</span>
+              <span className="font-serif text-[20px] font-semibold tracking-[-0.01em] text-bg">ĀRK</span>
             </Link>
             <p className="mt-16 max-w-[34ch] font-serif text-[15px] text-bg/60">
               Research and intelligence tools. Sources shown, uncertainty declared.

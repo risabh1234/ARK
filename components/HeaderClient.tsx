@@ -38,7 +38,7 @@ export function HeaderClient({
       <div className="mx-auto flex max-w-container items-center justify-between px-24 py-16 md:px-56">
         <Link href="/" className="flex shrink-0 items-center gap-16">
           <Logo height={32} />
-          <span className="font-serif text-[22px] tracking-wide text-ink">ĀRK</span>
+          <span className="font-serif text-[22px] font-semibold tracking-[-0.01em] text-ink">ĀRK</span>
         </Link>
         <nav className="hidden items-center gap-32 lg:flex">
           {NAV.map((item) => (
@@ -55,7 +55,8 @@ export function HeaderClient({
         <div className="flex items-center gap-16">
           <Link
             href="/primer"
-            className="border border-accent-deep px-16 py-8 font-sans text-[15px] text-accent hover:bg-accent/[0.08] transition-colors duration-fast"
+            data-cursor-label="Free"
+            className="border border-accent-deep px-16 py-8 font-sans text-[15px] font-medium text-accent hover:bg-accent hover:text-bg transition-colors duration-fast"
           >
             The Primer
           </Link>

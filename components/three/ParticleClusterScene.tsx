@@ -40,7 +40,7 @@ function ParticleCluster() {
       <bufferGeometry>
         <bufferAttribute attach="attributes-position" args={[positions, 3]} />
       </bufferGeometry>
-      <pointsMaterial color="#B5502F" size={0.035} transparent opacity={0.6} sizeAttenuation />
+      <pointsMaterial color="#C43E12" size={0.035} transparent opacity={0.6} sizeAttenuation />
     </points>
   );
 }

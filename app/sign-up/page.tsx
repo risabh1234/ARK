@@ -19,7 +19,7 @@ export default function SignUpPage() {
         <Container>
           <div className="mx-auto max-w-[420px]">
             <Eyebrow>Account</Eyebrow>
-            <h1 className="mt-16 font-serif text-h1 font-light text-ink">Create an account</h1>
+            <h1 className="mt-16 font-serif text-h1 font-medium text-ink">Create an account</h1>
             <p className="mt-16 font-serif text-body text-muted">
               For writing articles and commenting. Reading the site — briefs, Primer, Docs — never
               requires one.

@@ -40,7 +40,7 @@ export function EmailCapture({
           <path
             d="M4 12.5 L9.5 18 L20 6"
             fill="none"
-            stroke="#B5502F"
+            stroke="#C43E12"
             strokeWidth="2.5"
             strokeLinecap="round"
             strokeLinejoin="round"

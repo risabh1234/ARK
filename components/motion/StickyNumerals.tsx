@@ -16,7 +16,7 @@ export function StickyNumerals({ items }: { items: Item[] }) {
       <div className="hidden lg:block">
         <div className="method-numeral flex flex-col gap-56">
           {items.map((item) => (
-            <span key={item.n} className="font-serif text-h1 font-light text-rule">
+            <span key={item.n} className="font-serif text-h1 font-medium text-rule">
               {item.n}
             </span>
           ))}

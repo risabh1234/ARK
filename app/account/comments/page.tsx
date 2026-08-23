@@ -23,7 +23,7 @@ export default async function MyCommentsPage() {
   return (
     <div>
       <Eyebrow>My Comments</Eyebrow>
-      <h1 className="mt-16 font-serif text-h1 font-light text-ink">My Comments</h1>
+      <h1 className="mt-16 font-serif text-h1 font-medium text-ink">My Comments</h1>
 
       {comments.length === 0 ? (
         <p className="mt-32 font-serif text-body text-muted">No comments yet.</p>

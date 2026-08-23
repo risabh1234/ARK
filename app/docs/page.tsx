@@ -95,7 +95,7 @@ export default function DocsPage() {
         <section className="pt-140 pb-88">
           <Container>
             <Eyebrow>Documentation</Eyebrow>
-            <h1 className="mt-16 max-w-[16ch] font-serif text-h1 font-light text-ink">
+            <h1 className="mt-16 max-w-[16ch] font-serif text-h1 font-medium text-ink">
               How ĀRK works.
             </h1>
             <p className="mt-24 max-w-lead font-serif text-lead font-light text-muted">

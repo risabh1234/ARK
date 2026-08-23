@@ -41,7 +41,7 @@ export default function VisionPage() {
       <main className="pt-140">
         <Container>
           <Eyebrow>Vision</Eyebrow>
-          <h1 className="mt-16 max-w-[16ch] font-serif text-h1 font-light text-ink">
+          <h1 className="mt-16 max-w-[16ch] font-serif text-h1 font-medium text-ink">
             We are building an instrument, and this is the beginning of it.
           </h1>
           <p className="mt-24 max-w-lead font-serif text-lead font-light text-muted">

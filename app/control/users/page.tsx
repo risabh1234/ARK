@@ -17,7 +17,7 @@ export default async function ControlUsersPage() {
   return (
     <div>
       <p className="font-mono text-eyebrow uppercase text-bg/40">User management</p>
-      <h1 className="mt-16 font-serif text-h1 font-light text-bg">Users</h1>
+      <h1 className="mt-16 font-serif text-h1 font-medium text-bg">Users</h1>
       <p className="mt-8 font-mono text-[11px] uppercase tracking-[0.08em] text-bg/40">
         {data?.length ?? 0} total
       </p>

@@ -54,7 +54,7 @@ export default async function ArticlePage({ params }: { params: Params }) {
         <Container>
           <div className="mx-auto max-w-measure">
             {typedArticle.tag && <Eyebrow>{typedArticle.tag}</Eyebrow>}
-            <h1 className="mt-16 font-serif text-h1 font-light text-ink">{typedArticle.title}</h1>
+            <h1 className="mt-16 font-serif text-h1 font-medium text-ink">{typedArticle.title}</h1>
             <div className="mt-24 flex flex-wrap items-center gap-16">
               <p className="font-sans text-[15px] text-muted">
                 {typedArticle.author?.display_name || typedArticle.author?.username || "ĀRK reader"}

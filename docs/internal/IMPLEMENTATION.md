@@ -92,23 +92,43 @@ or a new one opens — don't let this drift into aspirational fiction.
 
 ## Deployment
 
-- ✅ **Manual Cloudflare Workers deploy** — `npm run deploy` works, verified live at
-  `ark.harekrishnachaitanya8.workers.dev` (all 7 routes 200).
-- ✅ **Automated deploy on push** — `.github/workflows/deploy.yml`, added 2026-08-23. Needs the
-  `CLOUDFLARE_API_TOKEN` GitHub Actions secret to actually run (not yet confirmed set).
-- ❌ **Runtime secrets not set on the Worker.** `DATABASE_URL` / `RESEND_API_KEY` aren't
-  configured via `wrangler secret put`, so the *deployed* site's forms currently no-op the same
-  way local dev without env vars does — they don't error, they just don't persist anything.
+**Current live URL: `https://ark-swart.vercel.app` (Vercel).** Verified thoroughly 2026-08-23 —
+full route sweep, auth-gated redirects, and a live Supabase-backed page (`/articles`) all
+confirmed working in production. Vercel is connected via their dashboard's native GitHub
+integration (done by the user directly, not from this session) and auto-deploys on every push to
+`main`. Explicitly framed by the user as "for now, just for viewing" — not necessarily the final
+answer on hosting; revisit deliberately, don't assume it's permanent.
+
+- ✅ **GitHub**: fully up to date, `main` pushed through commit `802f833` (the full Phase 1–10
+  redesign+backend build) and everything since.
+- ❌ **Cloudflare Workers deploy is currently blocked**, not working — `npm run deploy` fails
+  because the OpenNext server bundle exceeds Cloudflare's free-tier 3MiB compressed-script limit
+  (a real rejection from Cloudflare's API, not a local guess). Caused by this session's new heavy
+  client dependencies (three.js/R3F, Tiptap, Supabase). User chose to upgrade to Cloudflare's paid
+  plan to fix it, but that requires them to authorize billing directly on Cloudflare's dashboard —
+  no tool in this session can do that, and it hasn't happened yet. `wrangler.jsonc` already has
+  the `NEXT_PUBLIC_SUPABASE_*`/`NEXT_PUBLIC_SITE_URL` vars queued up for whenever that deploy is
+  retried, so nothing else should need to change code-side. See `DEVELOPMENT_LOG.md`'s
+  2026-08-23 "Deploy" entry for the full investigation.
+- ❌ **Fastly was investigated and ruled out as a host for this app.** User asked to move to
+  Fastly entirely; researched it (their Next.js adapter caps at v13.4.6, never supported the App
+  Router, and was archived 2026-08-11) and reported back rather than attempting a doomed
+  migration — not viable without rewriting the backend against a three-year-old, now-unmaintained
+  adapter. Not revisited unless something about Fastly's platform fundamentally changes.
+- ⚠️ **A real password was pasted into chat during the Fastly discussion** (the user's Fastly
+  account password). Not used for anything — flagged immediately, user was told to rotate it.
+  Worth remembering: this environment cannot safely use raw account passwords for any service:
+  no browser, and even where a CLI/API exists, a scoped token is the correct mechanism, never a
+  password.
+- ❌ **Runtime secrets not set for the legacy Drizzle tables** (`DATABASE_URL` / `RESEND_API_KEY`)
+  on either Vercel or Cloudflare — the Primer/newsletter/commission forms still no-op the same way
+  local dev without env vars does. Unrelated to the Supabase-backed auth/articles/admin system,
+  which *is* fully configured and live.
 - ❌ **A Cloudflare Pages project connected to this repo will always fail its own build** — it's
   the wrong product for an OpenNext/Workers app. Not a bug to fix; disconnect it or ignore its
   failing checks. See TECHNICAL_DOCUMENTATION.md § Cloudflare deploy for the full diagnosis.
-- ❓ **Open, unresolved: user asked to move the deploy target to Pages instead of Workers**
-  (2026-08-23). Asked a clarifying question about the real cost (dropping OpenNext, Edge Runtime
-  required on every dynamic route, abandoning the working Workers deploy); the user didn't
-  answer it and moved to an unrelated task instead. **Do not treat this as decided in either
-  direction** — the Workers deploy above is still the one that works and is live, but the user's
-  stated preference for Pages hasn't been walked back either. Ask again before assuming, next
-  time it's relevant.
+- ❓ Whether Cloudflare, Vercel, or something else is the long-term host is still genuinely open —
+  don't assume either direction. Ask before treating one as final.
 
 ## Phase 2 (spec explicitly says: do not build yet) — still not built, as intended
 

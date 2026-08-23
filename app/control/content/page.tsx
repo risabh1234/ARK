@@ -26,7 +26,7 @@ export default async function ControlContentPage() {
     <div className="space-y-56">
       <div>
         <p className="font-mono text-eyebrow uppercase text-bg/40">Moderation</p>
-        <h1 className="mt-16 font-serif text-h1 font-light text-bg">Content</h1>
+        <h1 className="mt-16 font-serif text-h1 font-medium text-bg">Content</h1>
         <p className="mt-8 max-w-measure font-serif text-[14px] text-bg/60">
           No report-flagging UI is built yet (spec §22 mentions it as an option, not a hard
           requirement) — this is direct search/browse across all content, newest first, with a
