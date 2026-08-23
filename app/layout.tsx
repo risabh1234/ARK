@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
 import { Fraunces, Inter } from "next/font/google";
-import { Cursor } from "@/components/Cursor";
-import { SmoothScroll } from "@/components/motion/SmoothScroll";
 import "./globals.css";
 
 // Variable fonts — no `weight` array, so next/font serves the full
@@ -41,8 +39,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" className={`${fraunces.variable} ${inter.variable}`}>
       <body>
         <div className="grain" aria-hidden="true" />
-        <SmoothScroll />
-        <Cursor />
         {children}
       </body>
     </html>

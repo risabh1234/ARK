@@ -340,6 +340,86 @@ queued up.
 
 ---
 
+## 2026-08-23 — "Too much sattva guna": a second, harder visual pass
+
+First round of "make it more premium" (the earlier same-day entry above) wasn't enough — user came
+back with "looks cheap" again, this time with a large pasted design brief plus their own direction
+on top of it.
+
+**The pasted brief was written for a different project.** It's addressed to "Risabh," with
+sections like Lab, Notes/journal, an About page with a personal bio/timeline, and case studies
+("Space Archaeology," "ISKCON IIT Centre," "Salesforce Systems," GIS/LiDAR work) — none of which
+exists for ĀRK, a research/intelligence-tools company, not a personal portfolio. Flagged this
+directly rather than either ignoring it or fabricating fake content to match. Asked the user to
+confirm scope; they agreed: **apply the design philosophy to ĀRK's real pages, skip the fictional
+sections.** Several of the brief's specific suggestions (command-K palette, opening
+"SYSTEM INITIALIZING" splash animation, a live status pulse, a fabricated "CURRENTLY building X%"
+progress widget) were skipped for a second reason too — they directly conflict with brand rules
+already established this session in `DOCUMENTATION.md` (no gimmicks, no fake status theatre,
+"loading is a moment, not a spinner").
+
+The user's own correction at the end of their message was the part actually written for ĀRK, and
+is what got implemented: **"Rajo Guna luxury-tech,"explicitly not dark mode** (their own words:
+dark/black would push it toward Tamas — heavy, underground, cyberpunk; they want Rajas — bright,
+active, luxurious, energetic, achieved through contrast/typography/density/motion, not a black
+background). Exact palette supplied and used verbatim:
+
+| Token | Old (previous pass) | New |
+|---|---|---|
+| `bg` | `#FBF6EE` | `#F6F1E8` |
+| `bg-raised` | `#F6EEE3` | `#FBF9F4` |
+| `ink` | `#12100B` | `#171512` |
+| `muted` | `#5C564B` | `#625E57` |
+| `accent` | `#C43E12` | `#D94A16` |
+| `accent-deep` | `#8F2A0C` | `#B83A0E` |
+| `rule` | `#D8CFC0` | `#D8D0C3` |
+| `ink-dark` | `#0B0906` | `#1A1610` (warmed — less "black screen," more rich near-black) |
+| `gold` (new) | — | `#B58A45` — restrained secondary accent, not yet used anywhere; reserved for a future sparing detail per the brief's "not both signal colors at once" instruction |
+
+Applied the density/hierarchy philosophy pieces that map onto real ĀRK content: `BriefRow.tsx`
+(Research's catalogue) rebuilt as a numbered index row (giant serif numeral using the brief's
+existing `001`/`002` ids, thin dividers) instead of a plain title+meta row — a direct, honest
+application of the brief's "01 / PROJECT" pattern using data that's actually real, not invented.
+
+**Two concrete, unambiguous asks, both done:**
+- **"Change the cursor to normal cursor"** — deleted `components/Cursor.tsx` entirely (the
+  mix-blend-mode dot/ring built in the previous pass), removed its mount from `app/layout.tsx`
+  and its CSS (`cursor: none` rules, the `.ark-cursor` radius exception). Back to the OS default
+  pointer everywhere.
+- **"The website is damn slow"** — investigated rather than guessed. Measured real response times
+  against the live Vercel deployment (`curl -w %{time_total}`): most routes ~0.6–0.85s warm, one
+  ~3.3s reading turned out to be a Vercel serverless cold-start on the first hit of the session,
+  not a real steady-state problem (confirmed by immediately re-running — dropped to ~0.7–0.8s).
+  Found two real, fixable contributors instead:
+  1. **Lenis smooth-scroll was adding artificial inertia to every scroll** — the literal opposite
+     of the "fast, purposeful, responsive" motion the user asked for in the same message. Deleted
+     `components/motion/SmoothScroll.tsx` and its mount; native scroll is faster and has zero JS
+     cost. Also removed the now-fully-unused `@react-three/drei` dependency (confirmed via grep
+     that nothing ever imported from it) — 35 packages removed total, incidentally also helps the
+     still-open Cloudflare Workers bundle-size problem.
+  2. **Every single page was blocking its entire response on a Supabase round-trip that only the
+     header's small avatar corner needed.** `Header.tsx` was an `async` Server Component doing
+     `getSessionProfile()` (an `auth.getUser()` call plus a `profiles` table query) before
+     anything else in the page could render — this is what forced every route to `ƒ` dynamic
+     rendering back in Phase 5, and it was a real, uncompensated latency cost on every request,
+     not just an academic rendering-mode label. Fixed by splitting it: `Header.tsx` is sync again
+     and renders the shell (logo, nav, Primer pill) with zero data dependency;
+     `HeaderSessionCorner.tsx` (new) does the actual Supabase lookup and is wrapped in
+     `<Suspense fallback={<Sign in>}>` inside `HeaderClient.tsx`. Routes are still classified
+     dynamic (Next.js marks the whole route dynamic wherever `cookies()` is used, Suspense
+     boundaries don't change that classification) — but React can now stream the static shell and
+     the rest of the page immediately while the auth check resolves in parallel, instead of
+     holding the entire response hostage to it. This is the actual fix; the dynamic-vs-static
+     label was never the real problem.
+
+Verified via `typecheck`, `next build` (clean), and a full `next dev` + `curl` route sweep
+(all 200s, zero console errors) before committing. Visual quality itself — whether the new
+palette/density genuinely reads as "Rajo Guna luxury-tech" rather than merely "different" — is
+still not confirmed with an actual browser, per the standing limitation; only structural/functional
+correctness is verified here.
+
+---
+
 ## 2026-08-23 — Home page redesign from a second Gemini spec ("Design 2.pdf")
 
 - User asked to move the deploy target from Cloudflare Workers to Pages. Before doing the work,

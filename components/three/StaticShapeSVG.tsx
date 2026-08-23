@@ -6,7 +6,7 @@
 export function StaticIcosahedronSVG() {
   return (
     <svg viewBox="0 0 200 200" className="mx-auto h-full max-h-[280px] w-auto" aria-hidden="true">
-      <g fill="none" stroke="#C43E12" strokeWidth="1" opacity="0.5">
+      <g fill="none" stroke="#D94A16" strokeWidth="1" opacity="0.5">
         <polygon points="100,20 160,60 160,140 100,180 40,140 40,60" />
         <polygon points="100,20 40,60 100,100" />
         <polygon points="100,20 160,60 100,100" />
@@ -27,13 +27,13 @@ export function StaticParticleClusterSVG() {
   ];
   return (
     <svg viewBox="0 0 200 200" className="mx-auto h-full max-h-[280px] w-auto" aria-hidden="true">
-      <g stroke="#C43E12" strokeWidth="0.6" opacity="0.35">
+      <g stroke="#D94A16" strokeWidth="0.6" opacity="0.35">
         {dots.slice(1).map(([x, y], i) => (
           <line key={i} x1={dots[0][0]} y1={dots[0][1]} x2={x} y2={y} />
         ))}
       </g>
       {dots.map(([x, y], i) => (
-        <circle key={i} cx={x} cy={y} r={i === 0 ? 4 : 2.5} fill="#C43E12" opacity={i === 0 ? 0.7 : 0.45} />
+        <circle key={i} cx={x} cy={y} r={i === 0 ? 4 : 2.5} fill="#D94A16" opacity={i === 0 ? 0.7 : 0.45} />
       ))}
     </svg>
   );

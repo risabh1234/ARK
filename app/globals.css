@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 :root {
-  /* Rule/hairline opacity, re-based on --color-ink (#12100B v2 — deepened
+  /* Rule/hairline opacity, re-based on --color-ink (#171512 v2 — deepened
      for contrast, see DEVELOPMENT_LOG.md) instead of the old dual-mode's
      --color-bone, since every surface is cream now. */
   --rule: rgba(18, 16, 11, 0.14);
@@ -21,43 +21,22 @@
   border-radius: 0 !important;
 }
 
-/* The one deliberate exception to the blanket radius-0 reset — the
-   custom cursor (spec §31.2) is meant to read as a circle/ring, both
-   the dot and its hover-state child. */
-.ark-cursor,
-.ark-cursor * {
-  border-radius: 50% !important;
-}
-
-/* Hide the native cursor only once the custom one is actually mounted
-   (Cursor.tsx doesn't render at all on touch/coarse-pointer devices, so
-   this rule only ever applies alongside a working replacement). */
-@media (hover: hover) and (pointer: fine) {
-  html:has(.ark-cursor) {
-    cursor: none;
-  }
-  html:has(.ark-cursor) a,
-  html:has(.ark-cursor) button {
-    cursor: none;
-  }
-}
-
 html {
-  background: #fbf6ee;
+  background: #f6f1e8;
   color-scheme: light;
 }
 
 body {
-  background: #fbf6ee;
-  color: #12100b;
+  background: #f6f1e8;
+  color: #171512;
   font-family: var(--font-inter), system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
 
 ::selection {
-  background: #c43e12;
-  color: #fbf6ee;
+  background: #d94a16;
+  color: #f6f1e8;
 }
 
 /* fixed, non-scrolling monochrome grain — 2-3% opacity, kills flat hex fill */
@@ -77,7 +56,7 @@ body {
   top: 0;
   left: 0;
   height: 2px;
-  background: #c43e12;
+  background: #d94a16;
   z-index: 60;
   transform-origin: left;
   width: 100%;

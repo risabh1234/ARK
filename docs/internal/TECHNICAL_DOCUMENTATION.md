@@ -44,7 +44,12 @@ app/
     commission/route.ts    POST — Studio form → commission_request table
 
 components/
-  Header.tsx, Footer.tsx   chrome — see "Nav" below for the 3→4 item deviation
+  Header.tsx               sync server shell (logo, nav, Primer pill) — no data dependency
+  HeaderSessionCorner.tsx  the actual Supabase session lookup, wrapped in <Suspense> by
+                            Header.tsx so it streams independently rather than blocking the
+                            whole page — see DEVELOPMENT_LOG.md's "damn slow" fix, 2026-08-23
+  HeaderClient.tsx         client-side scroll behavior, renders whatever sessionSlot it's given
+  Footer.tsx               chrome — see "Nav" below for the 3→4 item deviation
   Logo.tsx                 the animated mark — server component, pure CSS. Paired with the "ĀRK"
                             wordmark in Header.tsx/Footer.tsx as of 2026-08-23 (was icon-only for
                             one day; see DEVELOPMENT_LOG.md)
@@ -148,21 +153,27 @@ reading-progress line).
 
 ### Colour
 
-**Retokenized 2026-08-23** to `ARK_Redesign_Specification.md` §6 — one cream/terracotta system
-everywhere, replacing the former dark "ink" (home/studio/vision) vs. light "paper" (briefs/
-Primer/docs/privacy) dual mode. `DOCUMENTATION.md`'s "instrument vs. reader" framing is retired;
-don't reintroduce a dark page ground without a fresh, explicit instruction.
+**Retokenized twice on 2026-08-23.** First pass: one cream/terracotta system everywhere,
+replacing the former dark "ink" (home/studio/vision) vs. light "paper" (briefs/Primer/docs/
+privacy) dual mode (`DOCUMENTATION.md`'s "instrument vs. reader" framing is retired — don't
+reintroduce a dark page ground without a fresh, explicit instruction). Second pass, same day,
+after user feedback that the first pass still read as "cheap": pushed to a "Rajo Guna
+luxury-tech" direction — explicitly **not** dark mode (that reads as Tamas/generic dark developer
+portfolio, rejected on purpose) — via higher contrast, a hotter accent, and much bolder/denser
+typography rather than a black background. See `DEVELOPMENT_LOG.md`'s "too much sattva guna"
+entry for the full reasoning and exact before/after hex table.
 
 | Token | Hex | Use |
 |---|---|---|
-| `bg` | `#FBF6EE` | Page background everywhere |
-| `bg-raised` | `#F6EEE3` | Cards, raised sections |
-| `ink` | `#23201B` | Primary text (note: no longer a background token — this was the dark page-ground color pre-redesign) |
-| `muted` | `#6B6459` | Secondary text, captions, meta |
-| `accent` | `#B5502F` | Terracotta — links, CTAs, the only accent |
-| `accent-deep` | `#8A3B22` | Accent hover/active |
-| `rule` | `#D8CFC0` | Hairline borders, dividers |
-| `ink-dark` | `#141210` | The one remaining dark surface — the footer only |
+| `bg` | `#F6F1E8` | Page background everywhere |
+| `bg-raised` | `#FBF9F4` | Cards, raised sections |
+| `ink` | `#171512` | Primary text (note: no longer a background token — this was the dark page-ground color pre-redesign) |
+| `muted` | `#625E57` | Secondary text, captions, meta |
+| `accent` | `#D94A16` | Signal orange — links, CTAs, the only primary accent |
+| `accent-deep` | `#B83A0E` | Accent hover/active |
+| `gold` | `#B58A45` | Restrained secondary accent — reserved, not yet used anywhere. Use sparingly if at all; the brief this came from was explicit about not running two accent colors at once |
+| `rule` | `#D8D0C3` | Hairline borders, dividers |
+| `ink-dark` | `#1A1610` | The one remaining dark surface — the footer, and the Home page's full-bleed poster section |
 
 Elevation is a fixed 4-level shadow scale (`shadow-1`…`shadow-4` in `tailwind.config.ts`,
 spec §9) — cards at rest use level 1, hover level 2, the scrolled sticky header level 4. Rules

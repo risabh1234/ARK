@@ -26,7 +26,7 @@ function Icosahedron() {
   return (
     <mesh ref={mesh}>
       <icosahedronGeometry args={[1.6, 0]} />
-      <meshBasicMaterial color="#C43E12" wireframe transparent opacity={0.5} />
+      <meshBasicMaterial color="#D94A16" wireframe transparent opacity={0.5} />
     </mesh>
   );
 }

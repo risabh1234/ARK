@@ -5,21 +5,23 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // ĀRK design tokens v2 — pushed for contrast/weight after the
-        // user flagged v1 as reading "cheap"/too soft. Same cream base
-        // (matches the actual Mona Sans page, which is white/black, not
-        // dark) but much higher contrast: near-black ink, a hotter,
-        // more saturated accent. See DEVELOPMENT_LOG.md.
-        bg: "#FBF6EE",
-        "bg-raised": "#F6EEE3",
-        ink: "#12100B",
-        muted: "#5C564B",
+        // ĀRK design tokens v3 — "Rajo Guna luxury-tech" direction,
+        // user's own exact palette. Deliberately NOT a dark-mode-primary
+        // site (that reads as Tamas/generic dark developer portfolio —
+        // explicitly rejected). Warm ivory base stays primary; contrast,
+        // density and typographic scale carry the "expensive" feeling
+        // instead of a black background. See DEVELOPMENT_LOG.md.
+        bg: "#F6F1E8",
+        "bg-raised": "#FBF9F4",
+        ink: "#171512",
+        muted: "#625E57",
         accent: {
-          DEFAULT: "#C43E12",
-          deep: "#8F2A0C",
+          DEFAULT: "#D94A16",
+          deep: "#B83A0E",
         },
-        rule: "#D8CFC0",
-        "ink-dark": "#0B0906",
+        gold: "#B58A45",
+        rule: "#D8D0C3",
+        "ink-dark": "#1A1610",
       },
       fontFamily: {
         serif: ["var(--font-fraunces)", "Georgia", "serif"],

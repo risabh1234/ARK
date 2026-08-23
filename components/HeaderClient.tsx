@@ -15,11 +15,7 @@ const NAV = [
   { href: "/docs", label: "Docs" },
 ] as const;
 
-export function HeaderClient({
-  session,
-}: {
-  session: { email: string; username: string; role: string } | null;
-}) {
+export function HeaderClient({ sessionSlot }: { sessionSlot: React.ReactNode }) {
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -55,38 +51,11 @@ export function HeaderClient({
         <div className="flex items-center gap-16">
           <Link
             href="/primer"
-            data-cursor-label="Free"
             className="border border-accent-deep px-16 py-8 font-sans text-[15px] font-medium text-accent hover:bg-accent hover:text-bg transition-colors duration-fast"
           >
             The Primer
           </Link>
-          {session ? (
-            <div className="hidden items-center gap-8 md:flex">
-              {(session.role === "owner" || session.role === "admin" || session.role === "moderator") && (
-                <Link
-                  href="/control"
-                  className="font-mono text-[11px] uppercase tracking-[0.1em] text-muted hover:text-accent transition-colors duration-fast"
-                >
-                  Control
-                </Link>
-              )}
-              <Link
-                href="/account"
-                className="flex h-32 w-32 items-center justify-center border border-rule font-sans text-[13px] font-medium text-ink hover:border-accent-deep transition-colors duration-fast"
-                aria-label="Account"
-                title={session.username}
-              >
-                {session.username.charAt(0).toUpperCase()}
-              </Link>
-            </div>
-          ) : (
-            <Link
-              href="/sign-in"
-              className="hidden font-sans text-[15px] text-muted hover:text-ink transition-colors duration-fast md:block"
-            >
-              Sign in
-            </Link>
-          )}
+          {sessionSlot}
         </div>
       </div>
     </header>

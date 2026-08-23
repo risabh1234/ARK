@@ -1,22 +1,31 @@
-import { getSessionProfile } from "@/lib/supabase/session";
+import { Suspense } from "react";
 import { HeaderClient } from "./HeaderClient";
+import { HeaderSessionCorner } from "./HeaderSessionCorner";
 
 /**
- * Server wrapper — reads the session server-side (spec §20.3) so the
- * header never flashes "Sign in" before swapping to the avatar menu.
- * Every existing `<Header />` call site gets this for free, no prop
- * threading required.
+ * Sync server wrapper — the header shell (logo, nav, Primer pill)
+ * renders immediately with no data dependency. Only the avatar/sign-in
+ * corner waits on Supabase, and it's wrapped in Suspense so that wait
+ * doesn't block the rest of the page from streaming out. Falls back to
+ * "Sign in" while resolving — never a wrong-state flash, since the
+ * fallback and the signed-out result render identically.
  */
-export async function Header() {
-  const session = await getSessionProfile();
-
+export function Header() {
   return (
     <HeaderClient
-      session={
-        session
-          ? { email: session.email, username: session.profile.username, role: session.profile.role }
-          : null
+      sessionSlot={
+        <Suspense fallback={<HeaderSessionFallback />}>
+          <HeaderSessionCorner />
+        </Suspense>
       }
     />
+  );
+}
+
+function HeaderSessionFallback() {
+  return (
+    <span className="hidden font-sans text-[15px] text-muted md:block" aria-hidden="true">
+      Sign in
+    </span>
   );
 }
