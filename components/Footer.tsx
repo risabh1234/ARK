@@ -1,46 +1,48 @@
 import Link from "next/link";
 import { Logo } from "./Logo";
 import { EmailCapture } from "./EmailCapture";
+import { AudioToggle } from "./AudioToggle";
 
-const WORK = [
+// Spec §11.2 — four columns: identity, Explore, Company, Newsletter.
+const EXPLORE = [
   { href: "/research", label: "Research" },
   { href: "/studio", label: "Studio" },
   { href: "/vision", label: "Vision" },
-  { href: "/primer", label: "The Primer" },
+  { href: "/library", label: "Library" },
+  { href: "/articles", label: "Articles" },
 ] as const;
 
-const METHOD = [
-  { href: "/docs", label: "Docs & framework" },
+const COMPANY = [
+  { href: "/docs", label: "Docs" },
   { href: "/privacy", label: "Privacy" },
 ] as const;
 
 export function Footer() {
   return (
-    <footer className="rule-h pt-88 pb-56">
+    <footer className="bg-ink-dark pt-88 pb-56 text-bg">
       <div className="mx-auto max-w-container px-24 md:px-56">
-        <div className="max-w-lead">
-          <EmailCapture source="footer" />
-        </div>
-
-        <div className="mt-88 grid gap-56 md:grid-cols-[1.3fr_1fr_1fr]">
+        <div className="grid gap-56 md:grid-cols-[1.3fr_1fr_1fr_1.3fr]">
           <div>
             <Link href="/" className="flex items-center gap-16">
               <Logo height={28} />
-              <span className="font-serif text-[20px] tracking-wide text-bone">ĀRK</span>
+              <span className="font-serif text-[20px] tracking-wide text-bg">ĀRK</span>
             </Link>
-            <p className="mt-16 max-w-[34ch] font-serif text-[15px] text-ash">
+            <p className="mt-16 max-w-[34ch] font-serif text-[15px] text-bg/60">
               Research and intelligence tools. Sources shown, uncertainty declared.
+            </p>
+            <p className="mt-24 font-mono text-eyebrow uppercase text-bg/40">
+              © 2026 ĀRK. All rights reserved.
             </p>
           </div>
 
           <nav>
-            <p className="font-mono text-eyebrow uppercase text-ash">Work</p>
+            <p className="font-mono text-eyebrow uppercase text-bg/40">Explore</p>
             <ul className="mt-16 space-y-12">
-              {WORK.map((item) => (
+              {EXPLORE.map((item) => (
                 <li key={item.href}>
                   <Link
                     href={item.href}
-                    className="font-sans text-[15px] text-bone hover:text-copper transition-colors duration-150"
+                    className="font-sans text-[15px] text-bg/80 hover:text-accent transition-colors duration-fast"
                   >
                     {item.label}
                   </Link>
@@ -50,13 +52,13 @@ export function Footer() {
           </nav>
 
           <nav>
-            <p className="font-mono text-eyebrow uppercase text-ash">Method</p>
+            <p className="font-mono text-eyebrow uppercase text-bg/40">Company</p>
             <ul className="mt-16 space-y-12">
-              {METHOD.map((item) => (
+              {COMPANY.map((item) => (
                 <li key={item.href}>
                   <Link
                     href={item.href}
-                    className="font-sans text-[15px] text-bone hover:text-copper transition-colors duration-150"
+                    className="font-sans text-[15px] text-bg/80 hover:text-accent transition-colors duration-fast"
                   >
                     {item.label}
                   </Link>
@@ -64,6 +66,20 @@ export function Footer() {
               ))}
             </ul>
           </nav>
+
+          <div>
+            <p className="font-mono text-eyebrow uppercase text-bg/40">Newsletter</p>
+            <div className="mt-16">
+              <EmailCapture source="footer" dark />
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-56 flex flex-wrap items-center justify-between gap-16 border-t border-bg/10 pt-24">
+          <p className="font-mono text-eyebrow uppercase text-bg/40">
+            ĀRK · Research and intelligence tools · India
+          </p>
+          <AudioToggle />
         </div>
       </div>
     </footer>

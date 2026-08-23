@@ -15,7 +15,7 @@ export function Logo({ height = 40, className = "" }: { height?: number; classNa
       role="img"
       aria-label="ĀRK"
     >
-      <g fill="none" stroke="#8E8B85" strokeWidth="2" strokeLinecap="round">
+      <g fill="none" stroke="#6B6459" strokeWidth="2" strokeLinecap="round">
         <path className="ark-draw ark-earth" pathLength={1} d="M100,152 Q58,157 20,146" />
         <path className="ark-draw ark-earth" pathLength={1} d="M100,152 Q142,157 180,146" />
       </g>
@@ -26,20 +26,20 @@ export function Logo({ height = 40, className = "" }: { height?: number; classNa
         cy="76"
         r="58"
         fill="none"
-        stroke="#C4694A"
+        stroke="#B5502F"
         strokeWidth="1.5"
         transform="rotate(-90 100 76)"
       />
-      <g fill="none" stroke="#F5F3EF" strokeWidth="5" strokeLinecap="square">
+      <g fill="none" stroke="#23201B" strokeWidth="5" strokeLinecap="square">
         <path className="ark-draw ark-leg" pathLength={1} d="M52,148 L88,76" />
         <path className="ark-draw ark-leg" pathLength={1} d="M148,148 L112,76" />
       </g>
-      <polygon className="ark-plate" points="80,76 120,76 113,65 87,65" fill="#F5F3EF" />
-      <circle className="ark-star-glow" cx="100" cy="46" r="20" fill="#C4694A" />
+      <polygon className="ark-plate" points="80,76 120,76 113,65 87,65" fill="#23201B" />
+      <circle className="ark-star-glow" cx="100" cy="46" r="20" fill="#B5502F" />
       <polygon
         className="ark-star-core"
         points="100,22 105,37 120,42 105,47 100,62 95,47 80,42 95,37"
-        fill="#E08A66"
+        fill="#CD7350"
       />
     </svg>
   );

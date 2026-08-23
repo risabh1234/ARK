@@ -98,6 +98,15 @@ section — keep that section's claims true against this list if either changes)
 - One CTA per screen — two choices is hesitation, not choice.
 - Loading is a moment, not a spinner — reveal once, then leave the reader alone.
 
+## Visual identity — retired dual-mode (2026-08-23)
+
+The "ink" (dark, home/studio/vision — "the instrument") vs. "paper" (light, briefs/Primer/docs —
+"the reader") split described implicitly by earlier sessions is **retired**, at the user's
+explicit direction, in favor of a single cream/terracotta system across every page (see
+`ARK_Redesign_Specification.md` §6 and `TECHNICAL_DOCUMENTATION.md`'s Colour section). This is a
+visual-system change, not a positioning change — the brand voice rules below are untouched.
+Don't reintroduce a dark page ground without a fresh, explicit instruction to do so.
+
 ## Home page structure (current, as of 2026-08-23)
 
 The home page has been through two spec iterations — the original `Design.pdf` build, then a

@@ -1,3 +1,5 @@
+export type Topic = "Desire" | "Aesthetics" | "Identity" | "History" | "Epistemology";
+
 export type Brief = {
   id: string;
   slug: string;
@@ -9,6 +11,7 @@ export type Brief = {
   priceINR: number;
   priceUSD: number;
   unresolved: string[];
+  topic?: Topic;
   provocation?: string;
   whatIsInside?: string[];
   sampleHeading?: string;
@@ -21,6 +24,7 @@ export const briefs: Brief[] = [
     slug: "the-architecture-of-desire",
     title: "The Architecture of Desire",
     dek: "Why getting what you wanted did not settle anything — and the four-part model of human aims that explains it.",
+    topic: "Desire",
     status: "available",
     pages: 48,
     sources: 63,
@@ -51,6 +55,7 @@ export const briefs: Brief[] = [
     slug: "the-myth-of-the-pure-aesthetic",
     title: "The Myth of the Pure Aesthetic",
     dek: "Purity was never about the surface. What the claim actually is, and why every tradition got it backwards in practice.",
+    topic: "Aesthetics",
     status: "queued",
     pages: 0,
     sources: 0,
@@ -63,6 +68,7 @@ export const briefs: Brief[] = [
     slug: "seven-years-of-cells",
     title: "Seven Years of Cells",
     dek: "Your matter was replaced. Your memory was not. Identity, biology, and the persistence problem.",
+    topic: "Identity",
     status: "queued",
     pages: 0,
     sources: 0,
@@ -75,6 +81,7 @@ export const briefs: Brief[] = [
     slug: "can-vimanas-fly",
     title: "Can Vimānas Fly?",
     dek: "Seventeen primary sources on ancient flight, an aerospace engineer, and an honest verdict.",
+    topic: "History",
     status: "queued",
     pages: 0,
     sources: 0,
@@ -87,6 +94,7 @@ export const briefs: Brief[] = [
     slug: "how-to-know-anything",
     title: "How to Know Anything",
     dek: "Testimony, inference, perception — the classical machinery of valid knowledge, taught as a usable tool.",
+    topic: "Epistemology",
     status: "queued",
     pages: 0,
     sources: 0,

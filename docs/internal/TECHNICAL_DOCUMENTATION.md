@@ -8,9 +8,13 @@ If this drifts from reality, trust the code and fix this file, not the other way
 | Layer | Choice | Why |
 |---|---|---|
 | Framework | Next.js 15, App Router, TypeScript | Prescribed by the source spec ("carried over, nothing new to learn"). |
-| Styling | Tailwind CSS v3, hand-authored design tokens | Exact colour/type/spacing values came from the spec's colour-system and typography pages; Tailwind's `theme.extend` maps 1:1 onto them. |
-| Fonts | `next/font/google` — Spectral, Geist, Geist Mono | All three ship on Google Fonts now; no separate `geist` npm package needed. |
-| Database | Postgres (Supabase-hosted) via `drizzle-orm` + `postgres` (postgres-js driver) | Spec-prescribed. Not using `@supabase/supabase-js` — plain Drizzle against the connection string is simpler for three tables and no auth/realtime needs. |
+| Styling | Tailwind CSS v3, hand-authored design tokens | 2026-08-23: retokenized to `ARK_Redesign_Specification.md` §6–10 (single cream/terracotta theme, replacing the former dark "ink"/light "paper" dual mode). Tailwind's `theme.extend` still maps 1:1 onto the token tables. |
+| Fonts | `next/font/google` — Fraunces Variable (serif/display), Inter Variable (sans/UI) | Swapped 2026-08-23 from Spectral/Geist/Geist Mono per the redesign spec's §7.1 pairing. Loaded with no fixed `weight` array so the true variable-axis file ships (needed for the scroll-tied weight interpolation on the home hero, §30.1). |
+| Motion | `framer-motion` | Scroll reveals (`whileInView` + stagger), the hero's word-stagger + scroll-tied `font-variation-settings`, the Research filter bar's spring-in active pill. Added 2026-08-23. |
+| 3D | `three` + `@react-three/fiber` + `@react-three/drei` | One abstract wireframe/particle form per page (Vision, Library), lazy-mounted in-viewport only, static SVG fallback under `prefers-reduced-motion`/no-WebGL. See `components/three/`. Added 2026-08-23. |
+| Database (legacy tables) | Postgres (Supabase-hosted) via `drizzle-orm` + `postgres` (postgres-js driver) | `subscriber`, `order`, `commission_request` — no RLS, no per-user ownership, so a plain Drizzle connection is fine. |
+| Database (auth-owned tables) | Supabase (`@supabase/supabase-js` + `@supabase/ssr`) | `profiles`, `articles`, `comments`, `admin_audit_log` — RLS-protected, keyed to `auth.uid()`. **Must** go through Supabase's connection path (PostgREST/`supabase-js`, running as `anon`/`authenticated`), never the Drizzle connection, which authenticates as a role that would silently bypass RLS. Project: `ark`, ref `qosdbcvdqtlcinetxdbh`, `ap-south-1`, free tier — dedicated to ĀRK, separate from any other project on this account. See `DEVELOPMENT_LOG.md`'s 2026-08-23 "Phase 5" entry for how the RLS policies were actually tested (a real role-escalation bug was caught and fixed this way — re-test any future policy change the same way, `get_advisors` alone did not catch it). |
+| Rich text | `@tiptap/react` + `@tiptap/starter-kit` + link/image extensions | Article composer body editor, output as JSON matching `articles.body_richtext jsonb`. Sanitized server-side before render (`isomorphic-dompurify`) per the spec's XSS requirement (§33). |
 | Email | `resend` | Spec-prescribed, for the Primer letter / future 5-letter sequence. |
 | Hosting | Cloudflare Workers via `@opennextjs/cloudflare` + `wrangler` | Spec-prescribed. See "Cloudflare deploy" below — this is not a plain `next build`. |
 | Payments (scaffolded, not wired) | Razorpay (India) / Stripe (rest of world) | Env vars reserved in `.env.example`; no checkout flow implemented yet. |
@@ -30,7 +34,10 @@ app/
   studio/page.tsx          /studio             commission tiers + CommissionForm
   vision/page.tsx          /vision             Codex pitch + waitlist EmailCapture
   primer/page.tsx          /primer             10 public Primer questions (paper ground)
-  docs/page.tsx            /docs               PUBLIC methodology page (not the private docs below)
+  docs/page.tsx            /docs               PUBLIC methodology page (not the private docs below) —
+                                                 expanded 2026-08-23 with a TOC, full brief-structure
+                                                 section, and an Articles/comments FAQ
+  library/page.tsx         /library            "The Library" — coming-soon placeholder, added 2026-08-23
   privacy/page.tsx         /privacy            privacy policy
   api/
     subscribe/route.ts     POST — email capture → subscriber table + Resend
@@ -49,7 +56,20 @@ components/
   CommissionForm.tsx        client component, the 4-field Studio form
   BriefRow.tsx              list-row brief unit (Research index) — NOT a card/thumbnail grid, per spec
   DepthControl.tsx          Quick/Explain/Deep/Complete tabs on a brief page
-  ReadingProgress.tsx        the one continuously-animated element — 2px copper top bar on brief pages
+  ReadingProgress.tsx        the one continuously-animated element — 2px accent top bar on brief pages
+  Card.tsx                  standard hover-lift card (spec §31.1) — Home's "three lines of work",
+                              reused wherever a card grid is needed
+  ResearchList.tsx           client component — Research's topic filter bar + BriefRow list
+  motion/Reveal.tsx          whileInView fade-up wrapper, triggers once (spec §30.2)
+  motion/HeroHeadline.tsx    home hero — word-stagger on mount + scroll-tied variable font weight
+  motion/StickyNumerals.tsx  sticky-numeral pattern (spec §30.5), used by "The method" on Home
+  motion/Marquee.tsx         CSS-only infinite marquee, pause on hover (spec §30.6)
+  three/Scene3D.tsx          lazy-mount wrapper for R3F canvases — in-viewport only, static SVG
+                              fallback under prefers-reduced-motion/no-WebGL (spec §30.3)
+  three/IcosahedronScene.tsx  Vision's wireframe icosahedron (dynamically imported, ssr:false)
+  three/ParticleClusterScene.tsx  Library's "assembling" particle cluster (same lazy-load pattern)
+  three/StaticShapeSVG.tsx   the two static fallback shapes
+  three/VisionOrb.tsx, three/LibraryOrb.tsx  page-level wrappers wiring Scene3D + the dynamic import
 
 content/
   briefs.ts                Brief type + the 5-brief catalogue (001 available, 002-005 queued placeholders)
@@ -61,14 +81,63 @@ db/
 lib/
   db.ts                      getDb() — lazy Drizzle client, returns null if DATABASE_URL unset
   resend.ts                  sendPrimerLetter() — no-ops if RESEND_API_KEY unset
+  supabase/client.ts          browser Supabase client (anon role — RLS applies)
+  supabase/server.ts          server Supabase client for server components/route handlers/actions,
+                               cookie-bound per request (@supabase/ssr)
+  supabase/middleware.ts      session-refresh logic, called from root middleware.ts
+  supabase/session.ts         getSessionProfile() — server-side session+profile read, used by
+                               Header and any future protected-route layout
+
+app/auth/
+  actions.ts                 server actions — signUpWithPassword, signInWithPassword,
+                               signInWithGoogle, signOut, requestPasswordReset
+  callback/route.ts          handles both OAuth (?code=) and email-link (?token_hash&type=)
+                               confirmation redirects
+
+app/forgot-password/page.tsx  request a reset email (components/auth/ForgotPasswordForm.tsx)
+
+app/articles/
+  page.tsx                    /articles           index — filter/sort client component
+  [slug]/page.tsx              /articles/[slug]    single article + comment thread
+  [slug]/edit/page.tsx          /articles/[slug]/edit  author/moderator+ only
+  new/page.tsx                  /articles/new       composer, auth required
+  actions.ts                    server actions — saveArticle, deleteArticle, postComment,
+                                  deleteComment (all via supabase-js, RLS-enforced)
+
+app/account/                  auth-required dashboard (layout.tsx redirects if signed out)
+  layout.tsx, page.tsx (Overview), articles/page.tsx, comments/page.tsx, settings/page.tsx,
+  reset-password/page.tsx, actions.ts (updateProfile, changeEmail, changePassword,
+  softDeleteOwnAccount)
+
+app/control/                  admin control plane — protected route group, NOT a subdomain (no
+                                custom domain configured yet — see IMPLEMENTATION.md)
+  layout.tsx                    server-side role gate (owner/admin/moderator), 404s otherwise
+  users/page.tsx, content/page.tsx, settings/page.tsx (owner-only), audit-log/page.tsx (owner-only)
+  actions.ts                    changeUserRole (owner, direct RLS-enforced UPDATE),
+                                  setUserStatus (admin/owner, via the admin_set_user_status RPC),
+                                  bestEffortHardDeleteUser (owner, re-auth required — see
+                                  "no service-role key" note below), removeArticle, removeComment
+
+lib/articles.ts                Tiptap extension list (shared composer/renderer), ARTICLE_TAGS,
+                                 shared types, readTimeMinutes()
+lib/same-origin.ts              same-origin check for the two hand-rolled API routes (spec §33)
 
 supabase/
   config.toml                local Supabase CLI config (from the original Gemini scaffold)
-  migrations/0001_init.sql   hand-written SQL mirroring db/schema.ts exactly
+  migrations/0001_init.sql   hand-written SQL mirroring db/schema.ts exactly (legacy Drizzle tables)
+  migrations/0002_auth_articles_admin.sql   profiles/articles/comments/admin_audit_log + RLS
+  migrations/0003_storage_buckets.sql       article-covers/avatars buckets + Storage RLS
+  migrations/0004_fix_role_escalation_rls_bug.sql   the real bug fix — see DEVELOPMENT_LOG.md
+  migrations/0005_audit_log_insert_policy.sql       scoped audit-log INSERT (no service-role key)
+  migrations/0006_admin_status_rpc.sql              admin_set_user_status SECURITY DEFINER fn
+  (0002–0006 mirror what's live on the `ark` project, ref `qosdbcvdqtlcinetxdbh` — applied via the
+  Supabase MCP, not `db:push`; re-run by hand if standing up another environment)
 
 drizzle.config.ts            drizzle-kit config — schema in, migrations out to supabase/migrations
 open-next.config.ts          OpenNext Cloudflare adapter config (currently defaults only)
 wrangler.jsonc                Cloudflare Worker config — name, compat date/flags, assets binding
+middleware.ts                 refreshes the Supabase session cookie every request
+                                (lib/supabase/middleware.ts) — standard @supabase/ssr pattern
 ```
 
 ## Design tokens
@@ -79,23 +148,25 @@ reading-progress line).
 
 ### Colour
 
+**Retokenized 2026-08-23** to `ARK_Redesign_Specification.md` §6 — one cream/terracotta system
+everywhere, replacing the former dark "ink" (home/studio/vision) vs. light "paper" (briefs/
+Primer/docs/privacy) dual mode. `DOCUMENTATION.md`'s "instrument vs. reader" framing is retired;
+don't reintroduce a dark page ground without a fresh, explicit instruction.
+
 | Token | Hex | Use |
 |---|---|---|
-| `ink` | `#0A0A0B` | Page ground — the instrument (home/studio/vision, all chrome) |
-| `panel` | `#0E0E10` | Cards, cells |
-| `raise` | `#1A1A1D` | Hover / input state |
-| `bone` | `#F5F3EF` | Headings on ink |
-| `ash` | `#8E8B85` | Labels, meta, secondary text |
-| `copper` | `#C4694A` | The only accent — rationed, ~1 element per screen |
-| `copper-dim` | `#7A3F2C` | Accent borders/washes |
-| `copper-lift` | `#E08A66` | Accent hover state |
-| `paper` | `#F2EEE6` | Page ground — the reader (briefs, Primer, docs, privacy) |
-| `paper-edge` | `#E4DED1` | Paper card/edge |
-| `paper-text` | `#211F1C` | Body text on paper |
+| `bg` | `#FBF6EE` | Page background everywhere |
+| `bg-raised` | `#F6EEE3` | Cards, raised sections |
+| `ink` | `#23201B` | Primary text (note: no longer a background token — this was the dark page-ground color pre-redesign) |
+| `muted` | `#6B6459` | Secondary text, captions, meta |
+| `accent` | `#B5502F` | Terracotta — links, CTAs, the only accent |
+| `accent-deep` | `#8A3B22` | Accent hover/active |
+| `rule` | `#D8CFC0` | Hairline borders, dividers |
+| `ink-dark` | `#141210` | The one remaining dark surface — the footer only |
 
-Usage law from the spec: ink 78% · bone 16% · ash 4% · copper 2%. Rules are `bone` at 3–14%
-opacity (`rgba(245,243,239,0.1)` is the workhorse, defined as `--rule` in `globals.css`), not
-shadows — shadows appear only on the header after scroll.
+Elevation is a fixed 4-level shadow scale (`shadow-1`…`shadow-4` in `tailwind.config.ts`,
+spec §9) — cards at rest use level 1, hover level 2, the scrolled sticky header level 4. Rules
+are `ink` at ~12% opacity (`var(--rule)` in `globals.css`), not shadows.
 
 ### Type
 
@@ -116,11 +187,14 @@ element on the site that animates continuously; everything else is hover/scroll-
 
 ## Nav — deviation from spec
 
-The source spec is explicit: "Three nav items maximum." As of 2026-08-23 the header has four
-(`Research · Studio · Vision · Docs`), plus the separate "The Primer" CTA link. This was done at
-the user's direct, explicit request for a public docs tab — a live instruction overriding a
-static rule from the original PDF. See `docs/internal/IMPLEMENTATION.md` for the full list of
-acknowledged deviations.
+The *original* spec (`Design.pdf`) was explicit: "Three nav items maximum." That was already
+overridden once (four items, `Research · Studio · Vision · Docs`, at the user's direct request
+for a public docs tab). The *new* redesign spec (`ARK_Redesign_Specification.md` §4.1) itself
+specifies six: `Research · Studio · Vision · Library · Articles · Docs`, plus "The Primer" kept
+as a separate highlighted pill — implemented as of 2026-08-23. So the current six-item nav is
+not a deviation from the active spec; it's a deviation from the original PDF that the newer,
+user-supplied spec has since superseded. See `docs/internal/IMPLEMENTATION.md` for the full list
+of acknowledged deviations.
 
 ## Logo / identity motion
 
@@ -184,9 +258,19 @@ the Supabase SQL editor or CLI directly — keep both in sync by hand if the sch
 - **`POST /api/commission`** — body `{ project, deadline, budget, question }` (zod-validated).
   Inserts into `commission_request`.
 
-Neither route currently does anything with Turnstile (not wired) or notifies a human (no Slack/
-email-to-founder hook on new commission requests — you'd need to check the Supabase table or the
-Cloudflare Worker logs).
+Both routes now check `lib/same-origin.ts`'s `isSameOrigin()` before touching the body (added
+2026-08-23, spec §33) — rejects with 403 if the `Origin` header's host doesn't match the request
+`Host`. Neither route currently does anything with Turnstile (not wired) or notifies a human (no
+Slack/email-to-founder hook on new commission requests — you'd need to check the Supabase table
+or the Cloudflare Worker logs).
+
+Auth/articles/account/admin routes don't need this same treatment — they go through Next.js
+server actions, which Next itself protects with an origin check before the action ever runs.
+
+**Rate limiting (spec §33) is still a manual Cloudflare dashboard step, not something applied via
+code in this repo** — now needed on `/sign-in`, `/sign-up`, and comment submission in addition to
+the original two forms. Nobody has configured this yet; do it directly in the Cloudflare
+dashboard (Security → WAF → rate limiting rules) once the site is live on a real domain.
 
 ## Cloudflare deploy
 

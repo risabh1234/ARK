@@ -15,15 +15,15 @@ export function DepthControl({ owned = false }: { owned?: boolean }) {
 
   return (
     <div>
-      <div className="grid grid-cols-4 border border-[rgba(245,243,239,0.16)]">
+      <div className="grid grid-cols-4 border border-rule">
         {LEVELS.map((level) => (
           <button
             key={level.key}
             onClick={() => setActive(level.key)}
-            className={`px-16 py-16 font-sans text-[14px] transition-colors duration-150 ${
+            className={`px-16 py-16 font-sans text-[14px] transition-colors duration-fast ${
               active === level.key
-                ? "bg-copper text-ink"
-                : "bg-transparent text-bone hover:bg-raise"
+                ? "bg-accent text-bg"
+                : "bg-transparent text-ink hover:bg-bg-raised"
             }`}
           >
             {level.label}
@@ -31,10 +31,10 @@ export function DepthControl({ owned = false }: { owned?: boolean }) {
         ))}
       </div>
       {current.paid && !owned && (
-        <div className="mt-16 border-t-2 border-copper pt-16">
-          <p className="font-sans text-[14px] text-bone">
+        <div className="mt-16 border-t-2 border-accent pt-16">
+          <p className="font-sans text-[14px] text-ink">
             <span className="font-medium">Included with the brief.</span>{" "}
-            <span className="text-ash">Deep and Complete are the paid tier.</span>
+            <span className="text-muted">Deep and Complete are the paid tier.</span>
           </p>
         </div>
       )}

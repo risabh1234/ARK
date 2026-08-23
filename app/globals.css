@@ -3,35 +3,58 @@
 @tailwind utilities;
 
 :root {
-  --rule: rgba(245, 243, 239, 0.1);
-  --rule-strong: rgba(245, 243, 239, 0.24);
+  /* Rule/hairline opacity, re-based on --color-ink (#23201B) instead of
+     the old dual-mode's --color-bone, since every surface is cream now. */
+  --rule: rgba(35, 32, 27, 0.12);
+  --rule-strong: rgba(35, 32, 27, 0.24);
+  /* Motion tokens, spec §10 — referenced directly in a few places where
+     a Tailwind utility can't express spring/stagger values. */
+  --ease-standard: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --dur-fast: 150ms;
+  --dur-base: 350ms;
+  --dur-slow: 700ms;
+  --stagger: 100ms;
 }
 
 * {
   border-radius: 0 !important;
 }
 
+/* The one deliberate exception to the blanket radius-0 reset — the
+   custom cursor (spec §31.2) is meant to read as a circle. */
+.ark-cursor {
+  border-radius: 50% !important;
+}
+
+/* Hide the native cursor only once the custom one is actually mounted
+   (Cursor.tsx doesn't render at all on touch/coarse-pointer devices, so
+   this rule only ever applies alongside a working replacement). */
+@media (hover: hover) and (pointer: fine) {
+  html:has(.ark-cursor) {
+    cursor: none;
+  }
+  html:has(.ark-cursor) a,
+  html:has(.ark-cursor) button {
+    cursor: none;
+  }
+}
+
 html {
-  background: #0a0a0b;
-  color-scheme: dark;
+  background: #fbf6ee;
+  color-scheme: light;
 }
 
 body {
-  background: #0a0a0b;
-  color: #f5f3ef;
-  font-family: var(--font-geist), system-ui, sans-serif;
+  background: #fbf6ee;
+  color: #23201b;
+  font-family: var(--font-inter), system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
 
 ::selection {
-  background: #c4694a;
-  color: #0a0a0b;
-}
-
-body[data-ground="paper"] {
-  background: #f2eee6;
-  color: #211f1c;
+  background: #b5502f;
+  color: #fbf6ee;
 }
 
 /* fixed, non-scrolling monochrome grain — 2-3% opacity, kills flat hex fill */
@@ -51,7 +74,7 @@ body[data-ground="paper"] {
   top: 0;
   left: 0;
   height: 2px;
-  background: #c4694a;
+  background: #b5502f;
   z-index: 60;
   transform-origin: left;
   width: 100%;
@@ -65,6 +88,79 @@ body[data-ground="paper"] {
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
     scroll-behavior: auto !important;
+  }
+}
+
+/* success-state checkmark, EmailCapture.tsx — draws in via stroke-dashoffset,
+   same pathLength=1 trick as the Logo mark. */
+.email-check-draw {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: email-check-draw var(--dur-base) var(--ease-standard) forwards;
+}
+@keyframes email-check-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .email-check-draw {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
+}
+
+/* sticky-numeral pattern, spec §30.5 — the numeral column sticks while
+   its paired description column scrolls past on the right. */
+.method-numeral {
+  position: sticky;
+  top: 30vh;
+}
+
+/* hero background glow, spec §12.1/§30.4 — CSS-only radial gradient
+   loop, zero JS cost. */
+.hero-glow {
+  position: absolute;
+  inset: -20% -10% auto -10%;
+  height: 60vh;
+  pointer-events: none;
+  background: radial-gradient(ellipse at 50% 30%, rgba(181, 80, 47, 0.08), transparent 60%);
+  animation: hero-glow-drift 26s ease-in-out infinite;
+}
+@keyframes hero-glow-drift {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(2%, 3%) scale(1.05);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-glow {
+    animation: none;
+  }
+}
+
+/* newsletter marquee, spec §30.6 — pauses on hover, fully static under
+   reduced motion rather than merely slowed. */
+.marquee-track {
+  animation: marquee-scroll 22s linear infinite;
+}
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+@keyframes marquee-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none;
   }
 }
 

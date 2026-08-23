@@ -1,15 +1,15 @@
 export function Eyebrow({
   children,
-  tone = "copper",
+  tone = "accent",
   className = "",
 }: {
   children: React.ReactNode;
-  tone?: "copper" | "ash";
+  tone?: "accent" | "muted";
   className?: string;
 }) {
   return (
     <span
-      className={`font-mono text-eyebrow uppercase ${tone === "copper" ? "text-copper" : "text-ash"} ${className}`}
+      className={`font-mono text-eyebrow uppercase ${tone === "accent" ? "text-accent" : "text-muted"} ${className}`}
     >
       {children}
     </span>
@@ -53,7 +53,7 @@ export function Panel({
 }) {
   return (
     <div
-      className={`border ${accent ? "border-copper-dim bg-copper/[0.06]" : "border-[rgba(245,243,239,0.1)] bg-panel"} p-32 ${className}`}
+      className={`border ${accent ? "border-accent-deep bg-accent/[0.06]" : "border-rule bg-bg-raised"} p-32 ${className}`}
     >
       {children}
     </div>

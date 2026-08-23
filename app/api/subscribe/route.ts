@@ -3,6 +3,7 @@ import { z } from "zod";
 import { getDb } from "@/lib/db";
 import { subscriber } from "@/db/schema";
 import { sendPrimerLetter } from "@/lib/resend";
+import { isSameOrigin } from "@/lib/same-origin";
 
 const bodySchema = z.object({
   email: z.string().email(),
@@ -10,6 +11,10 @@ const bodySchema = z.object({
 });
 
 export async function POST(req: Request) {
+  if (!isSameOrigin(req)) {
+    return NextResponse.json({ error: "Invalid request origin." }, { status: 403 });
+  }
+
   const parsed = bodySchema.safeParse(await req.json().catch(() => null));
   if (!parsed.success) {
     return NextResponse.json({ error: "Invalid email." }, { status: 400 });

@@ -28,8 +28,8 @@ export function CommissionForm() {
 
   if (status === "sent") {
     return (
-      <div className="border-t-2 border-copper pt-16">
-        <p className="font-sans text-[15px] text-bone">
+      <div className="border-t-2 border-accent pt-16">
+        <p className="font-sans text-[15px] text-ink">
           Sent. We reply within one working day, or we say no fast.
         </p>
       </div>
@@ -39,7 +39,7 @@ export function CommissionForm() {
   return (
     <form onSubmit={handleSubmit} className="space-y-24">
       <div>
-        <label htmlFor="project" className="font-mono text-eyebrow uppercase text-ash">
+        <label htmlFor="project" className="font-mono text-eyebrow uppercase text-muted">
           Project
         </label>
         <input
@@ -47,11 +47,11 @@ export function CommissionForm() {
           name="project"
           required
           placeholder="Documentary, book, series, brief"
-          className="mt-8 w-full border border-[rgba(245,243,239,0.24)] bg-transparent px-16 py-16 font-sans text-[15px] text-bone placeholder:text-ash focus:border-copper focus:outline-none"
+          className="mt-8 w-full border border-rule bg-transparent px-16 py-16 font-sans text-[15px] text-ink placeholder:text-muted focus:border-accent focus:outline-none transition-colors duration-fast"
         />
       </div>
       <div>
-        <label htmlFor="deadline" className="font-mono text-eyebrow uppercase text-ash">
+        <label htmlFor="deadline" className="font-mono text-eyebrow uppercase text-muted">
           Deadline
         </label>
         <input
@@ -59,11 +59,11 @@ export function CommissionForm() {
           name="deadline"
           required
           placeholder="When does this need to land"
-          className="mt-8 w-full border border-[rgba(245,243,239,0.24)] bg-transparent px-16 py-16 font-sans text-[15px] text-bone placeholder:text-ash focus:border-copper focus:outline-none"
+          className="mt-8 w-full border border-rule bg-transparent px-16 py-16 font-sans text-[15px] text-ink placeholder:text-muted focus:border-accent focus:outline-none transition-colors duration-fast"
         />
       </div>
       <div>
-        <label htmlFor="budget" className="font-mono text-eyebrow uppercase text-ash">
+        <label htmlFor="budget" className="font-mono text-eyebrow uppercase text-muted">
           Budget range
         </label>
         <select
@@ -71,20 +71,20 @@ export function CommissionForm() {
           name="budget"
           required
           defaultValue=""
-          className="mt-8 w-full border border-[rgba(245,243,239,0.24)] bg-transparent px-16 py-16 font-sans text-[15px] text-bone focus:border-copper focus:outline-none"
+          className="mt-8 w-full border border-rule bg-transparent px-16 py-16 font-sans text-[15px] text-ink focus:border-accent focus:outline-none transition-colors duration-fast"
         >
           <option value="" disabled>
             Select a range
           </option>
           {BUDGETS.map((b) => (
-            <option key={b} value={b} className="bg-ink">
+            <option key={b} value={b} className="bg-bg">
               {b}
             </option>
           ))}
         </select>
       </div>
       <div>
-        <label htmlFor="question" className="font-mono text-eyebrow uppercase text-ash">
+        <label htmlFor="question" className="font-mono text-eyebrow uppercase text-muted">
           The question
         </label>
         <textarea
@@ -93,18 +93,18 @@ export function CommissionForm() {
           required
           rows={4}
           placeholder="What has to be right?"
-          className="mt-8 w-full border border-[rgba(245,243,239,0.24)] bg-transparent px-16 py-16 font-sans text-[15px] text-bone placeholder:text-ash focus:border-copper focus:outline-none"
+          className="mt-8 w-full border border-rule bg-transparent px-16 py-16 font-sans text-[15px] text-ink placeholder:text-muted focus:border-accent focus:outline-none transition-colors duration-fast"
         />
       </div>
       {status === "error" && (
-        <p className="font-mono text-[11px] uppercase tracking-[0.15em] text-copper">
+        <p className="font-mono text-[11px] uppercase tracking-[0.15em] text-accent">
           Something broke. Try again.
         </p>
       )}
       <button
         type="submit"
         disabled={status === "loading"}
-        className="bg-copper px-24 py-16 font-sans text-ui font-medium text-ink hover:bg-copper-lift transition-colors duration-150 disabled:opacity-60"
+        className="bg-accent px-24 py-16 font-sans text-ui font-medium text-bg hover:bg-accent-deep transition-colors duration-fast disabled:opacity-60"
       >
         {status === "loading" ? "Sending" : "Send it"}
       </button>

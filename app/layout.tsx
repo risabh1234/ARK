@@ -1,24 +1,22 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Spectral } from "next/font/google";
+import { Fraunces, Inter } from "next/font/google";
+import { Cursor } from "@/components/Cursor";
+import { SmoothScroll } from "@/components/motion/SmoothScroll";
 import "./globals.css";
 
-const geist = Geist({
+// Variable fonts — no `weight` array, so next/font serves the full
+// variable-axis file rather than static per-weight instances. This is
+// what makes §30.1's scroll-tied font-variation-settings possible.
+const fraunces = Fraunces({
   subsets: ["latin"],
-  variable: "--font-geist",
-  weight: ["400", "500"],
-});
-
-const geistMono = Geist_Mono({
-  subsets: ["latin"],
-  variable: "--font-geist-mono",
-  weight: ["400"],
-});
-
-const spectral = Spectral({
-  subsets: ["latin"],
-  variable: "--font-spectral",
-  weight: ["300", "400"],
+  variable: "--font-fraunces",
   style: ["normal", "italic"],
+  axes: ["opsz", "SOFT", "WONK"],
+});
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
 });
 
 export const metadata: Metadata = {
@@ -40,9 +38,11 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={`${geist.variable} ${geistMono.variable} ${spectral.variable}`}>
+    <html lang="en" className={`${fraunces.variable} ${inter.variable}`}>
       <body>
         <div className="grain" aria-hidden="true" />
+        <SmoothScroll />
+        <Cursor />
         {children}
       </body>
     </html>

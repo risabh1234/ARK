@@ -5,6 +5,278 @@ newest entry on top. One entry per work session; keep entries factual and terse,
 
 ---
 
+## 2026-08-23 — Full redesign kickoff from `ARK_Redesign_Specification.md` (Phases 1–4)
+
+User supplied a new, much larger spec document (10 phases: design system, global chrome/Home,
+existing pages, Library, then a full auth/Articles/admin backend). Explicitly asked for "the
+whole website" to be edited against it. Entered plan mode first given the scope and several
+real conflicts with prior decisions; locked in with the user before writing code:
+
+- **Retire the ink/paper dual-mode entirely.** The new spec's single cream/terracotta palette
+  (§6) now applies everywhere, including Home/Studio/Vision, which were dark "ink" mode before
+  this session. `DOCUMENTATION.md`'s "instrument vs. reader" framing is superseded — don't
+  reintroduce it.
+- Build everything, including the backend (auth, Articles+comments, /account, admin) — not just
+  the frontend redesign. Backend work (Phase 5 onward) is a new Supabase project dedicated to
+  ĀRK, not the one unrelated pre-existing project on this account (`infinity-tech-backend`).
+- Google OAuth: build the button and wire the call now; it errors until real credentials are
+  supplied later (known gap, not hidden).
+- Admin panel: `app/control/*` inside this app for now, not a real subdomain — no custom domain
+  is set up. Functionally identical security model either way.
+- Domain: raised mid-session, still **undecided** — user described nesting under an existing
+  `arohaomniscorp.com` property; flagged the SEO/brand-recall tradeoff (a subdomain of an
+  unrelated parent-company domain is not guessable/searchable the way a dedicated root domain
+  is; the code already assumes `ark.study` in `metadataBase`). User chose to leave this open and
+  keep deploying to the current `workers.dev` target for now. **Do not wire any real DNS/domain
+  change without asking again** — nothing was decided, only surfaced.
+- Two garbled voice-dictation messages arrived mid-session (domain names, a "Gemini" reference).
+  Did not act on either until the user retyped/clarified in plain text — worth remembering that
+  dictation in this environment is unreliable enough to warrant confirmation before any
+  infrastructure-affecting action.
+
+Shipped this session (Phases 1–4 of the new spec, frontend only — backend is next):
+
+- **Tokens** (`tailwind.config.ts`, `app/globals.css`): new color tokens (`bg`, `bg-raised`,
+  `ink`, `muted`, `accent`/`accent-deep`, `rule`, `ink-dark`), spec type scale
+  (`display/h1/h2/lead/body/small`, old names kept as aliases so nothing broke mid-migration),
+  elevation shadow scale (levels 0–4), motion duration/easing tokens. Fonts swapped from
+  Spectral/Geist/Geist Mono to self-hosted variable Fraunces + Inter (`next/font/google`, no
+  fixed `weight` array, so the true variable-axis file loads).
+- **Global chrome**: `Header.tsx` — 6-item nav (Research/Studio/Vision/Library/Articles/Docs),
+  session-aware right side (renders "Sign in" until Phase 5 wires real auth), blurred
+  sticky-on-scroll. `Footer.tsx` — 4-column layout (identity+copyright, Explore, Company,
+  Newsletter), dark `ink-dark` ground (the one remaining dark surface on the site).
+- **Home**: hero with word-stagger + scroll-tied variable font weight
+  (`components/motion/HeroHeadline.tsx`), CSS radial-gradient glow loop, sticky-numeral method
+  section (`components/motion/StickyNumerals.tsx`), product cards on a new shared `Card.tsx`
+  (hover lift + border glow + arrow slide, elevation 1→2), marquee newsletter tagline
+  (`components/motion/Marquee.tsx`).
+- **Research**: filter bar by topic with a spring-in active pill (`components/ResearchList.tsx`)
+  — added a `topic` field to `content/briefs.ts`. Kept the list layout (`BriefRow`), not a card
+  grid — that was already a deliberate, logged deviation from any generic card pattern, unrelated
+  to this redesign.
+- **Studio**: live "N of 3 slots open this month" indicator, computed from real
+  `commission_request` rows this calendar month via the existing Drizzle connection
+  (`gte(createdAt, startOfMonth)`), `export const revalidate = 300` so it doesn't get baked in
+  once at build time and go stale.
+- **Vision**: first 3D element — wireframe icosahedron, React Three Fiber
+  (`components/three/IcosahedronScene.tsx`), lazy-mounted only in-viewport
+  (`components/three/Scene3D.tsx`, IntersectionObserver) with a static SVG fallback under
+  `prefers-reduced-motion` or no WebGL.
+- **`/docs`**: expanded per the user's mid-session request — added an in-page table of contents,
+  the full four-strata brief structure (previously only teased on Home), and a new Articles/
+  comments FAQ section (written ahead of Phase 6 actually shipping, so the page is honest about
+  what's coming).
+- **`/library`** (new route): "The Library" placeholder — a second, distinct 3D form (a
+  slowly-assembling particle cluster, `components/three/ParticleClusterScene.tsx`, so it doesn't
+  read as the same shape as Vision's icosahedron), "Assembling" label, repeated newsletter block.
+- New deps: `framer-motion`, `three` + `@react-three/fiber` + `@react-three/drei`, `lenis`,
+  `howler`, `@supabase/supabase-js` + `@supabase/ssr`, `@tiptap/react` + starter-kit + link/image
+  extensions, `isomorphic-dompurify` — the last several installed ahead of Phase 5–6, not used
+  yet. `npm audit` flags 4 high-severity issues in `drizzle-orm`/`next`/`postcss`/`sharp` — all
+  pre-existing, not from anything added this session; fixing them means a major Next.js bump,
+  logged as a known gap rather than done as a drive-by inside a redesign.
+- Verified via `npm run typecheck`, `npm run build` (clean, all routes render), and `next dev` +
+  `curl` against every route (all 200, no console errors/warnings in the dev log) — no browser
+  available in this environment, so actual visual/UX quality of the new theme is **not**
+  confirmed, per the standing limitation in `CLAUDE.md`.
+
+Not done yet, still queued this same effort: Phase 6 (Articles + comments UI), Phase 7
+(`/account`), Phase 8 (admin control plane at `/control`), Phase 9 (custom cursor, Lenis smooth
+scroll, ambient audio toggle — Marquee and nav-underline already shipped in Phase 2), Phase 10
+(hardening pass). See `IMPLEMENTATION.md` for the live status table.
+
+---
+
+## 2026-08-23 — Phase 5: Supabase auth foundation, and a real RLS bug caught by testing it
+
+Created a new, dedicated Supabase project for ĀRK (`ark`, ref `qosdbcvdqtlcinetxdbh`,
+`ap-south-1`, free tier — cost confirmed at $0/month before creating) via the Supabase MCP tools,
+separate from the one unrelated pre-existing project on this account. Applied the schema from
+`ARK_Redesign_Specification.md` §21/§25/§27 (`profiles` with `role` from the start, `articles`,
+`comments`, `admin_audit_log`), RLS policies, and `article-covers`/`avatars` storage buckets —
+mirrored into `supabase/migrations/0002_auth_articles_admin.sql` and `0003_storage_buckets.sql`.
+
+Built the app-side auth wiring: `lib/supabase/{client,server,middleware,session}.ts` following
+Supabase's documented Next.js App Router SSR pattern (httpOnly cookie sessions, never
+localStorage, per spec §33), root `middleware.ts` to refresh the session on every request,
+`app/auth/actions.ts` (server actions: sign-up, sign-in, Google OAuth, sign-out, password reset),
+`app/auth/callback/route.ts` (handles both OAuth PKCE `code` and email-link `token_hash` flows),
+`app/sign-in/page.tsx` + `app/sign-up/page.tsx` + `components/auth/AuthForm.tsx`. Split
+`Header.tsx` into a server wrapper (reads the session via `getSessionProfile()`) and
+`HeaderClient.tsx` (the existing scroll/nav logic, now session-aware) — every existing `<Header
+/>` call site gets real session state for free, no prop-threading needed. **Side effect worth
+flagging**: since Header now reads cookies on every render, every page that includes it (i.e.
+every page) is forced from static (`○`) to dynamic (`ƒ`) rendering by Next.js — confirmed via
+`next build`'s route summary. This is an inherent consequence of a flash-free session-aware
+header, not a mistake; noted here so it isn't "discovered" again later and mistaken for a
+regression.
+
+**Caught and fixed a real privilege-escalation bug before it ever shipped**, by actually doing
+what the spec explicitly demands (§25.3: "verify the RLS policy actually blocks a non-owner
+request... not just hide the button in the UI") rather than treating the migration applying
+cleanly as proof it worked. This environment's network sandbox blocks direct HTTPS from Node to
+Supabase's API (TLS interception, `SELF_SIGNED_CERT_IN_CHAIN` — tried both with and without
+`dangerouslyDisableSandbox`, same result, did not attempt to bypass certificate validation to
+work around it), so live signup-flow testing via `@supabase/supabase-js` wasn't possible. Instead
+verified RLS directly in Postgres via the Supabase MCP's `execute_sql`, simulating PostgREST's
+request context by hand (`set_config('request.jwt.claims', ...)` + `SET LOCAL ROLE
+authenticated`/`anon` inside a `BEGIN...ROLLBACK`-wrapped transaction with disposable
+`auth.users`/`profiles` rows) — confirmed the simulation itself was faithful by checking
+`auth.uid()` resolved correctly before trusting any test result.
+
+Found: the "Only owners can change role or status" policy used `WITH CHECK (true)`. Postgres
+OR-combines `WITH CHECK` clauses across *all* permissive policies that apply to a command,
+regardless of which policy's `USING` clause actually matched the row being changed — so that
+unconditional `true` leaked straight through "Users manage their own profile"'s otherwise-correct
+role/status lock. Net effect: **any authenticated user could UPDATE their own `role` column to
+`'owner'`**, or change any other user's role, defeating the entire role system before it shipped.
+Confirmed live: a disposable test profile successfully self-promoted to `owner` pre-fix.
+
+Fix (`0004_fix_role_escalation_rls_bug.sql`): the owner-only policy's `WITH CHECK` now mirrors
+its `USING` clause (gated on the *actor's* role being `'owner'`, evaluated fresh for that row)
+instead of a bare `true`. Re-ran the full test suite after the fix — self-promotion now correctly
+raises a policy-violation error, cross-user role changes silently affect 0 rows, ordinary field
+edits (bio) still work, and article/comment ownership, draft-visibility, and impersonation checks
+all passed. (One test-harness false positive along the way, worth naming so it isn't mistaken for
+a second bug: a UPDATE test used "no exception was thrown" as its pass signal, but a `USING`-level
+exclusion updates 0 rows silently rather than throwing — fixed the test to check
+`GET DIAGNOSTICS ... row_count` instead of just catching exceptions.)
+
+`get_advisors` (security) returned zero findings both before and after — Supabase's own linter
+does not catch this class of cross-policy `WITH CHECK` leak, which is exactly why the spec's
+"test it against the database, not the UI" instruction mattered here.
+
+Not yet done in Phase 5: first Owner hasn't been set (no real user exists yet — will ask which
+email to promote once someone actually signs up through the deployed app, per spec §25.2's "never
+through a UI, one-time manual step"). Email verification requirement before publishing, and the
+password-reset landing page (`/account/reset-password`, referenced by `requestPasswordReset`'s
+redirect target) are stubbed in `actions.ts` but the landing page itself isn't built yet — that's
+Phase 7 (`/account`).
+
+---
+
+## 2026-08-23 — Phases 6–10: Articles, /account, admin control plane, motion polish, hardening
+
+Continuation of the same session/effort as the Phase 1–5 entries above. Built the rest of
+`ARK_Redesign_Specification.md` end to end.
+
+**Phase 6 — Articles + comments.** `app/articles/{page,[slug]/page,[slug]/edit/page,new/page}.tsx`,
+`app/articles/actions.ts` (server actions: save/delete article, post/delete comment — all through
+the RLS-respecting `supabase-js` client, never Drizzle). Rich text via Tiptap 3
+(`components/articles/RichTextEditor.tsx`, `ArticleComposer.tsx`), rendered server-side to HTML
+(`@tiptap/core`'s `generateHTML`) and sanitized with `isomorphic-dompurify` before
+`dangerouslySetInnerHTML` (`components/articles/ArticleBody.tsx`) — spec §33's XSS requirement.
+Cover images upload client-side straight to the `article-covers` Storage bucket using the
+browser's own session (so Storage RLS applies, not a server proxy). One-level comment threading
+(`components/articles/CommentThread.tsx`), scoped by `article_id`. Filter/sort on the index
+(`components/articles/ArticleIndexList.tsx`): Latest / Most discussed / by tag.
+
+**Phase 7 — `/account`.** `app/account/{layout,page,articles/page,comments/page,settings/page,
+reset-password/page}.tsx` + `app/account/actions.ts`. Every query is scoped by `auth.uid()`
+through RLS, never a manual `WHERE user_id =` filter (spec §23.2). Self-service deletion
+soft-deletes per §23.3 — **caught a second RLS interaction bug while writing this one**, not
+during dedicated testing this time: the first draft of `softDeleteOwnAccount` also set
+`status: 'suspended'`, which the 0004 RLS fix correctly rejects (status changes are owner-only,
+on purpose — a user should never be able to un-suspend/un-ban themselves by racing this action).
+Fixed by dropping the status write entirely; `deleted_at` alone is the soft-delete signal, kept
+independent of the admin-controlled `status` column. Also added `/forgot-password` and
+`components/auth/ForgotPasswordForm.tsx` (missing from Phase 5).
+
+**Phase 8 — Admin control plane.** `app/control/*` as a protected route group (not a subdomain —
+see Phase-1-5 entry's domain note), gated by `app/control/layout.tsx`'s server-side role check,
+404s rather than redirecting for a non-privileged visitor so the route's existence isn't
+confirmed. **No `SUPABASE_SERVICE_ROLE_KEY` is available in this build** (the provisioning
+tooling used this session deliberately doesn't expose it) — worked around this properly rather
+than faking it:
+- Role changes: direct table UPDATE through the actor's own authenticated session — already
+  correctly enforced by the 0004 RLS policy (owner-only), no service role needed.
+- Status changes (suspend/ban/reactivate — spec gives Admin *and* Owner this, unlike role
+  changes): a `SECURITY DEFINER` Postgres function, `admin_set_user_status`
+  (`supabase/migrations/0006_admin_status_rpc.sql`), with its own explicit
+  `auth.uid()`-based authorization check inside the function body — the standard pattern for
+  "elevated capability, custom rule" that doesn't need a service-role bypass. Live-tested: a
+  regular user is rejected, an admin can suspend/ban a regular user, an admin *cannot* touch an
+  owner (spec §25.1's "cannot demote or remove an Owner"), an owner can touch anyone, and every
+  successful call writes its own audit-log row from inside the function.
+  `get_advisors` flagged the function as `anon`-executable (Supabase grants EXECUTE to
+  `anon`/`authenticated`/`service_role` directly at create time, separate from the `PUBLIC`
+  pseudo-role — a blanket `revoke ... from public` doesn't touch it) — fixed by revoking from
+  `anon` explicitly (0006's second half). It also flags the function as `authenticated`-callable,
+  which is correct and intentional (the function's own body is the real gate) — not a bug,
+  documented as such directly in the migration.
+- Audit log writes for role changes and content removal (the paths outside the status RPC): a new
+  RLS INSERT policy, `supabase/migrations/0005_audit_log_insert_policy.sql` — actor can log an
+  action only as themselves (`actor_id = auth.uid()`), only if their own role is
+  moderator/admin/owner. Live-tested: a regular user is blocked, a moderator can log for
+  themselves, a moderator cannot spoof `actor_id` as someone else. Still no UPDATE/DELETE policy
+  on the table for anyone — append-only, unchanged from 0002.
+- **Hard-delete is honestly best-effort, not real**, and says so in the UI
+  (`app/control/settings/page.tsx`'s "known gap" section) and in a confirm dialog before running:
+  wipes the target's articles/comments, fully anonymizes and bans their profile, but cannot
+  remove the `auth.users` row itself — that specifically requires Supabase's Admin API /
+  `SUPABASE_SERVICE_ROLE_KEY`, not achievable through RLS at all (it's a GoTrue operation, not a
+  Postgres table). Also requires the acting Owner to **re-enter their password** first
+  (`window.prompt`, verified via `signInWithPassword` server-side before proceeding) — spec
+  §26.1's re-authentication requirement for the most destructive actions.
+- Content moderation (`/control/content`) is direct search/browse with a remove action, not a
+  report-queue — no `reports` table exists (the spec lists it as an option, §22, not a required
+  schema) and one wasn't fabricated.
+- `/control/settings` (owner-only) is honest about what isn't built rather than faking config
+  screens: no `site_settings` table exists (ask before adding one), no 2FA enrollment UI (spec
+  §26.1 suggests it, Supabase Auth supports TOTP, not wired here).
+
+**Phase 9 — Motion/cursor polish.** `components/Cursor.tsx` (damped spring, mounted only under
+`(hover: hover) and (pointer: fine)` — checked in JS before render, not just hidden via CSS;
+`.ark-cursor` is the one deliberate exception carved out of the sitewide `border-radius: 0`
+reset, since spec §31.2 wants it circular). `components/motion/SmoothScroll.tsx` (Lenis, disabled
+outright under reduced motion rather than slowed). `components/AudioToggle.tsx` (Howler,
+opt-in/muted-by-default per §32) — **ships with no actual audio file**: this sandbox has no
+network access to source a public-domain/licensed ambient track, and one wasn't fabricated. The
+toggle renders disabled with an explanatory title until a real hosted URL is set in the one
+constant at the top of that file.
+
+**Phase 10 — Hardening.**
+- **Reduced-motion gap found and fixed**: the global CSS rule in `app/globals.css` only forces
+  CSS `animation`/`transition` durations near-zero — it does **not** touch Framer Motion, which
+  drives its animations via JS/inline styles, not CSS transitions. Every Framer Motion component
+  added this session (`Reveal`, `HeroHeadline`, `StickyNumerals`, `ResearchList`'s
+  filter-in/filter-out) now calls `useReducedMotion()` explicitly and drops to an instant/opacity-
+  only state when it's set — this was silently non-compliant with spec §10 until caught here.
+- Same-origin check added to the two pre-existing hand-rolled API routes (`/api/subscribe`,
+  `/api/commission`) via `lib/same-origin.ts` — spec §33's "ensure any custom form POST uses
+  same-origin checks." (Auth flows already get this for free from Supabase's SSR helpers /
+  server actions.)
+- Confirmed no service-role key or other secret reaches the client bundle — grepped the source
+  tree, only doc-comment mentions of the *name* `SUPABASE_SERVICE_ROLE_KEY` exist, no value
+  anywhere; `.env.local` (real Supabase URL + anon key for this project) is git-ignored, only
+  blank placeholders in the committed `.env.example`.
+- Cloudflare rate limiting remains a manual dashboard step (can't be applied via code) — the
+  existing note in `TECHNICAL_DOCUMENTATION.md` now also covers `/sign-in`, `/sign-up`, and
+  comment submission, not just the original two forms.
+- Bundle size flagged, not fixed: `/articles/new` and `/articles/[slug]/edit` are ~309KB first
+  load JS (Tiptap is heavy) — over the spec's ~150KB motion/3D budget, though that budget was
+  written with the public homepage in mind, not an auth-gated composer. Revisit with code-splitting
+  if it matters in practice; not blocking.
+- Full route sweep via `next dev` + `curl` after every phase (all 200/307/404 as expected, zero
+  console errors) — see the phase-by-phase entries above for the specific expected codes.
+  Signed-in flows (composer, comment posting, account settings, admin actions) are **not**
+  functionally verified end-to-end through the browser — this environment has no network access
+  from Node/Bash to Supabase's HTTPS API (TLS interception blocks it; did not attempt to bypass
+  certificate validation to work around that) and no Chromium/Playwright either. The
+  database-level logic those flows depend on (RLS, the status RPC, audit logging) *was* verified
+  directly against the live project via the Supabase MCP's `execute_sql`, which is a different and
+  narrower claim than "the UI works end-to-end in a browser" — stated plainly per CLAUDE.md rather
+  than implied.
+
+First Owner is still unset — genuinely can't be, without a real signed-up user, which this
+environment can't produce (no network path to actually complete a signup through the app, and
+fabricating an `auth.users` row by hand produces an account with no usable password). Whoever
+deploys this next should sign up for real, then ask for that email to be promoted via one manual
+SQL statement against the `ark` project (`qosdbcvdqtlcinetxdbh`), per spec §25.2.
+
+---
+
 ## 2026-08-23 — Home page redesign from a second Gemini spec ("Design 2.pdf")
 
 - User asked to move the deploy target from Cloudflare Workers to Pages. Before doing the work,
