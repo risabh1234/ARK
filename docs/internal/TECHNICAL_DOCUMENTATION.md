@@ -153,27 +153,28 @@ reading-progress line).
 
 ### Colour
 
-**Retokenized twice on 2026-08-23.** First pass: one cream/terracotta system everywhere,
-replacing the former dark "ink" (home/studio/vision) vs. light "paper" (briefs/Primer/docs/
-privacy) dual mode (`DOCUMENTATION.md`'s "instrument vs. reader" framing is retired — don't
-reintroduce a dark page ground without a fresh, explicit instruction). Second pass, same day,
-after user feedback that the first pass still read as "cheap": pushed to a "Rajo Guna
-luxury-tech" direction — explicitly **not** dark mode (that reads as Tamas/generic dark developer
-portfolio, rejected on purpose) — via higher contrast, a hotter accent, and much bolder/denser
-typography rather than a black background. See `DEVELOPMENT_LOG.md`'s "too much sattva guna"
-entry for the full reasoning and exact before/after hex table.
+**Retokenized three times on 2026-08-23** — see `DEVELOPMENT_LOG.md` for the full reasoning
+behind each pass. v1: single cream/terracotta system, replacing the former dark "ink" vs. light
+"paper" dual mode (`DOCUMENTATION.md`'s "instrument vs. reader" framing is retired). v2: "Rajo
+Guna luxury-tech" push — explicitly **not** dark mode — higher contrast, hotter accent, bolder
+type. v3, after directly comparing to github.com and Mona Sans: background cooled from
+beige-ivory toward a crisper near-white (matches GitHub's actual white/near-white base, not a
+cream tint); accent stays signal orange (the user's own deliberate choice, not reversed a second
+time); a dedicated `signal-blue` token added for one specific, narrow use — the globe visual
+below — not a second sitewide accent.
 
 | Token | Hex | Use |
 |---|---|---|
-| `bg` | `#F6F1E8` | Page background everywhere |
-| `bg-raised` | `#FBF9F4` | Cards, raised sections |
+| `bg` | `#FAF8F4` | Page background everywhere |
+| `bg-raised` | `#FFFFFF` | Cards, raised sections |
 | `ink` | `#171512` | Primary text (note: no longer a background token — this was the dark page-ground color pre-redesign) |
 | `muted` | `#625E57` | Secondary text, captions, meta |
 | `accent` | `#D94A16` | Signal orange — links, CTAs, the only primary accent |
 | `accent-deep` | `#B83A0E` | Accent hover/active |
 | `gold` | `#B58A45` | Restrained secondary accent — reserved, not yet used anywhere. Use sparingly if at all; the brief this came from was explicit about not running two accent colors at once |
-| `rule` | `#D8D0C3` | Hairline borders, dividers |
-| `ink-dark` | `#1A1610` | The one remaining dark surface — the footer, and the Home page's full-bleed poster section |
+| `signal-blue` | `#3E7BFA` | One narrow use only — the Home page globe visual (`components/three/GlobeScene.tsx`). Not a general accent |
+| `rule` | `#DDD7CA` | Hairline borders, dividers |
+| `ink-dark` | `#14110C` | The one remaining dark surface — the footer, and the Home page's full-bleed poster section |
 
 Elevation is a fixed 4-level shadow scale (`shadow-1`…`shadow-4` in `tailwind.config.ts`,
 spec §9) — cards at rest use level 1, hover level 2, the scrolled sticky header level 4. Rules

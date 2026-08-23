@@ -19,6 +19,32 @@ export function StaticIcosahedronSVG() {
   );
 }
 
+export function StaticGlobeSVG() {
+  const nodes: [number, number][] = [
+    [60, 55], [140, 40], [175, 90], [130, 145], [70, 155], [30, 100], [100, 100], [155, 65],
+  ];
+  const arcs: [number, number][] = [[0, 3], [1, 4], [2, 5], [6, 1], [7, 4]];
+  return (
+    <svg viewBox="0 0 200 200" className="mx-auto h-full max-h-[280px] w-auto" aria-hidden="true">
+      <circle cx="100" cy="100" r="70" fill="none" stroke="#3E7BFA" strokeWidth="1" opacity="0.18" />
+      <ellipse cx="100" cy="100" rx="70" ry="24" fill="none" stroke="#3E7BFA" strokeWidth="1" opacity="0.18" />
+      <ellipse cx="100" cy="100" rx="24" ry="70" fill="none" stroke="#3E7BFA" strokeWidth="1" opacity="0.18" />
+      <g stroke="#3E7BFA" strokeWidth="0.6" opacity="0.4" fill="none">
+        {arcs.map(([a, b], i) => {
+          const [x1, y1] = nodes[a];
+          const [x2, y2] = nodes[b];
+          const mx = (x1 + x2) / 2;
+          const my = (y1 + y2) / 2 - 20;
+          return <path key={i} d={`M${x1},${y1} Q${mx},${my} ${x2},${y2}`} />;
+        })}
+      </g>
+      {nodes.map(([x, y], i) => (
+        <circle key={i} cx={x} cy={y} r="2.5" fill="#3E7BFA" opacity="0.85" />
+      ))}
+    </svg>
+  );
+}
+
 export function StaticParticleClusterSVG() {
   const dots = [
     [40, 60], [70, 30], [110, 40], [150, 55], [170, 90],

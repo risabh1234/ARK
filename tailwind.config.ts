@@ -5,14 +5,18 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // ĀRK design tokens v3 — "Rajo Guna luxury-tech" direction,
-        // user's own exact palette. Deliberately NOT a dark-mode-primary
-        // site (that reads as Tamas/generic dark developer portfolio —
-        // explicitly rejected). Warm ivory base stays primary; contrast,
-        // density and typographic scale carry the "expensive" feeling
-        // instead of a black background. See DEVELOPMENT_LOG.md.
-        bg: "#F6F1E8",
-        "bg-raised": "#FBF9F4",
+        // ĀRK design tokens v4 — after directly comparing to github.com
+        // and the Mona Sans page. Background cooled from beige-ivory
+        // toward a crisper near-white (matches GitHub's actual "white,
+        // not cream" base) without going stark/cold. Accent stays
+        // signal orange — the user's own deliberate choice, not
+        // reversed — but a dedicated `signal-blue` token is added for
+        // one specific use: the glowing globe visual (§ below), the
+        // same evocative "network/data" blue GitHub uses for that kind
+        // of visualization specifically, not as a second site-wide
+        // accent. See DEVELOPMENT_LOG.md.
+        bg: "#FAF8F4",
+        "bg-raised": "#FFFFFF",
         ink: "#171512",
         muted: "#625E57",
         accent: {
@@ -20,8 +24,9 @@ const config: Config = {
           deep: "#B83A0E",
         },
         gold: "#B58A45",
-        rule: "#D8D0C3",
-        "ink-dark": "#1A1610",
+        "signal-blue": "#3E7BFA",
+        rule: "#DDD7CA",
+        "ink-dark": "#14110C",
       },
       fontFamily: {
         serif: ["var(--font-fraunces)", "Georgia", "serif"],

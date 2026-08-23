@@ -4,6 +4,7 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Container, Eyebrow, Panel } from "@/components/Primitives";
 import { CommissionForm } from "@/components/CommissionForm";
+import { VariableHeadline } from "@/components/motion/VariableHeadline";
 import { getDb } from "@/lib/db";
 import { commissionRequest } from "@/db/schema";
 
@@ -69,9 +70,9 @@ export default async function StudioPage() {
       <main className="pt-140">
         <Container>
           <Eyebrow>Studio</Eyebrow>
-          <h1 className="mt-16 max-w-[16ch] font-serif text-h1 font-medium text-ink">
+          <VariableHeadline className="mt-16 max-w-[16ch] cursor-default font-serif text-h1 text-ink">
             Your next piece deserves better sources than the internet.
-          </h1>
+          </VariableHeadline>
           <p className="mt-24 max-w-lead font-serif text-lead font-light text-muted">
             This page pays for everything else, so it is written for one reader: a creator or
             publisher with an audience and no time to read forty books.

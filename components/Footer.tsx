@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Logo } from "./Logo";
 import { EmailCapture } from "./EmailCapture";
 import { AudioToggle } from "./AudioToggle";
+import { GiantWordmark } from "./GiantWordmark";
 
 // Spec §11.2 — four columns: identity, Explore, Company, Newsletter.
 const EXPLORE = [
@@ -81,6 +82,8 @@ export function Footer() {
           </p>
           <AudioToggle />
         </div>
+
+        <GiantWordmark />
       </div>
     </footer>
   );

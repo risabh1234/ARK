@@ -4,6 +4,7 @@ import { Footer } from "@/components/Footer";
 import { Container, Eyebrow, Panel } from "@/components/Primitives";
 import { EmailCapture } from "@/components/EmailCapture";
 import { VisionOrb } from "@/components/three/VisionOrb";
+import { VariableHeadline } from "@/components/motion/VariableHeadline";
 
 export const metadata: Metadata = {
   title: "Vision",
@@ -41,9 +42,9 @@ export default function VisionPage() {
       <main className="pt-140">
         <Container>
           <Eyebrow>Vision</Eyebrow>
-          <h1 className="mt-16 max-w-[16ch] font-serif text-h1 font-medium text-ink">
+          <VariableHeadline className="mt-16 max-w-[16ch] cursor-default font-serif text-h1 text-ink">
             We are building an instrument, and this is the beginning of it.
-          </h1>
+          </VariableHeadline>
           <p className="mt-24 max-w-lead font-serif text-lead font-light text-muted">
             ĀRK Codex is a technology product, not a philosophy. This page is the introduction
             for something that does not exist yet — the way a hardware company writes about a

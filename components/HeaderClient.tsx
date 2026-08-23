@@ -27,8 +27,8 @@ export function HeaderClient({ sessionSlot }: { sessionSlot: React.ReactNode }) 
 
   return (
     <header
-      className={`fixed inset-x-0 top-0 z-50 transition-[background-color,box-shadow,backdrop-filter] duration-base ease-standard ${
-        scrolled ? "bg-bg/85 backdrop-blur-md shadow-4" : "bg-transparent"
+      className={`fixed inset-x-0 top-0 z-50 border-b transition-[background-color,box-shadow,backdrop-filter,border-color] duration-base ease-standard ${
+        scrolled ? "border-rule bg-bg/90 backdrop-blur-md shadow-4" : "border-transparent bg-transparent"
       }`}
     >
       <div className="mx-auto flex max-w-container items-center justify-between px-24 py-16 md:px-56">

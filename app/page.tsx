@@ -9,6 +9,7 @@ import { Reveal } from "@/components/motion/Reveal";
 import { HeroHeadline } from "@/components/motion/HeroHeadline";
 import { StickyNumerals } from "@/components/motion/StickyNumerals";
 import { Marquee } from "@/components/motion/Marquee";
+import { GlobeVisual } from "@/components/three/GlobeVisual";
 
 const METHOD = [
   {
@@ -173,10 +174,15 @@ export default function HomePage() {
             page, echoing the Mona Sans reference's full-width poster
             sections. Pulls the strongest line out of body copy and gives
             it the weight it's making a claim about. */}
-        <section className="mt-140 bg-ink-dark py-160">
-          <Container>
+        <section className="relative mt-140 overflow-hidden bg-ink-dark py-160">
+          <div className="pointer-events-none absolute inset-0 flex items-center justify-end opacity-70 md:pr-56">
+            <div className="w-full max-w-[420px]">
+              <GlobeVisual />
+            </div>
+          </div>
+          <Container className="relative">
             <Reveal>
-              <p className="font-serif text-display font-semibold leading-[0.94] text-bg">
+              <p className="max-w-[14ch] font-serif text-display font-semibold leading-[0.94] text-bg">
                 A claim you
                 <br />
                 cannot trace

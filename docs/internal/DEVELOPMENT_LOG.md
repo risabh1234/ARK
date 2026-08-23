@@ -420,6 +420,58 @@ correctness is verified here.
 
 ---
 
+## 2026-08-23 — Third visual pass: direct GitHub/Mona Sans comparison
+
+Same day, third round. User compared the live site directly against github.com and the Mona Sans
+page and gave specific, concrete callouts rather than general critique this time — researched each
+one (WebSearch/WebFetch) before touching code, since guessing wrong a third time in one session
+wasn't worth it:
+
+- **"Blue... was looking nice. This cream white is not looking nice."** Researched github.com
+  directly: it's actually white/near-white base + dark nav/footer + blue used only as an accent
+  (buttons, links) — not a blue background. Made a judgment call rather than asking another
+  clarifying question (the user explicitly asked for this — "use so much of brain"): kept signal
+  orange as the sitewide accent (the user's own deliberate choice from the previous pass, not
+  reversed), cooled the background from beige-ivory toward a crisper near-white
+  (`bg` `#F6F1E8`→`#FAF8F4`, `bg-raised` `#FBF9F4`→`#FFFFFF`), and added a new `signal-blue`
+  (`#3E7BFA`) token reserved for one specific use — the new globe visual below — rather than a
+  second sitewide accent.
+- **"When I hover the text... it becomes bold or something aesthetic... like 'two files, thousands
+  of variations'"** — the Mona Sans page's live variable-font weight interaction. Built
+  `components/motion/VariableHeadline.tsx`: a real `font-variation-settings` weight animation
+  (Fraunces's weight axis, 500→620 on hover) via Framer Motion, not a CSS font-weight snap between
+  two static instances. Applied to the exact passage the user named — Research's "Questions we
+  refused to leave alone" — plus the Studio/Vision/Docs h1s for consistency.
+- **"There is a globe with the glowing... ours doesn't have it."** Researched GitHub's actual
+  homepage globe (their `@github/webgl-globe`, Three.js-based, showing live PR activity as glowing
+  arcs). Built an ĀRK-scale equivalent, `components/three/GlobeScene.tsx` — a wireframe sphere with
+  glowing nodes and curved connecting arcs in the new signal-blue, same lazy-mount-in-viewport +
+  static-SVG-fallback pattern as the existing icosahedron/particle scenes (`Scene3D.tsx`). Node/arc
+  positions are decorative, not real geographic or activity data — same abstraction level as the
+  existing 3D elements, not presented as real. Placed on Home, inside the dark poster section (the
+  one dark surface on the page — a natural, uncluttered home for a glow effect). Hit one real
+  TypeScript snag: JSX `<line>` collides with the SVG `<line>` element's types in this setup;
+  fixed by constructing real `THREE.Line` objects and rendering via `<primitive object={...} />`
+  instead of JSX `<line>`, rather than fighting the type system.
+- **"At the bottom, write a big letter ARK and change the color."** Built
+  `components/GiantWordmark.tsx` — a huge "ĀRK" spanning the footer, dim by default, shifts to the
+  accent color on hover. **First version used Framer Motion for the color transition and it added
+  ~40KB of First Load JS to every single route that renders the footer — i.e. nearly every route —
+  for a plain color hover.** Caught this in the build output immediately after implementing it
+  (would have directly undone the "damn slow" fix from earlier the same day) and rewrote it as
+  plain CSS `hover:` + `transition-colors` — zero JS cost, same visual effect. Worth remembering:
+  anything that touches a component rendered on every page (Header, Footer) is worth a bundle-size
+  gut-check before reaching for Framer Motion, even for something that looks trivial.
+- **Header polish** ("so beautiful, so professional" — about GitHub's) — added a persistent
+  (not just on-scroll) subtle bottom border for crisper definition against the new lighter
+  background.
+
+Verified via `typecheck`, `next build` (confirmed the bundle-size regression and its fix in the
+build output directly, not just by inspection), and a full route sweep. Pushed straight after —
+user has been iterating in quick succession and re-confirming intent each time isn't requested.
+
+---
+
 ## 2026-08-23 — Home page redesign from a second Gemini spec ("Design 2.pdf")
 
 - User asked to move the deploy target from Cloudflare Workers to Pages. Before doing the work,

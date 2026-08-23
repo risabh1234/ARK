@@ -22,12 +22,12 @@
 }
 
 html {
-  background: #f6f1e8;
+  background: #faf8f4;
   color-scheme: light;
 }
 
 body {
-  background: #f6f1e8;
+  background: #faf8f4;
   color: #171512;
   font-family: var(--font-inter), system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -36,7 +36,7 @@ body {
 
 ::selection {
   background: #d94a16;
-  color: #f6f1e8;
+  color: #faf8f4;
 }
 
 /* fixed, non-scrolling monochrome grain — 2-3% opacity, kills flat hex fill */

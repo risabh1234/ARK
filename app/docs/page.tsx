@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { Container, Eyebrow } from "@/components/Primitives";
+import { VariableHeadline } from "@/components/motion/VariableHeadline";
 
 export const metadata: Metadata = {
   title: "Docs",
@@ -95,9 +96,9 @@ export default function DocsPage() {
         <section className="pt-140 pb-88">
           <Container>
             <Eyebrow>Documentation</Eyebrow>
-            <h1 className="mt-16 max-w-[16ch] font-serif text-h1 font-medium text-ink">
+            <VariableHeadline className="mt-16 max-w-[16ch] cursor-default font-serif text-h1 text-ink">
               How ĀRK works.
-            </h1>
+            </VariableHeadline>
             <p className="mt-24 max-w-lead font-serif text-lead font-light text-muted">
               This page exists so nobody has to take the framework on faith. It describes the
               method we hold every brief to, how a brief is structured, what we deliberately
