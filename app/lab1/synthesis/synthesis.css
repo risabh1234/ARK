@@ -1,0 +1,125 @@
+/*
+ * ĀRK Design System Synthesis — CSS Token Architecture (Phase 3 & 4)
+ * Scoped strictly to [data-dir="synthesis"] and html:has([data-dir="synthesis"])
+ * Governed by docs/design/FINAL_LANDING_PAGE_SYNTHESIS.md and docs/design/ARK_Vision_Document.md
+ */
+
+/* Root page ground match so overscroll & scrollbars inherit the warm ink-dark ground */
+html:has([data-dir="synthesis"]) {
+  background: #181310 !important;
+  color-scheme: dark;
+}
+
+[data-dir="synthesis"],
+.ark-synthesis {
+  /* =========================================================================
+   * 1. Ground & Surfaces (Atmosphere §6: Spacecraft + Private Library at Night)
+   * ========================================================================= */
+  --ark-bg: #181310;             /* Warm near-black instrument ground (never sterile #000) */
+  --ark-bg-raised: #211a14;      /* Active panels, toolbars, mobile ruler strip */
+  --ark-bg-plate: #282018;       /* Embedded diagram insets, callout frames */
+  --ark-bg-deep: #110d0b;        /* Deep recessed cavities, unlit wells */
+
+  /* =========================================================================
+   * 2. Ink Hierarchy (High contrast, mathematically certified WCAG AA/AAA)
+   * ========================================================================= */
+  --ark-ink-hi: #f0e7d8;         /* Primary headings, H1/H2, CTA surface, focus rings (15.03:1) */
+  --ark-ink: #d9cdb9;            /* Body reading prose, diagram labels (11.75:1) */
+  --ark-muted: #a3957d;          /* Meta, sigla, captions, ruler ticks, units (6.28:1) */
+  --ark-faint: #5e5445;          /* Decorative ticks, inactive borders, grid background */
+
+  /* =========================================================================
+   * 3. Hot Signals (Strictly Rationed — Tektronix Signal-Only Rule)
+   * ========================================================================= */
+  --ark-amber: #ffb000;          /* Phosphor-warm signal: reading bead & live measurement (10.06:1 AAA) */
+  --ark-signal-red: #BA3C0F;     /* Action marker & UNSURVEYED boundaries (4.58:1 on hi ink; 3.06:1 on raised ground — meets 3.0:1 UI floor with ZERO HEADROOM; do not darken red or lighten raised without re-audit) */
+  --ark-success: #55d688;        /* Verified operational success signal (7.0+:1 on dark ground) */
+
+  /* =========================================================================
+   * 4. Structural Hairlines (Never Wallpaper — Structural Separation Only)
+   * ========================================================================= */
+  --ark-rule: rgba(240, 231, 216, 0.15);
+  --ark-rule-strong: rgba(240, 231, 216, 0.34);
+  --ark-rule-faint: rgba(240, 231, 216, 0.08);
+
+  /* =========================================================================
+   * 5. Typography Font Stacks
+   * ========================================================================= */
+  --ark-font-display: var(--font-inter), system-ui, -apple-system, sans-serif;
+  --ark-font-body: var(--font-inter), system-ui, -apple-system, sans-serif;
+  --ark-font-mono: var(--font-mono), 'Space Mono', monospace;
+  --ark-font-serif: var(--font-serif), 'Source Serif 4', Georgia, serif;
+
+  /* =========================================================================
+   * 6. Spacing Scale (8px Modular Rhythm)
+   * ========================================================================= */
+  --ark-space-1: 4px;
+  --ark-space-2: 8px;
+  --ark-space-3: 12px;
+  --ark-space-4: 16px;
+  --ark-space-5: 20px;
+  --ark-space-6: 24px;
+  --ark-space-8: 32px;
+  --ark-space-10: 40px;
+  --ark-space-12: 48px;
+  --ark-space-14: 56px;
+  --ark-space-16: 64px;
+  --ark-space-20: 80px;
+  --ark-space-24: 96px;
+
+  /* =========================================================================
+   * 7. Motion & Transition Durations (Stillness-First Contract)
+   * ========================================================================= */
+  --ark-dur-fast: 120ms;
+  --ark-dur-base: 220ms;
+  --ark-dur-slow: 400ms;
+  --ark-ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --ark-ease-editorial: cubic-bezier(0.25, 1, 0.5, 1);
+
+  /* Base properties */
+  min-height: 100dvh;
+  background-color: var(--ark-bg);
+  color: var(--ark-ink);
+  font-family: var(--ark-font-body);
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* =========================================================================
+ * 8. Tektronix Glow Law Utility (Signal-Only, Bezel Never Glows)
+ * ========================================================================= */
+.ark-glow-signal {
+  box-shadow: 0 0 12px rgba(255, 176, 0, 0.45);
+}
+
+.ark-glow-signal-sm {
+  box-shadow: 0 0 6px rgba(255, 176, 0, 0.35);
+}
+
+.ark-glow-red {
+  box-shadow: 0 0 10px rgba(186, 60, 15, 0.4);
+}
+
+/* =========================================================================
+ * 9. Accessibility Overrides (Reduced Motion & High Contrast)
+ * ========================================================================= */
+@media (prefers-reduced-motion: reduce) {
+  [data-dir="synthesis"] *,
+  .ark-synthesis * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    box-shadow: none !important;
+  }
+}
+
+@media (prefers-contrast: more) {
+  [data-dir="synthesis"],
+  .ark-synthesis {
+    --ark-muted: #c4b69d;        /* Boost muted text contrast from 6.28:1 to 8.8:1 (AAA) */
+    --ark-rule: rgba(240, 231, 216, 0.35);
+    --ark-rule-strong: rgba(240, 231, 216, 0.65);
+  }
+}
+

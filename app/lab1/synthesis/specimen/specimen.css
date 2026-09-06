@@ -1,0 +1,821 @@
+/*
+ * ĀRK Design System Synthesis — Interactive Specimen Sheet CSS
+ * Governed by SYNTHESIS_SPEC.md & ARK_Vision_Document.md
+ */
+
+.spec-container {
+  max-width: 1360px;
+  margin: 0 auto;
+  padding: clamp(20px, 4vw, 48px);
+  position: relative;
+  z-index: 2;
+}
+
+/* =========================================================================
+ * Top Masthead & NASA GSM Drawing-Office Title Block
+ * ========================================================================= */
+.spec-title-block {
+  border: 1px solid var(--ark-rule-strong);
+  background: var(--ark-bg-raised);
+  padding: 20px 24px;
+  margin-bottom: 48px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 24px;
+  align-items: center;
+}
+
+@media (max-width: 768px) {
+  .spec-title-block {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    padding: 16px;
+  }
+}
+
+.spec-title-main {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.spec-doc-id {
+  font-family: var(--ark-font-mono);
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--ark-muted);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.spec-badge {
+  display: inline-block;
+  padding: 2px 6px;
+  font-family: var(--ark-font-mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background: rgba(255, 176, 0, 0.12);
+  color: var(--ark-amber);
+  border: 1px solid rgba(255, 176, 0, 0.3);
+}
+
+.spec-title-heading {
+  font-family: var(--ark-font-display);
+  font-size: clamp(22px, 3.5vw, 32px);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--ark-ink-hi);
+  margin: 0;
+  line-height: 1.15;
+}
+
+.spec-title-sub {
+  font-family: var(--ark-font-body);
+  font-size: 14px;
+  color: var(--ark-muted);
+  margin: 0;
+}
+
+.spec-meta-grid {
+  display: grid;
+  grid-template-columns: repeat(2, auto);
+  gap: 12px 24px;
+  font-family: var(--ark-font-mono);
+  font-size: 11px;
+  border-left: 1px solid var(--ark-rule);
+  padding-left: 24px;
+}
+
+@media (max-width: 768px) {
+  .spec-meta-grid {
+    border-left: none;
+    padding-left: 0;
+    border-top: 1px solid var(--ark-rule);
+    padding-top: 12px;
+  }
+}
+
+.spec-meta-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.spec-meta-label {
+  color: var(--ark-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.spec-meta-val {
+  color: var(--ark-ink);
+  font-weight: 700;
+}
+
+/* =========================================================================
+ * Section Containers & Division Rules
+ * ========================================================================= */
+.spec-section {
+  margin-bottom: 64px;
+  border-top: 1px solid var(--ark-rule-strong);
+  padding-top: 28px;
+}
+
+.spec-sec-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.spec-sec-title {
+  font-family: var(--ark-font-mono);
+  font-size: 13px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--ark-ink-hi);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.spec-sec-num {
+  color: var(--ark-amber);
+  font-weight: 700;
+}
+
+.spec-sec-desc {
+  font-family: var(--ark-font-body);
+  font-size: 13px;
+  color: var(--ark-muted);
+}
+
+/* =========================================================================
+ * Color & Swatches Grid
+ * ========================================================================= */
+.spec-palette-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.spec-swatch {
+  border: 1px solid var(--ark-rule);
+  background: var(--ark-bg-raised);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.spec-swatch-color {
+  height: 90px;
+  width: 100%;
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  padding: 8px;
+  border-bottom: 1px solid var(--ark-rule);
+}
+
+.spec-swatch-tag {
+  font-family: var(--ark-font-mono);
+  font-size: 10px;
+  background: rgba(0, 0, 0, 0.7);
+  color: #fff;
+  padding: 2px 6px;
+}
+
+.spec-swatch-body {
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.spec-swatch-token {
+  font-family: var(--ark-font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--ark-ink-hi);
+}
+
+.spec-swatch-hex {
+  font-family: var(--ark-font-mono);
+  font-size: 11px;
+  color: var(--ark-muted);
+}
+
+.spec-swatch-role {
+  font-family: var(--ark-font-body);
+  font-size: 11px;
+  color: var(--ark-ink);
+  margin-top: 4px;
+  line-height: 1.4;
+}
+
+.spec-swatch-ratio {
+  margin-top: 6px;
+  padding-top: 6px;
+  border-top: 1px solid var(--ark-rule-faint);
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--ark-font-mono);
+  font-size: 10px;
+}
+
+.spec-ratio-val {
+  color: var(--ark-amber);
+  font-weight: 700;
+}
+
+/* =========================================================================
+ * Contrast Certification Matrix Table
+ * ========================================================================= */
+.spec-table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--ark-rule);
+  background: var(--ark-bg-raised);
+}
+
+.spec-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--ark-font-mono);
+  font-size: 11px;
+  text-align: left;
+}
+
+.spec-table th,
+.spec-table td {
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--ark-rule-faint);
+}
+
+.spec-table th {
+  background: var(--ark-bg-plate);
+  color: var(--ark-ink-hi);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.spec-table tr:last-child td {
+  border-bottom: none;
+}
+
+.spec-table tr:hover td {
+  background: rgba(240, 231, 216, 0.03);
+}
+
+.spec-pass-tag {
+  color: #55d688;
+  font-weight: 700;
+}
+
+/* =========================================================================
+ * Typography Specimen & Diacritic Grid
+ * ========================================================================= */
+.spec-type-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 28px;
+  margin-bottom: 40px;
+}
+
+.spec-type-row {
+  border: 1px solid var(--ark-rule);
+  background: var(--ark-bg-raised);
+  padding: 24px;
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 24px;
+}
+
+@media (max-width: 900px) {
+  .spec-type-row {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+}
+
+.spec-type-meta {
+  font-family: var(--ark-font-mono);
+  font-size: 11px;
+  color: var(--ark-muted);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  border-right: 1px solid var(--ark-rule);
+  padding-right: 16px;
+}
+
+@media (max-width: 900px) {
+  .spec-type-meta {
+    border-right: none;
+    padding-right: 0;
+    border-bottom: 1px solid var(--ark-rule);
+    padding-bottom: 8px;
+  }
+}
+
+.spec-type-role {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--ark-ink-hi);
+  text-transform: uppercase;
+}
+
+.spec-diacritic-box {
+  border: 1px solid var(--ark-rule-strong);
+  background: var(--ark-bg-plate);
+  padding: 24px;
+  margin-top: 24px;
+}
+
+.spec-proof-banner {
+  font-family: var(--ark-font-display);
+  font-size: clamp(18px, 2.5vw, 24px);
+  color: var(--ark-ink-hi);
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  padding: 16px 20px;
+  background: var(--ark-bg);
+  border: 1px solid var(--ark-rule);
+  margin: 16px 0;
+}
+
+.spec-glyph-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.spec-glyph-card {
+  border: 1px solid var(--ark-rule);
+  background: var(--ark-bg);
+  padding: 14px 10px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.spec-glyph-char {
+  font-size: 28px;
+  color: var(--ark-amber);
+  line-height: 1;
+  font-family: var(--ark-font-display);
+}
+
+.spec-glyph-code {
+  font-family: var(--ark-font-mono);
+  font-size: 10px;
+  color: var(--ark-muted);
+}
+
+.spec-glyph-name {
+  font-family: var(--ark-font-mono);
+  font-size: 9px;
+  color: var(--ark-ink);
+  line-height: 1.2;
+}
+
+/* =========================================================================
+ * Interactive UI Primitives Playground
+ * ========================================================================= */
+.spec-primitives-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+  gap: 24px;
+}
+
+.spec-primitive-card {
+  border: 1px solid var(--ark-rule);
+  background: var(--ark-bg-raised);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.spec-card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--ark-rule);
+  padding-bottom: 12px;
+}
+
+.spec-card-title {
+  font-family: var(--ark-font-mono);
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ark-ink-hi);
+  font-weight: 700;
+}
+
+/* Strata Ruler Prototype */
+.spec-ruler-interactive {
+  display: flex;
+  gap: 20px;
+  background: var(--ark-bg);
+  border: 1px solid var(--ark-rule);
+  padding: 16px;
+}
+
+.spec-ruler-track {
+  width: 52px;
+  height: 240px;
+  border: 1px solid var(--ark-rule-strong);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: var(--ark-bg-deep);
+}
+
+.spec-ruler-band {
+  flex: 1;
+  border-bottom: 1px solid var(--ark-rule);
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--ark-font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--ark-muted);
+  cursor: pointer;
+  transition: all var(--ark-dur-fast) var(--ark-ease-standard);
+}
+
+.spec-ruler-band:last-child {
+  border-bottom: none;
+}
+
+.spec-ruler-band.active {
+  color: var(--ark-ink-hi);
+  background: rgba(255, 176, 0, 0.08);
+}
+
+.spec-ruler-bead {
+  position: absolute;
+  left: -4px;
+  width: 8px;
+  height: 8px;
+  background: var(--ark-amber);
+  border-radius: 0;
+  transition: top var(--ark-dur-base) var(--ark-ease-standard);
+}
+
+.spec-ruler-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 8px;
+}
+
+/* Braun 3-key DepthControl */
+.spec-depth-selector {
+  display: flex;
+  border: 1px solid var(--ark-rule-strong);
+  background: var(--ark-bg-deep);
+}
+
+.spec-depth-btn {
+  flex: 1;
+  padding: 8px 12px;
+  font-family: var(--ark-font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  background: transparent;
+  color: var(--ark-muted);
+  border: none;
+  border-right: 1px solid var(--ark-rule);
+  cursor: pointer;
+  transition: all var(--ark-dur-fast) var(--ark-ease-standard);
+}
+
+.spec-depth-btn:last-child {
+  border-right: none;
+}
+
+.spec-depth-btn:hover {
+  color: var(--ark-ink-hi);
+  background: rgba(240, 231, 216, 0.04);
+}
+
+.spec-depth-btn.active {
+  background: var(--ark-signal-red);
+  color: var(--ark-ink-hi);
+}
+
+/* Readings Ledger Sample */
+.spec-reading-row {
+  border: 1px solid var(--ark-rule);
+  background: var(--ark-bg);
+  padding: 12px 16px;
+  display: grid;
+  grid-template-columns: 48px 1fr auto;
+  gap: 12px;
+  align-items: center;
+}
+
+.spec-reading-id {
+  font-family: var(--ark-font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--ark-muted);
+}
+
+.spec-reading-name {
+  font-family: var(--ark-font-mono);
+  font-size: 11px;
+  color: var(--ark-ink-hi);
+  text-transform: uppercase;
+}
+
+.spec-reading-val {
+  font-family: var(--ark-font-mono);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ark-ink-hi);
+}
+
+.spec-tally-box {
+  margin-top: 12px;
+  padding: 12px;
+  background: var(--ark-bg-deep);
+  border: 1px solid var(--ark-rule);
+}
+
+/* Button & Action Matrix */
+.spec-btn-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}
+
+.ark-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 24px;
+  background: var(--ark-ink-hi);
+  color: var(--ark-bg);
+  font-family: var(--ark-font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: 1px solid var(--ark-ink-hi);
+  cursor: pointer;
+  transition: opacity var(--ark-dur-fast) var(--ark-ease-standard), background var(--ark-dur-fast) var(--ark-ease-standard);
+  min-height: 48px;
+}
+
+.ark-btn-primary:hover {
+  background: #ffffff;
+  border-color: #ffffff;
+}
+
+.ark-btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 14px 20px;
+  background: transparent;
+  color: var(--ark-ink-hi);
+  font-family: var(--ark-font-mono);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: 1px solid var(--ark-rule-strong);
+  cursor: pointer;
+  transition: all var(--ark-dur-fast) var(--ark-ease-standard);
+  min-height: 48px;
+}
+
+.ark-btn-secondary:hover {
+  background: rgba(240, 231, 216, 0.08);
+  border-color: var(--ark-ink-hi);
+}
+
+.ark-btn-tertiary {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 12px 16px;
+  color: var(--ark-muted);
+  font-family: var(--ark-font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: 1px solid transparent;
+  min-height: 48px;
+  transition: color var(--ark-dur-fast) var(--ark-ease-standard);
+}
+
+.ark-btn-tertiary:hover {
+  color: var(--ark-ink-hi);
+}
+
+.ark-sensor-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  background: rgba(255, 176, 0, 0.1);
+  border: 1px solid rgba(255, 176, 0, 0.3);
+  color: var(--ark-amber);
+  font-family: var(--ark-font-mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  min-height: 48px;
+}
+
+.ark-beacon-dot {
+  width: 6px;
+  height: 6px;
+  background: var(--ark-amber);
+}
+
+/* =========================================================================
+ * Stratigraphic SVG Patterns Swatches
+ * ========================================================================= */
+.spec-hatch-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
+}
+
+.spec-hatch-card {
+  border: 1px solid var(--ark-rule);
+  background: var(--ark-bg);
+  display: flex;
+  flex-direction: column;
+}
+
+.spec-hatch-preview {
+  height: 100px;
+  width: 100%;
+  border-bottom: 1px solid var(--ark-rule);
+  position: relative;
+}
+
+.spec-hatch-info {
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.spec-hatch-numeral {
+  font-family: var(--ark-font-mono);
+  font-size: 10px;
+  color: var(--ark-amber);
+  font-weight: 700;
+}
+
+.spec-hatch-name {
+  font-family: var(--ark-font-mono);
+  font-size: 11px;
+  color: var(--ark-ink-hi);
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.spec-hatch-desc {
+  font-family: var(--ark-font-body);
+  font-size: 10px;
+  color: var(--ark-muted);
+}
+
+/* =========================================================================
+ * Tektronix Glow Law Demonstration
+ * ========================================================================= */
+.spec-glow-demo-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+@media (max-width: 768px) {
+  .spec-glow-demo-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.spec-glow-box {
+  padding: 24px;
+  border: 1px solid var(--ark-rule);
+  background: var(--ark-bg-raised);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.spec-glow-box.prohibited {
+  border-color: rgba(184, 58, 14, 0.4);
+}
+
+.spec-glow-verdict {
+  font-family: var(--ark-font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.spec-glow-verdict.pass {
+  color: #55d688;
+}
+
+.spec-glow-verdict.fail {
+  color: #ff6b4a;
+}
+
+/* =========================================================================
+ * Vision Document Alignment Panel
+ * ========================================================================= */
+.spec-vision-panel {
+  border: 1px solid var(--ark-rule-strong);
+  background: var(--ark-bg-raised);
+  padding: 28px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 28px;
+}
+
+.spec-vision-col {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.spec-vision-col-title {
+  font-family: var(--ark-font-mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ark-amber);
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.spec-vision-quote {
+  font-family: var(--ark-font-serif);
+  font-style: italic;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--ark-ink-hi);
+  margin: 0;
+}
+
+.spec-vision-text {
+  font-family: var(--ark-font-body);
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--ark-muted);
+  margin: 0;
+}
+
+/* =========================================================================
+ * Specimen Footer
+ * ========================================================================= */
+.spec-footer {
+  margin-top: 64px;
+  padding: 24px 0;
+  border-top: 1px solid var(--ark-rule);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  font-family: var(--ark-font-mono);
+  font-size: 11px;
+  color: var(--ark-muted);
+}

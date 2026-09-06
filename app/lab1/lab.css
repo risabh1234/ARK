@@ -1,0 +1,87 @@
+/*
+ * ĀRK Lab — direction-scoped design tokens and base styles.
+ *
+ * Part of the redesign experiment isolation (Landing Page Design Process.md,
+ * Part 3). Rules that make this file safe:
+ *
+ * 1. Nothing here imports or references production tokens. Production files
+ *    must never reference /lab (two-way wall, checked mechanically — see
+ *    scripts/design/verify-design-gate.mjs once Phase 5 lands it).
+ * 2. Every direction declares tokens under its own [data-dir="<letter>"]
+ *    scope, set on the direction page's root element. No global leakage.
+ * 3. Token vocabulary is fixed so all directions speak one contract and
+ *    Phase 7 promotion into tailwind.config.ts is a lift, not a rewrite.
+ *
+ * Token vocabulary (all optional; unprefixed fallbacks below are neutral):
+ *   --dir-bg            page surface
+ *   --dir-bg-raised     raised surface (panels)
+ *   --dir-ink           primary text
+ *   --dir-muted         secondary text / captions
+ *   --dir-accent        THE accent — rationed to ~one element per screen
+ *   --dir-rule          hairline colour
+ *   --dir-font-display  display face stack
+ *   --dir-font-body     body/interface face stack
+ *   --dir-dur-fast/base/slow, --dir-ease-standard   motion contract
+ */
+
+.lab-page {
+  min-height: 100dvh;
+  background: var(--dir-bg, #fbfaf8);
+  color: var(--dir-ink, #1a1815);
+  font-family: var(--dir-font-body, var(--font-inter), system-ui, sans-serif);
+  padding: clamp(24px, 6vw, 96px);
+}
+
+/* Eyebrow-style tag identifying a lab surface. */
+.lab-tag {
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--dir-muted, #6a655c);
+}
+
+.lab-page h1 {
+  font-family: var(--dir-font-display, var(--font-fraunces), Georgia, serif);
+}
+
+.lab-index {
+  display: grid;
+  gap: 12px;
+  max-width: 420px;
+  margin-top: 24px;
+}
+
+.lab-index a {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 16px;
+  border: 1px solid var(--dir-rule, rgba(20, 17, 12, 0.18));
+  color: inherit;
+  text-decoration: none;
+}
+
+.lab-index a:hover {
+  border-color: var(--dir-ink, #1a1815);
+}
+
+@import "./synthesis/synthesis.css";
+
+/*
+ * SYNTHESIS (Triad C + A + E) scope block — Ratified Phase 2 selection
+ */
+[data-dir="synthesis"] {
+  --dir-bg: var(--ark-bg, #181310);
+  --dir-bg-raised: var(--ark-bg-raised, #211a14);
+  --dir-ink: var(--ark-ink, #d9cdb9);
+  --dir-muted: var(--ark-muted, #a3957d);
+  --dir-accent: var(--ark-amber, #ffb000);
+  --dir-rule: var(--ark-rule, rgba(240, 231, 216, 0.15));
+  --dir-font-display: var(--ark-font-display);
+  --dir-font-body: var(--ark-font-body);
+  --dir-dur-fast: var(--ark-dur-fast, 120ms);
+  --dir-dur-base: var(--ark-dur-base, 220ms);
+  --dir-dur-slow: var(--ark-dur-slow, 400ms);
+  --dir-ease-standard: var(--ark-ease-standard);
+}
+
